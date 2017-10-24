@@ -1,4 +1,4 @@
 package calendar.controllers;
 
-public class Controller {
+public class ReportController {
 }
