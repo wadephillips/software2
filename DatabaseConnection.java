@@ -66,5 +66,5 @@ public class DatabaseConnection {
         return instance;
     }
 
-
+    public static Connection getConnection() { return instance.getConnection(); }
 }

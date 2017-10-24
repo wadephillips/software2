@@ -18,12 +18,17 @@ abstract public class Model implements ModelDAO{
 
     private String lastUpdateby;
 
+    private String tableName;
+
     public Model(){
+
+        Class curentClass = this.getClass();
+        this.tableName = curentClass.getName().toLowerCase();
 
     }
 
-//   todo create methods to connect to db and for CRUD operations
 
+//   todo create methods to connect to db and for CRUD operations
     public String getCreatedBy() {
         return createdBy;
     }
@@ -55,6 +60,8 @@ abstract public class Model implements ModelDAO{
     public void setLastUpdateby(String lastUpdateby) {
         this.lastUpdateby = lastUpdateby;
     }
+
+
 
 
 //
