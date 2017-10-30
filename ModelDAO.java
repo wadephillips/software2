@@ -16,12 +16,12 @@ public interface ModelDAO {
      * method to retrieve an instance of the entity from the database.
      * @return
      */
-    public Model find(int id);
+//    public static Model find(int id){};
 
     /**
      * method to retrieve all instances of the entity from the database
      */
-    public ArrayList<Model> findAll();
+    public ArrayList<ModelDAO> findAll();
 
     /**
      *  method to persist changes on the entity to the database.

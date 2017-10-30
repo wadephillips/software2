@@ -22,25 +22,32 @@ public class DatabaseConnection {
 
     private String port;
 
+    private String url;
+
     private Connection connection;
 
     private static final DatabaseConnection instance = new DatabaseConnection();
 
+//    private static final Connection connection = instance.getConnection();
+
     private DatabaseConnection(){
         try {
-            File file = new File("database.properties");
+            String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+            File file = new File(rootPath + "calendar/database.properties");
             FileInputStream fileInput = new FileInputStream(file);
 
             Properties properties = new Properties();
             properties.load(fileInput);
+            fileInput.close();
 
-            this.username = properties.getProperty("username");
+            this.username = properties.getProperty("DB_USERNAME");
 
-            this.password = properties.getProperty("password");
+            this.password = properties.getProperty("DB_PASSWORD");
 
-            this.databaseName = properties.getProperty("databaseName");
+            this.databaseName = properties.getProperty("DB_NAME");
 
-            this.location = properties.getProperty("location");
+            this.location = properties.getProperty("DB_LOCATION");
+            this.url = properties.getProperty("DB_URL");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -55,10 +62,11 @@ public class DatabaseConnection {
 
     private void setConnection() {
         try {
-            String url = "jdbc:mysql:" + this.location + "/" + this.databaseName;
-            this.connection = DriverManager.getConnection(url, this.username, this.password);
+//            String url = "jdbc:mysql://" + this.location + "/" + this.databaseName;
+            this.connection = DriverManager.getConnection(this.url, this.username, this.password);
         } catch (SQLException e) {
-            System.out.println("Failed to create connection");
+            System.out.println("Failed to save connection");
+            e.printStackTrace();
         }
     }
 
@@ -66,5 +74,5 @@ public class DatabaseConnection {
         return instance;
     }
 
-    public static Connection getConnection() { return instance.getConnection(); }
+    public Connection getConnection() { return this.connection; }
 }
