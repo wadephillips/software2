@@ -41,15 +41,20 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="50.0">
                <children>
-                  <Label styleClass="modal-title" text="Please Login">
+                  <Label fx:id="loginHeader" styleClass="modal-title" text="Please Login">
                      <font>
                         <Font name="Helvetica Neue" size="13.0" />
                      </font>
                   </Label>
-                  <Label text="Usename" />
-                  <TextField fx:id="username" />
-                  <Label text="Password" />
-                  <PasswordField fx:id="password" />
+                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="342.0">
+                     <children>
+                        <Label fx:id="messageLabel" styleClass="login-message" visible="false" wrapText="true" />
+                     </children>
+                  </HBox>
+                  <Label fx:id="usernameLabel" text="Username" />
+                  <TextField fx:id="username" onMouseClicked="#hideMessage" />
+                  <Label fx:id="passwordLabel" text="Password" />
+                  <PasswordField fx:id="password" onMouseClicked="#hideMessage" />
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Button fx:id="logInButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#submitLogin" text="Login" />

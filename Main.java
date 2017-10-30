@@ -10,14 +10,17 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import javax.sql.DataSource;
+import java.lang.reflect.Field;
+import java.nio.charset.Charset;
 import java.time.Instant;
 import java.time.ZonedDateTime;
+import java.util.Locale;
 
 public class Main extends Application {
 
     static DataSource DATASOURCE = DBFactory.get();
 
-
+    private static Locale locale;
 
     private static User loggedInUser;
 
@@ -26,8 +29,13 @@ public class Main extends Application {
      */
     private static Stage mainStage;
 
+
+
     @Override
     public void start(Stage primaryStage) throws Exception{
+//        this.locale = Locale.getDefault();
+//        Locale locale = new Locale("es", "ES");
+//        Locale.setDefault(locale);
 //        UserBuilder userBuilder = new UserBuilder();
 //        userBuilder.setActive(1).setUserName("Xander").setPassword("pepelepew");
 //                .setCreatedBy("wade").setCreateDate(ZonedDateTime.now())
@@ -81,6 +89,7 @@ public class Main extends Application {
         Scene scene = new Scene(root.load());
 
         LoginController controller = root.<LoginController>getController();
+//        controller.localize();
 
         primaryStage.setTitle("ACME Calendar");
         primaryStage.setScene(scene);
@@ -98,5 +107,13 @@ public class Main extends Application {
 
     public static User getLoggedInUser() {
         return loggedInUser;
+    }
+
+    public static Stage getMainStage() {
+        return mainStage;
+    }
+
+    public static Locale getLocale() {
+        return locale;
     }
 }
