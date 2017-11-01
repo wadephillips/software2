@@ -57,26 +57,16 @@ public class LoginController extends BaseController {
             ResultSet rs = stmt.executeQuery();
             if( rs.next()) {
                 String pass = rs.getString("password");
-//                System.out.println(pass);
-//                System.out.println( this.password.getText());
                 if (pass.equals(this.password.getText()) ){
 
                     User user = User.buildUserFromDB(rs);
                     Main.setLoggedInUser(user);
                     //change to Calendar scene.
                     Button btn = (Button) actionEvent.getSource();
-                    this.changeScene(btn, "../monthCalendar.fxml");
+                    this.changeScene(btn, "../navigation.fxml");
 
                 } else {
                     setNoMatchErrorMessage();
-//                    throw new Exception("");
-//                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//                    alert.setTitle("hi");
-//                    alert.setHeaderText("Thanks for trying to login.");
-//                    User userMain = Main.getLoggedInUser();
-//                    alert.setContentText("You are atempting to login as " + userMain.getUserName() + " with the password: " + userMain.getPassword());
-//
-//                    Optional<ButtonType> result = alert.showAndWait();
 
                 }
             } else {
@@ -88,8 +78,6 @@ public class LoginController extends BaseController {
         }finally {
             password.clear();
         }
-//
-
 
     }
 

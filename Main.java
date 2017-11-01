@@ -1,6 +1,7 @@
 package calendar;
 
 import calendar.controllers.LoginController;
+import calendar.controllers.MainController;
 import calendar.models.User;
 import calendar.models.UserBuilder;
 import javafx.application.Application;
@@ -85,10 +86,14 @@ public class Main extends Application {
 
 //        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
         Main.mainStage = primaryStage;
-        FXMLLoader root = new FXMLLoader(getClass().getResource("login.fxml"));
+        //todo change back to login.fxml
+        FXMLLoader root = new FXMLLoader(getClass().getResource("navigation.fxml"));
+//        FXMLLoader root = new FXMLLoader(getClass().getResource("login.fxml"));
         Scene scene = new Scene(root.load());
 
-        LoginController controller = root.<LoginController>getController();
+        //todo change back to Login Controller
+//        LoginController controller = root.<LoginController>getController();
+        MainController controller = root.<MainController>getController();
 //        controller.localize();
 
         primaryStage.setTitle("ACME Calendar");
