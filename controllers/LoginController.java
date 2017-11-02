@@ -4,9 +4,13 @@ import calendar.Main;
 import calendar.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -63,7 +67,21 @@ public class LoginController extends BaseController {
                     Main.setLoggedInUser(user);
                     //change to Calendar scene.
                     Button btn = (Button) actionEvent.getSource();
-                    this.changeScene(btn, "../navigation.fxml");
+//                    this.changeScene(btn, "../navigation.fxml");
+                    Stage stage;
+                    FXMLLoader root;
+                    stage = Main.getMainStage();
+                    root = new FXMLLoader(getClass().getResource("../navigation.fxml"));
+
+                    Scene scene = new Scene(root.load());
+                    System.out.println("controller");
+                    MainController controller = root.getController();
+                    controller.loadContent("../monthCalendar.fxml");
+
+
+
+                    stage.setScene(scene);
+                    stage.show();
 
                 } else {
                     setNoMatchErrorMessage();

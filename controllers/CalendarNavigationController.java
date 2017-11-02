@@ -8,7 +8,6 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class CalendarNavigationController extends BaseCalendarController {

@@ -93,8 +93,9 @@ public class Main extends Application {
 
         //todo change back to Login Controller
 //        LoginController controller = root.<LoginController>getController();
-        MainController controller = root.<MainController>getController();
+        MainController controller = root.getController();
 //        controller.localize();
+        controller.loadContent("../monthCalendar.fxml");
 
         primaryStage.setTitle("ACME Calendar");
         primaryStage.setScene(scene);

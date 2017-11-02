@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.layout.Pane?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="505.0" prefWidth="642.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.controllers.MainController">
    <children>
       <HBox layoutX="179.0" prefHeight="50.0" prefWidth="642.0" styleClass="header-background" AnchorPane.bottomAnchor="455.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -46,9 +47,14 @@
             </ButtonBar>
          </children>
       </HBox>
-      <AnchorPane fx:id="bodyPane" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
-          <fx:include source="monthCalendar.fxml" />
-          <fx:include source="calendarNav.fxml" />
+      <AnchorPane prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+      <!--<AnchorPane fx:id="bodyPane" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">-->
+
+         <children>
+            <Pane fx:id="bodyPane" />
+            <!--<fx:include source="monthCalendar.fxml"/>-->
+         </children>
+
       </AnchorPane>
    </children>
 </AnchorPane>

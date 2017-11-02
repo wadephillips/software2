@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="calendarNavBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.controllers.CalendarNavigationController">
+<AnchorPane fx:id="calendarNavBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Group layoutX="14.0" layoutY="6.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="8.0">
          <children>
@@ -27,8 +27,8 @@
       </Group>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" AnchorPane.rightAnchor="0.0">
         <buttons>
-          <Button fx:id="showByWeekButton" mnemonicParsing="false" onAction="#showCalendarByWeek" text="Week" />
-            <Button fx:id="showByMonthButton" mnemonicParsing="false" onAction="#showCalendarByMonth" text="Month" textFill="#1c50eb" underline="true" />
+          <Button fx:id="showByWeekButton" mnemonicParsing="false" onAction="#showCalendarByWeek" text="Week" textFill="#1c50eb" underline="true" />
+            <Button fx:id="showByMonthButton" mnemonicParsing="false" onAction="#showCalendarByMonth" text="Month"  />
         </buttons>
          <padding>
             <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />

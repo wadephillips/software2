@@ -1,9 +1,18 @@
 package calendar.controllers;
 
+import calendar.Main;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -105,6 +114,9 @@ public class MonthlyCalendarController extends BaseCalendarController {
     @FXML
     public Label day0_6;
 
+    @FXML
+    public AnchorPane calendarPane;
+
     private List<Label> week1;
 
     private List<Label> week2;
@@ -115,9 +127,80 @@ public class MonthlyCalendarController extends BaseCalendarController {
 
     private List<List<Label>> middleWeeks;
 
+    @FXML
+    public Button showByWeekButton;
+
+    @FXML
+    public Button showByMonthButton;
+
+    @FXML
+    public Button previousMonthButton;
+
+    @FXML
+    public Button nextMonthButton;
+
+    @FXML
+    public Label monthYearLabel;
+
     public MonthlyCalendarController() {
         super();
 
+    }
+
+
+
+
+
+    @FXML
+    public void showCalendarByMonth(ActionEvent actionEvent) throws IOException {
+        Stage mainStage = Main.getMainStage();
+        FXMLLoader root = new FXMLLoader(getClass().getResource("../navigation.fxml"));
+
+        Scene scene = new Scene(root.load());
+
+        MainController controller = root.getController();
+        controller.loadContent("../monthCalendar.fxml");
+
+        mainStage.setScene(scene);
+        mainStage.show();
+    }
+
+    @FXML
+    public void showCalendarByWeek(ActionEvent actionEvent) throws IOException {
+//        FXMLLoader weekRoot = new FXMLLoader(getClass().getResource("../calendarNav.fxml"));
+//        System.out.println(weekRoot.getLocation());
+//        this.bodyPane.getChildren().setAll(weekRoot);
+//        Parent parent = Main.getMainStage().getScene().getRoot();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../calendarNav.fxml"));
+        loader.setController(this);
+            this.calendarPane.getChildren().clear();
+            this.calendarPane.getChildren().add((Node) loader.load());
+
+
+
+
+//        this.bodyPane.getChildren().clear();
+//        this.bodyPane.getChildren().add((Node) FXMLLoader.load(getClass().getResource("../calendarNav.fxml")));
+    }
+
+    @FXML
+    public void showPreviousMonth(ActionEvent actionEvent) {
+
+        System.out.println("Display the previous month");
+        LocalDate firstOfPreviousMonth = this.firstDayOfCurrentMonth.minusMonths(1);
+        this.displayMonthAndYear(firstOfPreviousMonth);
+        this.firstDayOfCurrentMonth = firstOfPreviousMonth;
+        this.setGridDates();
+
+    }
+
+    @FXML
+    public void showNextMonth(ActionEvent actionEvent) {
+        System.out.println("display the next month");
+        LocalDate firstOfNextMonth = this.firstDayOfCurrentMonth.plusMonths(1);
+        this.displayMonthAndYear(firstOfNextMonth);
+        this.firstDayOfCurrentMonth = firstOfNextMonth;
+        this.setGridDates();
     }
 
     @FXML
@@ -133,12 +216,12 @@ public class MonthlyCalendarController extends BaseCalendarController {
         int firstWeekDayAsInt = firstWeekday.getValue();
         int lastDayInMonth = firstDayOfMonthToBeDisplayed.with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth();
         int i = 1;
-        System.out.println(firstWeekDayAsInt);
+
         for (int j = 0; j < 7 ; j++) {
             Label day = week1.get(j);
-
             if ( firstWeekDayAsInt == 7 || j>=firstWeekDayAsInt){
                 day.setText(String.valueOf(i));
+                day.setVisible(true);
                 i++;
             } else {
                 day.setVisible(false);
@@ -186,6 +269,7 @@ public class MonthlyCalendarController extends BaseCalendarController {
 
         setWeekArrays();
         setGridDates();
+        displayMonthAndYear();
     }
 
     private void setWeekArrays() {
@@ -200,4 +284,18 @@ public class MonthlyCalendarController extends BaseCalendarController {
         Collections.addAll(middleWeeks, week2,week3,week4);
 
     }
+    private void displayMonthAndYear() {
+        displayMonthAndYear(this.firstDayOfCurrentMonth);
+    }
+
+    private void displayMonthAndYear(LocalDate date) {
+        String display = date.getMonth() + " " + date.getYear();
+        display = display.toLowerCase();
+        char[] chars = display.toUpperCase().toCharArray();
+        char firstChar = chars[0];
+        display = firstChar + display.substring(1);
+        this.monthYearLabel.setText(display);
+    }
+
+
 }
