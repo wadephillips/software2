@@ -5,7 +5,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -114,9 +113,6 @@ public class MonthlyCalendarController extends BaseCalendarController {
     @FXML
     public Label day0_6;
 
-    @FXML
-    public AnchorPane calendarPane;
-
     private List<Label> week1;
 
     private List<Label> week2;
@@ -147,41 +143,6 @@ public class MonthlyCalendarController extends BaseCalendarController {
 
     }
 
-
-
-
-
-    @FXML
-    public void showCalendarByMonth(ActionEvent actionEvent) throws IOException {
-        Stage mainStage = Main.getMainStage();
-        FXMLLoader root = new FXMLLoader(getClass().getResource("../navigation.fxml"));
-
-        Scene scene = new Scene(root.load());
-
-        MainController controller = root.getController();
-        controller.loadContent("../monthCalendar.fxml");
-
-        mainStage.setScene(scene);
-        mainStage.show();
-    }
-
-    @FXML
-    public void showCalendarByWeek(ActionEvent actionEvent) throws IOException {
-//        FXMLLoader weekRoot = new FXMLLoader(getClass().getResource("../calendarNav.fxml"));
-//        System.out.println(weekRoot.getLocation());
-//        this.bodyPane.getChildren().setAll(weekRoot);
-//        Parent parent = Main.getMainStage().getScene().getRoot();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../calendarNav.fxml"));
-        loader.setController(this);
-            this.calendarPane.getChildren().clear();
-            this.calendarPane.getChildren().add((Node) loader.load());
-
-
-
-
-//        this.bodyPane.getChildren().clear();
-//        this.bodyPane.getChildren().add((Node) FXMLLoader.load(getClass().getResource("../calendarNav.fxml")));
-    }
 
     @FXML
     public void showPreviousMonth(ActionEvent actionEvent) {

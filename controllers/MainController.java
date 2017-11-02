@@ -36,9 +36,11 @@ public class MainController extends BaseController {
         this.bodyPane.getChildren().addAll((Node) FXMLLoader.load(getClass().getResource(fxmlSourceFile)));
     }
 
-    public void showCustomers(ActionEvent actionEvent) {
+    public void showCustomers(ActionEvent actionEvent) throws IOException {
+        this.loadContent("../customers.fxml");
     }
 
-    public void showReports(ActionEvent actionEvent) {
+    public void showReports(ActionEvent actionEvent) throws IOException {
+        this.loadContent("../reports.fxml");
     }
 }
