@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +85,7 @@ public class Customer extends Model {
     public static List<Customer> findAll() {
         String sql ="SELECT customerId, customerName, cu.addressId, active, cu.createDate as customerCreateDate,\n" +
                 "  cu.createdBy as customerCreatedBy, cu.lastUpdate as customerLastUpdate, cu.lastUpdateBy  as customerLastUpdateBy,\n" +
-                "  address, address2, city, country, a.createDate as addressCreateDate, a.createdBy as addressCreatedBy,\n" +
+                "  address, address2, city, postalCode, phone, country, a.createDate as addressCreateDate, a.createdBy as addressCreatedBy,\n" +
                 "  a.lastUpdate as addressLastUpdate, a.lastUpdateBy as addressLastUpdateBy\n" +
                 "FROM customer cu\n" +
                 "JOIN address a\n" +
@@ -100,19 +101,38 @@ public class Customer extends Model {
             ResultSet rs = stmt.executeQuery(sql);){
 
             while (rs.next()) {
-
+                list.add(Customer.buildCustomerFromDB(rs));
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return list;
     }
 
-    private Customer buildCustomerFromDB(ResultSet resultSet){
+    private static Customer buildCustomerFromDB(ResultSet resultSet) throws SQLException {
+        ZoneId zone = ZoneId.systemDefault();
         AddressBuilder addressBuilder = new AddressBuilder();
+        addressBuilder.setAddress(resultSet.getString("address")).setAddress2(resultSet.getString("address2"))
+                .setAddressId(resultSet.getLong("addressId")).setCityId(resultSet.getLong("cityId"))
+                .setPostalCode(resultSet.getString("postalCode")).setPhone(resultSet.getString("phone"))
+                .setCreatedBy(resultSet.getString("addressCreatedBy"))
+                .setLastUpdateBy(resultSet.getString("addressLastUpdateBy"))
+                .setLastUpdate(resultSet.getTimestamp("addressLastUpdate").toInstant())
+                .setCreateDate(ZonedDateTime.ofInstant(resultSet.getTimestamp("addressCreateDate").toInstant(), zone));
 
-        CustomerBuilder customerBuilder = new CustomerBuilder()
+        Address address = addressBuilder.build();
+
+        CustomerBuilder customerBuilder = new CustomerBuilder();
+        customerBuilder.setCustomerId(resultSet.getLong("customerId")).setCustomerName(resultSet.getString("title"))
+                .setAddressId(resultSet.getLong("addressId")).setActive(resultSet.getInt("active"))
+                .setCreatedBy(resultSet.getString("customerCreatedBy"))
+                .setLastUpdateBy(resultSet.getString("customerLastUpdateBy"))
+                .setLastUpdate(resultSet.getTimestamp("customerLastUpdate").toInstant())
+                .setCreateDate(ZonedDateTime.ofInstant(resultSet.getTimestamp("customerCreateDate").toInstant(), zone));
+        Customer customer = customerBuilder.build();
+        customer.setAddress(address);
+        return customer;
     }
 
     /**
@@ -145,5 +165,9 @@ public class Customer extends Model {
 
     public Model delete(int id) {
         return null;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

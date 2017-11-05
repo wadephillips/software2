@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 /**
@@ -14,11 +16,49 @@ import java.util.ArrayList;
  */
 public class Address extends Model {
 
+    /**
+     *
+     */
+    private long addressId;
 
+    /**
+     *
+     */
+    private String address;
+
+    /**
+     *
+     */
+    private String address2;
+
+    /**
+     *
+     */
+    private long cityId;
+
+    /**
+     *
+     */
+    private String postalCode;
+
+    /**
+     *
+     */
+    private String phone;
 
     public Address(){
         super();
 
+    }
+
+    public Address(long addressId, String address, String address2, long cityId, String postalCode, String phone, String createdBy, ZonedDateTime createDate, Instant lastUpdate, String lastUpdateby) {
+        super(createdBy, createDate, lastUpdate, lastUpdateby);
+        this.addressId = addressId;
+        this.address = address;
+        this.address2 = address2;
+        this.cityId = cityId;
+        this.postalCode = postalCode;
+        this.phone = phone;
     }
 
     /**
