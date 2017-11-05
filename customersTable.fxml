@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            >
+    <TableView prefHeight="200.0" prefWidth="200.0">
+        <columns>
+            <TableColumn prefWidth="45.0" text="ID" />
+            <TableColumn minWidth="30.0" prefWidth="100.0" text="Last Name" />
+            <TableColumn minWidth="30.0" prefWidth="100.0" text="First Name" />
+            <TableColumn minWidth="30.0" prefWidth="100.0" text="Phone #" />
+            <TableColumn minWidth="30.0" prefWidth="200.0" text="Address" />
+            <TableColumn prefWidth="45.0" />
+        </columns>
+    </TableView>
+
+</StackPane>
