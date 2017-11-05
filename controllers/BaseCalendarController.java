@@ -40,7 +40,7 @@ abstract public class BaseCalendarController extends BaseController {
         Scene scene = new Scene(root.load());
 
         MainController controller = root.getController();
-        controller.loadContent("../monthCalendar.fxml");
+        controller.loadContent("monthCalendar.fxml");
 
         mainStage.setScene(scene);
         mainStage.show();
