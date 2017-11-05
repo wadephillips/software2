@@ -2,6 +2,10 @@ package calendar.models;
 
 import calendar.ModelDAO;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -60,7 +64,15 @@ public class Customer extends Model {
      * method to retrieve all instances of the entity from the database
      */
 
-    public ArrayList<ModelDAO> findAll() {
+    public static ArrayList<Customer> findAll() {
+        String sql ="SELECT * FROM customer;";
+        try(Connection conn = DATASOURCE.getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);){
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
