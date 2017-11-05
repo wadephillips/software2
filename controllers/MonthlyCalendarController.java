@@ -1,17 +1,11 @@
 package calendar.controllers;
 
-import calendar.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -148,9 +142,9 @@ public class MonthlyCalendarController extends BaseCalendarController {
     public void showPreviousMonth(ActionEvent actionEvent) {
 
         System.out.println("Display the previous month");
-        LocalDate firstOfPreviousMonth = this.firstDayOfCurrentMonth.minusMonths(1);
+        LocalDate firstOfPreviousMonth = this.firstDayOfDisplayedMonth.minusMonths(1);
         this.displayMonthAndYear(firstOfPreviousMonth);
-        this.firstDayOfCurrentMonth = firstOfPreviousMonth;
+        this.firstDayOfDisplayedMonth = firstOfPreviousMonth;
         this.setGridDates();
 
     }
@@ -158,16 +152,16 @@ public class MonthlyCalendarController extends BaseCalendarController {
     @FXML
     public void showNextMonth(ActionEvent actionEvent) {
         System.out.println("display the next month");
-        LocalDate firstOfNextMonth = this.firstDayOfCurrentMonth.plusMonths(1);
+        LocalDate firstOfNextMonth = this.firstDayOfDisplayedMonth.plusMonths(1);
         this.displayMonthAndYear(firstOfNextMonth);
-        this.firstDayOfCurrentMonth = firstOfNextMonth;
+        this.firstDayOfDisplayedMonth = firstOfNextMonth;
         this.setGridDates();
     }
 
     @FXML
     protected void setGridDates() {
         LocalDate date = LocalDate.now();
-        setGridDates( this.firstDayOfCurrentMonth.getMonthValue(), this.firstDayOfCurrentMonth.getYear());
+        setGridDates( this.firstDayOfDisplayedMonth.getMonthValue(), this.firstDayOfDisplayedMonth.getYear());
     }
 
     @FXML
@@ -246,7 +240,7 @@ public class MonthlyCalendarController extends BaseCalendarController {
 
     }
     private void displayMonthAndYear() {
-        displayMonthAndYear(this.firstDayOfCurrentMonth);
+        displayMonthAndYear(this.firstDayOfDisplayedMonth);
     }
 
     private void displayMonthAndYear(LocalDate date) {

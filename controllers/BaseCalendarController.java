@@ -17,15 +17,18 @@ import java.time.temporal.TemporalAdjusters;
 abstract public class BaseCalendarController extends BaseController {
 
     protected static LocalDate displayedMonth;
+    protected static LocalDate currentDate;
     @FXML
     public AnchorPane calendarPane;
-    protected LocalDate firstDayOfCurrentMonth;
+    protected LocalDate firstDayOfDisplayedMonth;
 
     @FXML
     protected Pane bodyPane;
 
     public BaseCalendarController() {
-        this.firstDayOfCurrentMonth = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth());
+        currentDate = LocalDate.now();
+        this.firstDayOfDisplayedMonth = currentDate.with(TemporalAdjusters.firstDayOfMonth());
+
 
     }
 

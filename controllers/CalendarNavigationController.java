@@ -2,9 +2,7 @@ package calendar.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 
 import java.net.URL;
@@ -68,7 +66,7 @@ public class CalendarNavigationController extends BaseCalendarController {
     }
 
     private void displayMonthAndYear() {
-        String display = this.firstDayOfCurrentMonth.getMonth() + " " + this.firstDayOfCurrentMonth.getYear();
+        String display = this.firstDayOfDisplayedMonth.getMonth() + " " + this.firstDayOfDisplayedMonth.getYear();
         display = display.toLowerCase();
         char[] chars = display.toUpperCase().toCharArray();
         char firstChar = chars[0];
