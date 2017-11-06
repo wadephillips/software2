@@ -3,7 +3,14 @@ package calendar.models;
 
 import calendar.ModelDAO;
 
+import java.sql.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by wadelp on 10/17/17.
@@ -26,9 +33,16 @@ public class City extends Model {
     private long countryId;
 
 
-    public City(){
+    public City(long cityId, String city, long countryId, String createdBy, Timestamp createDate, Timestamp lastUpdate, String lastUpdateBy){
         super();
 
+    }
+
+    public City(long cityId, String city, long countryId, String createdBy, ZonedDateTime createDate, Instant lastUpdate, String lastUpdateby) {
+        super(createdBy, createDate, lastUpdate, lastUpdateby);
+        this.cityId = cityId;
+        this.city = city;
+        this.countryId = countryId;
     }
 
     /**
@@ -56,8 +70,29 @@ public class City extends Model {
      * method to retrieve all instances of the entity from the database
      */
 
-    public ArrayList<ModelDAO> findAll() {
-        return null;
+    public static ArrayList<City> findAll() {
+        ZoneId zone = ZoneId.systemDefault();
+        String sql = "SELECT * FROM cities;";
+        ArrayList<City> cities = new ArrayList<>();
+        try(Connection conn = DATASOURCE.getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet resultSet = stmt.executeQuery(sql);){
+
+            while (resultSet.next()){
+                    City city = new City(resultSet.getLong("cityId"),
+                            resultSet.getString("city"),
+                            resultSet.getLong("countryId"),
+                            resultSet.getString("createdBy"),
+                            ZonedDateTime.ofInstant(resultSet.getTimestamp("createDate").toInstant(), zone),
+                            resultSet.getTimestamp("lastUpdate").toInstant(),
+                            resultSet.getString("lastUpdateBy")
+                    );
+                    cities.add(city);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cities;
     }
 
     /**
