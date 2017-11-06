@@ -52,11 +52,15 @@ public class CustomerEditFormController extends MainController {
 
     @FXML
     public void saveCustomer(ActionEvent actionEvent) {
-        System.out.println("svaing!");
+        System.out.println("saving!");
     }
 
     @FXML
     public void cancelAndReturn(ActionEvent actionEvent) {
         System.out.println("canceling!");
+    }
+
+    public void setTitleText(String text) {
+        this.title.setText(text);
     }
 }
