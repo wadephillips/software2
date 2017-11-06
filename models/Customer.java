@@ -1,6 +1,7 @@
 package calendar.models;
 
 import calendar.ModelDAO;
+import javafx.beans.property.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -20,22 +21,22 @@ public class Customer extends Model {
     /**
      * The customer's id
      */
-    private long customerId;
+    private LongProperty customerId = new SimpleLongProperty();
 
     /**
      * The customer's name
      */
-    private String customerName;
+    private StringProperty customerName = new SimpleStringProperty();
 
     /**
      * The id of the address that is associated with the customer record
      */
-    private long addressId;
+    private LongProperty addressId = new SimpleLongProperty();
 
     /**
      * Indicates whether or not the user is currently active within the system
      */
-    private int active;
+    private IntegerProperty active = new SimpleIntegerProperty();
 
     private Address address;
 
@@ -51,10 +52,10 @@ public class Customer extends Model {
 
     public Customer(long customerId, String customerName, long addressId, int active, String createdBy, ZonedDateTime createDate, Instant lastUpdate, String lastUpdateby) {
         super(createdBy, createDate, lastUpdate, lastUpdateby);
-        this.customerId = customerId;
-        this.customerName = customerName;
-        this.addressId = addressId;
-        this.active = active;
+        this.setCustomerId(customerId);
+        this.setCustomerName(customerName);
+        this.setAddressId(addressId);
+        this.setActive(active);
     }
 
     /**
@@ -101,7 +102,8 @@ public class Customer extends Model {
             ResultSet rs = stmt.executeQuery(sql);){
 
             while (rs.next()) {
-                list.add(Customer.buildCustomerFromDB(rs));
+//                System.out.println(rs);
+                list.add(buildCustomerFromDB(rs));
             }
 
         } catch (SQLException e) {
@@ -114,7 +116,8 @@ public class Customer extends Model {
         ZoneId zone = ZoneId.systemDefault();
         AddressBuilder addressBuilder = new AddressBuilder();
         addressBuilder.setAddress(resultSet.getString("address")).setAddress2(resultSet.getString("address2"))
-                .setAddressId(resultSet.getLong("addressId")).setCityId(resultSet.getLong("cityId"))
+                .setAddressId(resultSet.getLong("addressId"))
+//                .setCityId(resultSet.getLong("cityId"))
                 .setPostalCode(resultSet.getString("postalCode")).setPhone(resultSet.getString("phone"))
                 .setCreatedBy(resultSet.getString("addressCreatedBy"))
                 .setLastUpdateBy(resultSet.getString("addressLastUpdateBy"))
@@ -124,7 +127,7 @@ public class Customer extends Model {
         Address address = addressBuilder.build();
 
         CustomerBuilder customerBuilder = new CustomerBuilder();
-        customerBuilder.setCustomerId(resultSet.getLong("customerId")).setCustomerName(resultSet.getString("title"))
+        customerBuilder.setCustomerId(resultSet.getLong("customerId")).setCustomerName(resultSet.getString("customerName"))
                 .setAddressId(resultSet.getLong("addressId")).setActive(resultSet.getInt("active"))
                 .setCreatedBy(resultSet.getString("customerCreatedBy"))
                 .setLastUpdateBy(resultSet.getString("customerLastUpdateBy"))
@@ -165,6 +168,46 @@ public class Customer extends Model {
 
     public Model delete(int id) {
         return null;
+    }
+
+    public long getCustomerId() {
+        return customerId.get();
+    }
+
+    public void setCustomerId(long customerId) {
+        this.customerId.set(customerId);
+    }
+
+    public String getCustomerName() {
+        return customerName.get();
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName.set(customerName);
+    }
+
+    public long getAddressId() {
+        return addressId.get();
+    }
+
+    public LongProperty addressIdProperty() {
+        return addressId;
+    }
+
+    public void setAddressId(long addressId) {
+        this.addressId.set(addressId);
+    }
+
+    public int getActive() {
+        return active.get();
+    }
+
+    public IntegerProperty activeProperty() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active.set(active);
     }
 
     public void setAddress(Address address) {

@@ -1,20 +1,60 @@
 package calendar.controllers;
 
 import calendar.models.Customer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class CustomersController extends MainController {
 
+    @FXML
+    private TableView<Customer> customerTableView = new TableView<>();;
 
-    private void loadCustomers(){
+    private ObservableList<Customer> customers = FXCollections.observableArrayList();
 
-        List<Customer> customers = Customer.findAll();
+    @FXML
+    private TableColumn customerIdColumn = new TableColumn();
+
+    @FXML
+    private TableColumn customerNameColumn = new TableColumn();
+
+
+
+
+    public CustomersController(){
+        super();
+    }
+    public void loadCustomers(){
+
+        ArrayList<Customer> allCustomers = (ArrayList<Customer>) Customer.findAll();
+        System.out.println(allCustomers);
+
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<Customer, Long>("customerId"));
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
+//        System.out.println(this.customerTableView.getItems());
+//        this.customers.addAll(Customer.findAll());
+        //todo why wont htis table fucking populate
+
+//        for (Customer customer: allCustomers
+//             ) {
+//            System.out.println(customer.getCustomerId()+customer.getCustomerName());
+//            this.customers = this.customerTableView.getItems();
+//            this.customers.add(customer);
+//        }
+        this.customers.addAll(allCustomers);
+        System.out.println(this.customers);
+        this.customerTableView.getItems().setAll(this.customers);
 
     }
     /**
@@ -31,6 +71,7 @@ public class CustomersController extends MainController {
 
         try {
             this.loadContent("customersTable.fxml");
+            this.loadCustomers();
         } catch (IOException e) {
             e.printStackTrace();
         }
