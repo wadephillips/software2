@@ -64,6 +64,7 @@ public class CustomersController extends MainController {
             this.bodyPane.getChildren().addAll((Node) root.load());
             CustomerEditFormController controller = root.getController();
             controller.setTitleText("Add Customer");
+            controller.initAddChoiceBoxes();
         } catch (IOException e) {
             e.printStackTrace();
         }

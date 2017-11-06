@@ -29,13 +29,9 @@ public class MainController extends BaseController {
         this.loadContent("monthCalendar.fxml");
     }
 
-    public MainController loadContent(String fxmlSourceFile) throws IOException {
-//        System.out.println("loading the contents");
+    public void loadContent(String fxmlSourceFile) throws IOException {
         this.bodyPane.getChildren().clear();
-//        FXMLLoader root = new FXMLLoader(getClass().getResource("../" + fxmlSourceFile));
         this.bodyPane.getChildren().addAll((Node) FXMLLoader.load(getClass().getResource("../" + fxmlSourceFile)));
-//        return root.getController();
-        return null;
     }
 
     public void showCustomers(ActionEvent actionEvent) throws IOException {
