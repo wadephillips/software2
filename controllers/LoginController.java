@@ -76,7 +76,7 @@ public class LoginController extends BaseController {
                     Scene scene = new Scene(root.load());
                     System.out.println("controller");
                     MainController controller = root.getController();
-                    controller.loadContent("../monthCalendar.fxml");
+                    controller.loadContent("monthCalendar.fxml");
 
 
 

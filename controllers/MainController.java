@@ -25,22 +25,21 @@ public class MainController extends BaseController {
     private Pane bodyPane;
 
 
-    public void showCalendar(ActionEvent actionEvent) {
-//        this.changeScene();
-//        Main.getMainStage();
+    public void showCalendar(ActionEvent actionEvent) throws IOException {
+        this.loadContent("monthCalendar.fxml");
     }
 
     public void loadContent(String fxmlSourceFile) throws IOException {
         System.out.println("loading the contents");
         this.bodyPane.getChildren().clear();
-        this.bodyPane.getChildren().addAll((Node) FXMLLoader.load(getClass().getResource(fxmlSourceFile)));
+        this.bodyPane.getChildren().addAll((Node) FXMLLoader.load(getClass().getResource("../" + fxmlSourceFile)));
     }
 
     public void showCustomers(ActionEvent actionEvent) throws IOException {
-        this.loadContent("../customers.fxml");
+        this.loadContent("customers.fxml");
     }
 
     public void showReports(ActionEvent actionEvent) throws IOException {
-        this.loadContent("../reports.fxml");
+        this.loadContent("reports.fxml");
     }
 }
