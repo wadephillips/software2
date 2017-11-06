@@ -40,6 +40,10 @@ public class Customer extends Model {
 
     private Address address;
 
+    private StringProperty addressString = new SimpleStringProperty();
+
+    private StringProperty phone = new SimpleStringProperty();
+
     public Customer(){
         super();
 
@@ -118,6 +122,7 @@ public class Customer extends Model {
         addressBuilder.setAddress(resultSet.getString("address")).setAddress2(resultSet.getString("address2"))
                 .setAddressId(resultSet.getLong("addressId"))
 //                .setCityId(resultSet.getLong("cityId"))
+                .setCity(resultSet.getString("city"))
                 .setPostalCode(resultSet.getString("postalCode")).setPhone(resultSet.getString("phone"))
                 .setCreatedBy(resultSet.getString("addressCreatedBy"))
                 .setLastUpdateBy(resultSet.getString("addressLastUpdateBy"))
@@ -125,6 +130,7 @@ public class Customer extends Model {
                 .setCreateDate(ZonedDateTime.ofInstant(resultSet.getTimestamp("addressCreateDate").toInstant(), zone));
 
         Address address = addressBuilder.build();
+        String addressString = buildAddressString(address);
 
         CustomerBuilder customerBuilder = new CustomerBuilder();
         customerBuilder.setCustomerId(resultSet.getLong("customerId")).setCustomerName(resultSet.getString("customerName"))
@@ -135,6 +141,8 @@ public class Customer extends Model {
                 .setCreateDate(ZonedDateTime.ofInstant(resultSet.getTimestamp("customerCreateDate").toInstant(), zone));
         Customer customer = customerBuilder.build();
         customer.setAddress(address);
+        customer.setPhone(resultSet.getString("phone"));
+        customer.setAddressString(addressString);
         return customer;
     }
 
@@ -212,5 +220,37 @@ public class Customer extends Model {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public void setAddressString(String addressString) {
+        this.addressString.set(addressString);
+    }
+
+    public String getAddressString() {
+        return addressString.get();
+    }
+
+    public StringProperty addressStringProperty() {
+        return addressString;
+    }
+
+    public static String buildAddressString(Address address) {
+        String addressString = "";
+        addressString += address.getAddress() + "\n";
+        if(!address.getAddress2().equals("")) { addressString += address.getAddress2() + "\n"; }
+        addressString += address.getCity() + " " + address.getPostalCode() + " " + address.getCountry() + "\n";
+        return addressString;
+    }
+
+    public void setPhone(String phone) {
+        this.phone.set(phone);
+    }
+
+    public String getPhone() {
+        return phone.get();
+    }
+
+    public StringProperty phoneProperty() {
+        return phone;
     }
 }

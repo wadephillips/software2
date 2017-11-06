@@ -43,7 +43,14 @@ public class Address extends Model {
     /**
      *
      */
+    private StringProperty  city = new SimpleStringProperty();
+
+    /**
+     *
+     */
     private StringProperty postalCode = new SimpleStringProperty();
+
+    private StringProperty country = new SimpleStringProperty();
 
     /**
      *
@@ -55,7 +62,7 @@ public class Address extends Model {
 
     }
 
-    public Address(long addressId, String address, String address2, long cityId, String postalCode, String phone, String createdBy, ZonedDateTime createDate, Instant lastUpdate, String lastUpdateby) {
+    public Address(long addressId, String address, String address2, long cityId, String postalCode, String phone, String createdBy, ZonedDateTime createDate, Instant lastUpdate, String lastUpdateby, String city, String country) {
         super(createdBy, createDate, lastUpdate, lastUpdateby);
         this.setAddressId(addressId);
         this.setAddress(address);
@@ -63,7 +70,11 @@ public class Address extends Model {
         this.setCityId(cityId);
         this.setPostalCode(postalCode);
         this.setPhone(phone);
+        this.setCity(city);
+        this.setCountry(country);
     }
+
+
 
     /**
      * method to return an empty version of the entity.
@@ -191,6 +202,18 @@ public class Address extends Model {
         this.cityId.set(cityId);
     }
 
+    public String getCity() {
+        return city.get();
+    }
+
+    public StringProperty cityProperty() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city.set(city);
+    }
+
     public String getPostalCode() {
         return postalCode.get();
     }
@@ -201,6 +224,18 @@ public class Address extends Model {
 
     public void setPostalCode(String postalCode) {
         this.postalCode.set(postalCode);
+    }
+
+    public String getCountry() {
+        return country.get();
+    }
+
+    public StringProperty countryProperty() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country.set(country);
     }
 
     public String getPhone() {
@@ -214,4 +249,6 @@ public class Address extends Model {
     public void setPhone(String phone) {
         this.phone.set(phone);
     }
+
+
 }
