@@ -22,6 +22,10 @@ public class AddressBuilder extends ModelBuilder {
      */
     private long cityId;
 
+    private String city;
+
+    private String country;
+
     /**
      *
      */
@@ -34,7 +38,7 @@ public class AddressBuilder extends ModelBuilder {
 
     public Address build(){
 
-        return new Address(this.addressId, this.address, this.address2, this.cityId, this.postalCode, this.phone, this.createdBy, this.createDate, this.lastUpdate, this.lastUpdateBy);
+        return new Address(this.addressId, this.address, this.address2, this.cityId, this.postalCode, this.phone, this.createdBy, this.createDate, this.lastUpdate, this.lastUpdateBy, this.city, this.country);
     }
 
     public AddressBuilder setAddressId(long addressId) {
@@ -66,4 +70,10 @@ public class AddressBuilder extends ModelBuilder {
         this.phone = phone;
         return this;
     }
+
+    public AddressBuilder setCity(String city) {
+        this.city = city;
+        return this;
+    }
+
 }

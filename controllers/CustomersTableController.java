@@ -19,6 +19,11 @@ public class CustomersTableController extends MainController {
     private TableColumn customerIdColumn = new TableColumn();
     @FXML
     private TableColumn customerNameColumn = new TableColumn();
+    @FXML
+    private TableColumn customerPhoneColumn = new TableColumn();
+    @FXML
+    private  TableColumn customerAddressString = new TableColumn();
+
 
     public CustomersTableController() {
     }
@@ -28,24 +33,13 @@ public class CustomersTableController extends MainController {
         ArrayList<Customer> allCustomers = (ArrayList<Customer>) Customer.findAll();
         System.out.println(allCustomers);
         this.customers.addAll(allCustomers);
-//        this.customerTableView = new TableView<Customer>();
-        System.out.println(this.customerTableView.getStyleClass());
-
-//        customerIdColumn.setCellValueFactory(new PropertyValueFactory<Customer, Long>("customerId"));
-//        customerIdColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
-//        System.out.println(this.customerTableView.getItems());
-//        this.customers.addAll(Customer.findAll());
-        //todo why wont this table populate
 
         for (Customer customer : this.customers
                 ) {
-            System.out.println(customer.getCustomerId() + customer.getCustomerName());
+            System.out.println(customer.getCustomerId() + customer.getCustomerName() + customer.getPhone());
             this.customers = this.customerTableView.getItems();
             this.customers.add(customer);
         }
-////        this.customers.addAll(allCustomers);
-//        System.out.println(this.customers);
-//        this.customerTableView.getItems().setAll(this.customers);
 
     }
 
