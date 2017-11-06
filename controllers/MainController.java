@@ -22,7 +22,7 @@ public class MainController extends BaseController {
     private Button reportsNavButton;
 
     @FXML
-    private Pane bodyPane;
+    protected Pane bodyPane;
 
 
     public void showCalendar(ActionEvent actionEvent) throws IOException {
@@ -30,7 +30,6 @@ public class MainController extends BaseController {
     }
 
     public void loadContent(String fxmlSourceFile) throws IOException {
-        System.out.println("loading the contents");
         this.bodyPane.getChildren().clear();
         this.bodyPane.getChildren().addAll((Node) FXMLLoader.load(getClass().getResource("../" + fxmlSourceFile)));
     }
