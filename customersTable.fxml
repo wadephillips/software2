@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.StackPane?>
 
 <StackPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.controllers.CustomersTableController">
-    <TableView fx:id="customerTableView" prefHeight="200.0" prefWidth="200.0" styleClass="wadeIsGreat">
+    <TableView fx:id="customerTableView" prefHeight="200.0" prefWidth="200.0">
         <columns>
             <TableColumn fx:id="customerIdColumn" prefWidth="45.0" text="ID">
                 <cellValueFactory><PropertyValueFactory property="customerId" /></cellValueFactory>

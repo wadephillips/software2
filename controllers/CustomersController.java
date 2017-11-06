@@ -52,7 +52,7 @@ public class CustomersController extends MainController {
 
     public void loadAddCustomerView(ActionEvent actionEvent) {
         try {
-            this.loadContent("addCustomer.fxml");
+            this.loadContent("customerEditForm.fxml");
         } catch (IOException e) {
             e.printStackTrace();
         }
