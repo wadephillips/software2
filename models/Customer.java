@@ -62,15 +62,15 @@ public class Customer extends Model {
         this.setActive(active);
     }
 
-    /**
-     * method to return an empty version of the entity.
-     *
-     * @return
-     */
-
-    public Model create() {
-        return null;
+    public Customer(String customerName, long addressId, int active) {
+        this.setCustomerName(customerName);
+        this.setAddressId(addressId);
+        this.setActive(active);
+        this.checkAndSetCreate();
+        this.checkAndSetUpdate();
     }
+
+
 
     /**
      * method to retrieve an instance of the entity from the database.
@@ -164,6 +164,7 @@ public class Customer extends Model {
      */
 
     public Model save() {
+
         return null;
     }
 
