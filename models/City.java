@@ -153,4 +153,12 @@ public class City extends Model {
     public Model delete(int id) {
         return null;
     }
+
+    public long getCityId() {
+        return cityId;
+    }
+
+    public String getCity() {
+        return city;
+    }
 }
