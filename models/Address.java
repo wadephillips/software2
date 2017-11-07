@@ -52,6 +52,8 @@ public class Address extends Model {
 
     private StringProperty country = new SimpleStringProperty();
 
+//    private LongProperty countryId = new SimpleLongProperty();
+
     /**
      *
      */
@@ -74,6 +76,18 @@ public class Address extends Model {
         this.setCountry(country);
     }
 
+    public Address(StringProperty address, StringProperty address2, LongProperty cityId, StringProperty postalCode, StringProperty phone) {
+        this.address = address;
+        this.address2 = address2;
+        this.cityId = cityId;
+        this.postalCode = postalCode;
+        this.phone = phone;
+        this.checkAndSetCreate();
+        this.checkAndSetUpdate();
+    }
+
+    public Address(String address, String address2, long cityId, String postalCode, String phone) {
+    }
 
 
     /**
