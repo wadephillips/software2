@@ -3,10 +3,7 @@ package calendar.models;
 import calendar.ModelDAO;
 import javafx.beans.property.*;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -163,9 +160,48 @@ public class Customer extends Model {
      * @return
      */
 
-    public Model save() {
+    public Customer save() {
 
-        return null;
+        if (this.customerId.get() > 0) {
+            //todo throw an exception
+        }
+
+        String sql = "INSERT INTO Customer (customerId, customerName, addressId, active, createdBy, createDate, lastUpdate, lastUpdateBy) " +
+                "VALUES (?,?,?,?,?,?,?,?);";
+        try(Connection conn = DATASOURCE.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+        ) {
+
+                conn.setAutoCommit(false);
+                Savepoint savepoint1 = conn.setSavepoint();
+                try {
+                    this.setCustomerId(this.getNextId());
+
+                    stmt.setLong(1, this.getCustomerId());
+                    stmt.setString(2, this.getCustomerName());
+                    stmt.setLong(3, this.getAddressId());
+                    stmt.setInt(4, this.getActive());
+                    stmt.setString(5, super.getCreatedBy());
+                    stmt.setTimestamp(6, Timestamp.from(this.getCreateDate().toInstant()));//datetime
+                    stmt.setTimestamp(7, Timestamp.from(this.getLastUpdate())); //timestamp
+                    stmt.setString(8, this.getLastUpdateby());
+
+                    stmt.executeUpdate();
+                    conn.commit();
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    conn.rollback(savepoint1);
+                }
+
+
+        } catch(SQLException e){
+            //            System.out.println(sql);
+            e.printStackTrace();
+
+        }
+
+        return this;
     }
 
     /**

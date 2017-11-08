@@ -7,10 +7,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -52,7 +49,6 @@ public class Address extends Model {
 
     private StringProperty country = new SimpleStringProperty();
 
-//    private LongProperty countryId = new SimpleLongProperty();
 
     /**
      *
@@ -153,8 +149,46 @@ public class Address extends Model {
      * @return
      */
 
-    public Model save() {
-        return null;
+    public Address save() {
+
+        String sql = "INSERT INTO address (addressId, address, address2, cityId, postalCode, phone, createdBy, createDate, lastUpdate, lastUpdateBy) " +
+                "VALUES (?,?,?,?,?,?,?,?,?,?);";
+        try(Connection conn = DATASOURCE.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+        ) {
+
+            conn.setAutoCommit(false);
+            Savepoint savepoint1 = conn.setSavepoint();
+            try {
+                this.setAddressId((this.getNextId());
+
+                stmt.setLong(1, this.getAddressId());
+                stmt.setString(2, this.getAddress());
+                stmt.setString(3, this.getAddress2());
+                stmt.setLong(4, this.getCityId());
+                stmt.setString(5, this.getPostalCode());
+                stmt.setString(6, this.getPhone());
+                stmt.setString(7, super.getCreatedBy());
+                stmt.setTimestamp(8, Timestamp.from(this.getCreateDate().toInstant()));//datetime
+                stmt.setTimestamp(9, Timestamp.from(this.getLastUpdate())); //timestamp
+                stmt.setString(10, this.getLastUpdateby());
+
+                stmt.executeUpdate();
+                conn.commit();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                conn.rollback(savepoint1);
+            }
+
+
+        } catch(SQLException e){
+            //            System.out.println(sql);
+            e.printStackTrace();
+
+        }
+
+        return this;
     }
 
     /**
