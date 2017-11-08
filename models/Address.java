@@ -72,18 +72,18 @@ public class Address extends Model {
         this.setCountry(country);
     }
 
-    public Address(StringProperty address, StringProperty address2, LongProperty cityId, StringProperty postalCode, StringProperty phone) {
-        this.address = address;
-        this.address2 = address2;
-        this.cityId = cityId;
-        this.postalCode = postalCode;
-        this.phone = phone;
-        this.checkAndSetCreate();
-        this.checkAndSetUpdate();
+    public Address(String address, String address2, long cityId, String postalCode, String phone) {
+        super();
+        this.address.set(address);
+        this.address2.set(address2);
+        this.cityId.set(cityId);
+        this.postalCode.set(postalCode);
+        this.phone.set(phone);
+        super.checkAndSetCreate();
+        super.checkAndSetUpdate();
+        System.out.println("hellox: " + createDate + createdBy + lastUpdate +lastUpdateby);
     }
 
-    public Address(String address, String address2, long cityId, String postalCode, String phone) {
-    }
 
 
     /**
@@ -160,7 +160,7 @@ public class Address extends Model {
             conn.setAutoCommit(false);
             Savepoint savepoint1 = conn.setSavepoint();
             try {
-                this.setAddressId((this.getNextId());
+                this.setAddressId(this.getNextId());
 
                 stmt.setLong(1, this.getAddressId());
                 stmt.setString(2, this.getAddress());
@@ -169,9 +169,10 @@ public class Address extends Model {
                 stmt.setString(5, this.getPostalCode());
                 stmt.setString(6, this.getPhone());
                 stmt.setString(7, super.getCreatedBy());
-                stmt.setTimestamp(8, Timestamp.from(this.getCreateDate().toInstant()));//datetime
-                stmt.setTimestamp(9, Timestamp.from(this.getLastUpdate())); //timestamp
-                stmt.setString(10, this.getLastUpdateby());
+//                System.out.println(super.getCreateDate());
+                stmt.setTimestamp(8, Timestamp.from(super.getCreateDate().toInstant()));//datetime
+                stmt.setTimestamp(9, Timestamp.from(super.getLastUpdate())); //timestamp
+                stmt.setString(10, super.getLastUpdateby());
 
                 stmt.executeUpdate();
                 conn.commit();
@@ -192,7 +193,7 @@ public class Address extends Model {
     }
 
     /**
-     * method to delete the entitie's record from the database.
+     * method to delete the entities record from the database.
      *
      * @param id
      * @return

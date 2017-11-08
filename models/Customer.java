@@ -166,7 +166,7 @@ public class Customer extends Model {
             //todo throw an exception
         }
 
-        String sql = "INSERT INTO Customer (customerId, customerName, addressId, active, createdBy, createDate, lastUpdate, lastUpdateBy) " +
+        String sql = "INSERT INTO customer (customerId, customerName, addressId, active, createdBy, createDate, lastUpdate, lastUpdateBy) " +
                 "VALUES (?,?,?,?,?,?,?,?);";
         try(Connection conn = DATASOURCE.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);

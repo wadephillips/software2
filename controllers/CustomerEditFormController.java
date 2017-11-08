@@ -5,18 +5,14 @@ import calendar.models.Address;
 import calendar.models.City;
 import calendar.models.Country;
 import calendar.models.Customer;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.IOException;
-import java.security.Key;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class CustomerEditFormController extends MainController {
 

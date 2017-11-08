@@ -96,7 +96,7 @@ abstract public class Model {
     protected long getNextId() {
         String sql = "SELECT MAX(`"+ this.getIdName() +"`) FROM " + this.tableName +";";
         long nextId = 0;
-        System.out.println(this.getIdName());
+//        System.out.println(this.getIdName());
         try(Connection conn = DATASOURCE.getConnection();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);) {
@@ -114,7 +114,7 @@ abstract public class Model {
         return nextId;
     }
     protected Model checkAndSetCreate(){
-        System.out.println(createDate + createdBy + lastUpdate +lastUpdateby);
+//        System.out.println(createDate + createdBy + lastUpdate +lastUpdateby);
         if (createDate == null) {
             this.createDate = ZonedDateTime.now();
         }
@@ -122,8 +122,10 @@ abstract public class Model {
             //todo make this access a static variable with the username in it
             this.createdBy = "Wade";
         }
+//        System.out.println("helloz: " + createDate + createdBy + lastUpdate +lastUpdateby);
         return this;
     }
+
 
     protected Model checkAndSetUpdate(){
         this.lastUpdate = Instant.now();
