@@ -37,6 +37,9 @@ public class MainController extends BaseController {
     public void showCustomers(ActionEvent actionEvent) throws IOException {
         this.loadContent("customers.fxml");
     }
+    public void showCustomers() throws IOException {
+        this.loadContent("customers.fxml");
+    }
 
     public void showReports(ActionEvent actionEvent) throws IOException {
         this.loadContent("reports.fxml");

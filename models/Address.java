@@ -7,10 +7,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -52,6 +49,7 @@ public class Address extends Model {
 
     private StringProperty country = new SimpleStringProperty();
 
+
     /**
      *
      */
@@ -72,6 +70,18 @@ public class Address extends Model {
         this.setPhone(phone);
         this.setCity(city);
         this.setCountry(country);
+    }
+
+    public Address(String address, String address2, long cityId, String postalCode, String phone) {
+        super();
+        this.address.set(address);
+        this.address2.set(address2);
+        this.cityId.set(cityId);
+        this.postalCode.set(postalCode);
+        this.phone.set(phone);
+        super.checkAndSetCreate();
+        super.checkAndSetUpdate();
+        System.out.println("hellox: " + createDate + createdBy + lastUpdate +lastUpdateby);
     }
 
 
@@ -139,12 +149,51 @@ public class Address extends Model {
      * @return
      */
 
-    public Model save() {
-        return null;
+    public Address save() {
+
+        String sql = "INSERT INTO address (addressId, address, address2, cityId, postalCode, phone, createdBy, createDate, lastUpdate, lastUpdateBy) " +
+                "VALUES (?,?,?,?,?,?,?,?,?,?);";
+        try(Connection conn = DATASOURCE.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+        ) {
+
+            conn.setAutoCommit(false);
+            Savepoint savepoint1 = conn.setSavepoint();
+            try {
+                this.setAddressId(this.getNextId());
+
+                stmt.setLong(1, this.getAddressId());
+                stmt.setString(2, this.getAddress());
+                stmt.setString(3, this.getAddress2());
+                stmt.setLong(4, this.getCityId());
+                stmt.setString(5, this.getPostalCode());
+                stmt.setString(6, this.getPhone());
+                stmt.setString(7, super.getCreatedBy());
+//                System.out.println(super.getCreateDate());
+                stmt.setTimestamp(8, Timestamp.from(super.getCreateDate().toInstant()));//datetime
+                stmt.setTimestamp(9, Timestamp.from(super.getLastUpdate())); //timestamp
+                stmt.setString(10, super.getLastUpdateby());
+
+                stmt.executeUpdate();
+                conn.commit();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                conn.rollback(savepoint1);
+            }
+
+
+        } catch(SQLException e){
+            //            System.out.println(sql);
+            e.printStackTrace();
+
+        }
+
+        return this;
     }
 
     /**
-     * method to delete the entitie's record from the database.
+     * method to delete the entities record from the database.
      *
      * @param id
      * @return
