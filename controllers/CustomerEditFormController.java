@@ -1,13 +1,19 @@
 package calendar.controllers;
 
 
+import calendar.Main;
 import calendar.models.Address;
 import calendar.models.City;
 import calendar.models.Country;
 import calendar.models.Customer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -47,6 +53,9 @@ public class CustomerEditFormController extends MainController {
     @FXML
     private Button cancelButton;
 
+    @FXML
+    private StackPane bodyPane;
+
     private List<KeyValuePair> cities = new ArrayList<>();
 
     private List<KeyValuePair> countries = new ArrayList<>();
@@ -78,13 +87,20 @@ public class CustomerEditFormController extends MainController {
 
         Customer customer = new Customer(name, custAddress.getAddressId(), 1);
         customer.save();
+
+        try {
+            this.returnToCustomersScene();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     public void cancelAndReturn(ActionEvent actionEvent) throws IOException {
         Button cancel = (Button) actionEvent.getSource();
-        this.changeScene(cancel,"../navigation.fxml");
+//        this.changeScene(cancel,"../na.fxml");
         System.out.println("canceling!");
+        this.returnToCustomersScene();
     }
 
     public void setTitleText(String text) {
@@ -117,8 +133,28 @@ public class CustomerEditFormController extends MainController {
             box.getItems().addAll(list);
     }
 
+    /**
+     * Loads and displays a scene, without making changes to the underlying controller's properties, after a button click.
+     *
+     *
+     *
+     */
+    public void returnToCustomersScene() throws IOException {
+//        super.changeScene(clicked, fxmlSourceFile);
+        Stage stage;
+        FXMLLoader root;
+        stage = Main.getMainStage();
+        root = new FXMLLoader(getClass().getResource("../navigation.fxml"));
+
+        Scene scene = new Scene(root.load());
+
+        MainController controller = root.getController();
+        controller.showCustomers();
 
 
+        stage.setScene(scene);
+        stage.show();
+    }
 }
 
 class KeyValuePair {
