@@ -2,9 +2,13 @@ package calendar.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.time.DayOfWeek;
@@ -107,6 +111,95 @@ public class MonthlyCalendarController extends BaseCalendarController {
     @FXML
     public Label day0_6;
 
+    /**
+     * Fields for the calendar grid
+     */
+    @FXML
+    public VBox box0_5;
+    @FXML
+    public VBox box0_1;
+    @FXML
+    public VBox box1_1;
+    @FXML
+    public VBox box2_1;
+    @FXML
+    public VBox box3_1;
+    @FXML
+    public VBox box4_1;
+    @FXML
+    public VBox box5_1;
+    @FXML
+    public VBox box6_1;
+    @FXML
+    public VBox box6_2;
+    @FXML
+    public VBox box5_2;
+    @FXML
+    public VBox box4_2;
+    @FXML
+    public VBox box3_2;
+    @FXML
+    public VBox box0_2;
+    @FXML
+    public VBox box1_2;
+    @FXML
+    public VBox box2_2;
+    @FXML
+    public VBox box0_3;
+    @FXML
+    public VBox box1_3;
+    @FXML
+    public VBox box2_3;
+    @FXML
+    public VBox box3_3;
+    @FXML
+    public VBox box4_3;
+    @FXML
+    public VBox box5_3;
+    @FXML
+    public VBox box6_3;
+    @FXML
+    public VBox box6_4;
+    @FXML
+    public VBox box5_4;
+    @FXML
+    public VBox box4_4;
+    @FXML
+    public VBox box3_4;
+    @FXML
+    public VBox box2_4;
+    @FXML
+    public VBox box1_4;
+    @FXML
+    public VBox box0_4;
+    @FXML
+    public VBox box6_5;
+    @FXML
+    public VBox box5_5;
+    @FXML
+    public VBox box4_5;
+    @FXML
+    public VBox box3_5;
+    @FXML
+    public VBox box2_5;
+    @FXML
+    public VBox box1_5;
+    @FXML
+    public VBox box6_6;
+    @FXML
+    public VBox box5_6;
+    @FXML
+    public VBox box4_6;
+    @FXML
+    public VBox box3_6;
+    @FXML
+    public VBox box2_6;
+    @FXML
+    public VBox box1_6;
+    @FXML
+    public VBox box0_6;
+
+
     private List<Label> week1;
 
     private List<Label> week2;
@@ -179,6 +272,7 @@ public class MonthlyCalendarController extends BaseCalendarController {
                 day.setVisible(true);
                 i++;
             } else {
+                day.setText("-1");
                 day.setVisible(false);
             }
         }
@@ -200,6 +294,7 @@ public class MonthlyCalendarController extends BaseCalendarController {
         for (int j = 0; j < 7; j++) {
             Label day = week.get(j);
             if (i > lastDayInMonth){
+                day.setText("-1");
                 day.setVisible(false);
             } else {
                 day.setText(String.valueOf(i));
@@ -253,4 +348,21 @@ public class MonthlyCalendarController extends BaseCalendarController {
     }
 
 
+    public void createAppointment(MouseEvent mouseEvent) {
+        VBox box = (VBox) mouseEvent.getSource();
+        String boxId = box.getId();
+        int column = Integer.valueOf(boxId.substring(3,4));
+        int row = Integer.valueOf((boxId.substring(5)));
+        List<Node> children = box.getChildren();
+        int dayOfMonth = -1;
+        for (Node child: children) {
+//            System.out.println(child);
+            if (child instanceof Label){
+                dayOfMonth = Integer.valueOf(((Label) child).getText());
+            }
+        }
+        Alert alert = new Alert()
+
+        System.out.println("row: " + row + " column: " + column + " day: " + dayOfMonth);
+    }
 }
