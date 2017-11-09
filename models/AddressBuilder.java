@@ -76,4 +76,8 @@ public class AddressBuilder extends ModelBuilder {
         return this;
     }
 
+    public AddressBuilder setCountry(String country) {
+        this.country = country;
+        return this;
+    }
 }

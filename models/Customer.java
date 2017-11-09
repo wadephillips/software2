@@ -116,11 +116,15 @@ public class Customer extends Model {
     private static Customer buildCustomerFromDB(ResultSet resultSet) throws SQLException {
         ZoneId zone = ZoneId.systemDefault();
         AddressBuilder addressBuilder = new AddressBuilder();
-        addressBuilder.setAddress(resultSet.getString("address")).setAddress2(resultSet.getString("address2"))
+//        System.out.println("builder: " + resultSet.getString("country"));
+        addressBuilder.setAddress(resultSet.getString("address"))
+                .setAddress2(resultSet.getString("address2"))
                 .setAddressId(resultSet.getLong("addressId"))
-//                .setCityId(resultSet.getLong("cityId"))
+//                .setCity(resultSet.getLong("cityId"))
                 .setCity(resultSet.getString("city"))
-                .setPostalCode(resultSet.getString("postalCode")).setPhone(resultSet.getString("phone"))
+                .setPostalCode(resultSet.getString("postalCode"))
+                .setCountry(resultSet.getString("country"))
+                .setPhone(resultSet.getString("phone"))
                 .setCreatedBy(resultSet.getString("addressCreatedBy"))
                 .setLastUpdateBy(resultSet.getString("addressLastUpdateBy"))
                 .setLastUpdate(resultSet.getTimestamp("addressLastUpdate").toInstant())
@@ -275,6 +279,7 @@ public class Customer extends Model {
         String addressString = "";
         addressString += address.getAddress() + "\n";
         if(!address.getAddress2().equals("")) { addressString += address.getAddress2() + "\n"; }
+        System.out.println(address.getCountry());
         addressString += address.getCity() + " " + address.getPostalCode() + " " + address.getCountry() + "\n";
         return addressString;
     }
@@ -290,4 +295,5 @@ public class Customer extends Model {
     public StringProperty phoneProperty() {
         return phone;
     }
+
 }

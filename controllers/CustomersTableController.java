@@ -31,12 +31,12 @@ public class CustomersTableController extends MainController {
     public void loadCustomers() {
 
         ArrayList<Customer> allCustomers = (ArrayList<Customer>) Customer.findAll();
-        System.out.println(allCustomers);
+//        System.out.println(allCustomers);
         this.customers.addAll(allCustomers);
 
         for (Customer customer : this.customers
                 ) {
-            System.out.println(customer.getCustomerId() + customer.getCustomerName() + customer.getPhone());
+//            System.out.println(customer.getCustomerId() + customer.getCustomerName() + customer.getCountry());
             this.customers = this.customerTableView.getItems();
             this.customers.add(customer);
         }
