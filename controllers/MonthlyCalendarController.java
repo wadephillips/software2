@@ -1,6 +1,7 @@
 package calendar.controllers;
 
 import calendar.components.AppointmentDialogPane;
+import calendar.helpers.KeyValuePair;
 import calendar.models.Appointment;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.scene.layout.VBox;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
@@ -362,6 +364,7 @@ public class MonthlyCalendarController extends BaseCalendarController {
             }
         }
 
+
         try {
             Dialog dialog = new Dialog();
             AppointmentDialogPane pane = new AppointmentDialogPane();
@@ -378,7 +381,11 @@ public class MonthlyCalendarController extends BaseCalendarController {
                 if (dialogButton == saveButtonType) {
                     System.out.println("save button click registered" + dialogButton);
                     LocalDate date = pane.getDate();
-                    //todo lambda for creating the appointment
+                    LocalTime start = pane.getStartTime();
+                    LocalTime end = pane.getEndTime();
+                    KeyValuePair customer = pane.getCustomer();
+
+
                     return new Appointment();
                 } else {
                     System.out.println("cancel");
