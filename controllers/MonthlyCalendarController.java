@@ -1,5 +1,6 @@
 package calendar.controllers;
 
+import calendar.components.AppointmentDialog;
 import calendar.components.AppointmentDialogPane;
 import calendar.helpers.KeyValuePair;
 import calendar.models.Appointment;
@@ -229,6 +230,8 @@ public class MonthlyCalendarController extends BaseCalendarController {
 
     public MonthlyCalendarController() {
         super();
+        initCustomers();
+        initTimes();
 
     }
 
@@ -351,6 +354,7 @@ public class MonthlyCalendarController extends BaseCalendarController {
 
 
     public void createAppointment(MouseEvent mouseEvent) {
+        System.out.println(this.times);
         VBox box = (VBox) mouseEvent.getSource();
         String boxId = box.getId();
         int column = Integer.valueOf(boxId.substring(3,4));
@@ -366,24 +370,22 @@ public class MonthlyCalendarController extends BaseCalendarController {
 
 
         try {
-            Dialog dialog = new Dialog();
-            AppointmentDialogPane pane = new AppointmentDialogPane();
-            dialog.setDialogPane(pane);
-            
+            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times);
+//            AppointmentDialogPane pane = new AppointmentDialogPane();
+//            dialog.setDialogPane(pane);
+//
+//
+//            ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+//            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL, saveButtonType);
 
-            ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
-            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL, saveButtonType);
-
-            
-            Node saveButton = dialog.getDialogPane().lookupButton(saveButtonType);
+//            Node saveButton = dialog.getDialogPane().lookupButton(saveButtonType);
+            Node saveButtonType = dialog.getSaveButtonType();
 
             dialog.setResultConverter(dialogButton -> {
                 if (dialogButton == saveButtonType) {
                     System.out.println("save button click registered" + dialogButton);
-                    LocalDate date = pane.getDate();
-                    LocalTime start = pane.getStartTime();
-                    LocalTime end = pane.getEndTime();
-                    KeyValuePair customer = pane.getCustomer();
+//                    AppointmentDialogPane pane = (AppointmentDialogPane) dialog.getDialogPane();
+
 
 
                     return new Appointment();

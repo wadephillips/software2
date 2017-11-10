@@ -5,25 +5,37 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="480.0" type="DialogPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minWidth="400.0" type="DialogPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <StackPane prefHeight="150.0" prefWidth="200.0">
          <children>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox>
                <children>
+                  <Label text="Title" />
+                  <TextField fx:id="titleTextField" />
+                  <Label text="Description" />
+                  <TextArea fx:id="descriptionTextArea" prefHeight="200.0" prefWidth="200.0" />
+                  <Label text="Location" />
+                  <TextField fx:id="locationTextField" />
+                  <Label text="Contact" />
+                  <TextField fx:id="contactTextField" />
+                  <Label text="URL" />
+                  <TextField fx:id="urlTextField" />
                   <Label text="Customer">
                      <VBox.margin>
-                        <Insets left="10.0" />
+                        <Insets />
                      </VBox.margin>
                   </Label>
                   <ComboBox fx:id="customerComboBox" prefWidth="150.0">
                      <VBox.margin>
-                        <Insets left="10.0" />
+                        <Insets />
                      </VBox.margin>
                   </ComboBox>
                   <HBox>
@@ -59,9 +71,6 @@
                            </HBox.margin>
                         </VBox>
                      </children>
-                     <VBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </VBox.margin>
                   </HBox>
                   <!--<HBox alignment="CENTER_RIGHT">-->
                      <!--<children>-->

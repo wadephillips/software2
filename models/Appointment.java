@@ -2,6 +2,9 @@ package calendar.models;
 
 import calendar.ModelDAO;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 /**
@@ -9,12 +12,54 @@ import java.util.ArrayList;
  */
 public class Appointment extends Model {
 
+    private long appointmentId;
+
+    private long customerId;
+
+    private String title;
+
+    private String description;
+
+    private String location;
+
+    private String contact;
+
+    private String url;
+
+    private LocalDateTime start;
+
+    private LocalDateTime end;
+
     /**
      * Instantiate an empty instance
      */
     public Appointment(){
         super();
 
+    }
+
+    public Appointment(long customerId, String title, String description, String location, String contact, String url, LocalDateTime start, LocalDateTime end) {
+        this.customerId = customerId;
+        this.title = title;
+        this.description = description;
+        this.location = location;
+        this.contact = contact;
+        this.url = url;
+        this.start = start;
+        this.end = end;
+    }
+
+    public Appointment(long appointmentId, long customerId, String title, String description, String location, String contact, String url, LocalDateTime start, LocalDateTime end, String createdBy, ZonedDateTime createDate, Instant lastUpdate, String lastUpdateby) {
+        super(createdBy, createDate, lastUpdate, lastUpdateby);
+        this.appointmentId = appointmentId;
+        this.customerId = customerId;
+        this.title = title;
+        this.description = description;
+        this.location = location;
+        this.contact = contact;
+        this.url = url;
+        this.start = start;
+        this.end = end;
     }
 
     /**
