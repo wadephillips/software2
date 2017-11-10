@@ -2,6 +2,7 @@ package calendar.controllers;
 
 
 import calendar.Main;
+import calendar.helpers.KeyValuePair;
 import calendar.models.Address;
 import calendar.models.City;
 import calendar.models.Country;
@@ -157,25 +158,4 @@ public class CustomerEditFormController extends MainController {
     }
 }
 
-class KeyValuePair {
-    private final long key;
 
-    private final String value;
-
-    public KeyValuePair(long key, String value) {
-        this.key = key;
-        this.value = value;
-    }
-
-    public long getKey() {
-        return key;
-    }
-
-    /**
-     *
-     */
-    @Override
-    public String toString() {
-        return value;
-    }
-}

@@ -1,11 +1,11 @@
 package calendar.controllers;
 
+import calendar.components.AppointmentDialogPane;
+import calendar.models.Appointment;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -361,7 +361,43 @@ public class MonthlyCalendarController extends BaseCalendarController {
                 dayOfMonth = Integer.valueOf(((Label) child).getText());
             }
         }
-        Alert alert = new Alert()
+
+        try {
+            Dialog dialog = new Dialog();
+            AppointmentDialogPane pane = new AppointmentDialogPane();
+            dialog.setDialogPane(pane);
+            
+
+            ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL, saveButtonType);
+
+            
+            Node saveButton = dialog.getDialogPane().lookupButton(saveButtonType);
+
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == saveButtonType) {
+                    System.out.println("save button click registered" + dialogButton);
+                    LocalDate date = pane.getDate();
+                    //todo lambda for creating the appointment
+                    return new Appointment();
+                } else {
+                    System.out.println("cancel");
+                    return null;
+                }
+            });
+
+//            System.out.println(dialog.showAndWait());
+            Optional<Appointment> appointment = dialog.showAndWait();
+            if (appointment.isPresent()){
+                System.out.println("Insert appt into grid");
+            } else {
+                System.out.println("Nothing to do right now");
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         System.out.println("row: " + row + " column: " + column + " day: " + dayOfMonth);
     }
