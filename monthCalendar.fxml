@@ -28,7 +28,7 @@
                                <Font name="Font Awesome 5 Pro Regular" size="13.0" />
                            </font>
                        </Button>
-                       <Label fx:id="monthYearLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="60.0" layoutY="4.0" text="Month" />
+                       <Label styleClass="monthDay" fx:id="monthYearLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="60.0" layoutY="4.0" text="Month" />
                    </children>
                </Group>
                <ButtonBar prefHeight="40.0" prefWidth="200.0" AnchorPane.rightAnchor="0.0">
@@ -71,213 +71,213 @@
              <Label text="Saturday" GridPane.columnIndex="6" GridPane.halignment="CENTER" />
             <VBox fx:id="box0_1" onMouseClicked="#createAppointment" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day0_1" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day0_1" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box1_1_1" onMouseClicked="#createAppointment" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day1_1" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day1_1" mouseTransparent="true" text="To Be Set" />
        
                </children>
             </VBox>
              <VBox fx:id="box2_1" onMouseClicked="#createAppointment" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                 <children>
-                    <Label fx:id="day2_1" mouseTransparent="true" text="To Be Set" />
+                    <Label styleClass="monthDay" fx:id="day2_1" mouseTransparent="true" text="To Be Set" />
                 </children>
              </VBox>
             <VBox fx:id="box3_1" onMouseClicked="#createAppointment" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day3_1" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day3_1" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box4_1" onMouseClicked="#createAppointment" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day4_1" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day4_1" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box5_1" onMouseClicked="#createAppointment" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day5_1" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day5_1" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box6_1" onMouseClicked="#createAppointment" GridPane.columnIndex="6" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day6_1" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day6_1" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box6_2" onMouseClicked="#createAppointment" GridPane.columnIndex="6" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day6_2" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day6_2" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box5_2" onMouseClicked="#createAppointment" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day5_2" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day5_2" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box4_2" onMouseClicked="#createAppointment" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day4_2" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day4_2" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box3_2" onMouseClicked="#createAppointment" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day3_2" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day3_2" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box0_2" onMouseClicked="#createAppointment" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day0_2" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day0_2" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box1_2" onMouseClicked="#createAppointment" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day1_2" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day1_2" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box2_2" onMouseClicked="#createAppointment" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day2_2" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day2_2" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box0_3" onMouseClicked="#createAppointment" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day0_3" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day0_3" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box1_3" onMouseClicked="#createAppointment" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day1_3" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day1_3" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box2_3" onMouseClicked="#createAppointment" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day2_3" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day2_3" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box3_3" onMouseClicked="#createAppointment" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day3_3" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day3_3" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box4_3" onMouseClicked="#createAppointment" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day4_3" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day4_3" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box5_3" onMouseClicked="#createAppointment" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day5_3" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day5_3" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box6_3" onMouseClicked="#createAppointment" GridPane.columnIndex="6" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day6_3" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day6_3" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box6_4" onMouseClicked="#createAppointment" GridPane.columnIndex="6" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day6_4" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day6_4" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box5_4" onMouseClicked="#createAppointment" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day5_4" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day5_4" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box4_4" onMouseClicked="#createAppointment" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day4_4" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day4_4" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box3_4" onMouseClicked="#createAppointment" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day3_4" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day3_4" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box2_4" onMouseClicked="#createAppointment" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day2_4" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day2_4" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box1_4" onMouseClicked="#createAppointment" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day1_4" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day1_4" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box0_4" onMouseClicked="#createAppointment" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day0_4" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day0_4" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box6_5" onMouseClicked="#createAppointment" GridPane.columnIndex="6" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day6_5" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day6_5" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box5_5" onMouseClicked="#createAppointment" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day5_5" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day5_5" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box4_5" onMouseClicked="#createAppointment" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day4_5" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day4_5" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box3_5" onMouseClicked="#createAppointment" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day3_5" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day3_5" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box2_5" onMouseClicked="#createAppointment" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day2_5" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day2_5" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box1_5" onMouseClicked="#createAppointment" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day1_5" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day1_5" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box0_5" onMouseClicked="#createAppointment" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day0_5" text="To Be Set" GridPane.columnIndex="6" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP" />
+                   <Label styleClass="monthDay" fx:id="day0_5" text="To Be Set" GridPane.columnIndex="6" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP" />
                </children>
             </VBox>
             <VBox fx:id="box6_6" onMouseClicked="#createAppointment" GridPane.columnIndex="6" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day6_6" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day6_6" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box5_6" onMouseClicked="#createAppointment" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day5_6" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day5_6" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box4_6" onMouseClicked="#createAppointment" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day4_6" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day4_6" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box3_6" onMouseClicked="#createAppointment" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day3_6" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day3_6" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box2_6" onMouseClicked="#createAppointment" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day2_6" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day2_6" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box1_6" onMouseClicked="#createAppointment" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day1_6" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day1_6" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
             <VBox fx:id="box0_6" onMouseClicked="#createAppointment" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP">
                <children>
-                   <Label fx:id="day0_6" mouseTransparent="true" text="To Be Set" />
+                   <Label styleClass="monthDay" fx:id="day0_6" mouseTransparent="true" text="To Be Set" />
                </children>
             </VBox>
          </children>

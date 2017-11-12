@@ -2,22 +2,30 @@ package calendar.controllers;
 
 import calendar.Main;
 import calendar.helpers.KeyValuePair;
+import calendar.models.Appointment;
 import calendar.models.Customer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 abstract public class BaseCalendarController extends BaseController {
 
@@ -88,5 +96,18 @@ abstract public class BaseCalendarController extends BaseController {
             this.times.add(base);
             base = base.plusMinutes(15);
         }
+    }
+
+    public void insertAppointmentBlob(VBox parent, Appointment appointment) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+
+        String formatedAppTime =  formatter.format(appointment.getStart()) + " - " + formatter.format(appointment.getEnd());
+
+        Label blob = new Label(formatedAppTime + "  " + appointment.getCustomerId());
+        blob.getStyleClass().add("apptBlob");
+//        System.out.println(blob.getStyleClass());
+
+        parent.getChildren().add(blob);
+
     }
 }

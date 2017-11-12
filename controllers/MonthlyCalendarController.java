@@ -1,9 +1,8 @@
 package calendar.controllers;
 
 import calendar.components.AppointmentDialog;
-import calendar.components.AppointmentDialogPane;
-import calendar.helpers.KeyValuePair;
 import calendar.models.Appointment;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -213,6 +212,8 @@ public class MonthlyCalendarController extends BaseCalendarController {
 
     private List<List<Label>> middleWeeks;
 
+    private Map<Integer, VBox> dayToGrid = new HashMap<>();
+
     @FXML
     public Button showByWeekButton;
 
@@ -270,9 +271,12 @@ public class MonthlyCalendarController extends BaseCalendarController {
         int lastDayInMonth = firstDayOfMonthToBeDisplayed.with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth();
         int i = 1;
 
+
         for (int j = 0; j < 7 ; j++) {
             Label day = week1.get(j);
+
             if ( firstWeekDayAsInt == 7 || j>=firstWeekDayAsInt){
+                dayToGrid.put(i, (VBox) day.getParent());
                 day.setText(String.valueOf(i));
                 day.setVisible(true);
                 i++;
@@ -284,6 +288,7 @@ public class MonthlyCalendarController extends BaseCalendarController {
 
         for (List<Label> week: middleWeeks){
             for (Label day: week) {
+                dayToGrid.put(i, (VBox) day.getParent());
                 day.setText(String.valueOf(i));
                 i++;
             }
@@ -302,6 +307,7 @@ public class MonthlyCalendarController extends BaseCalendarController {
                 day.setText("-1");
                 day.setVisible(false);
             } else {
+                dayToGrid.put(i, (VBox) day.getParent());
                 day.setText(String.valueOf(i));
                 day.setVisible(true);
                 i++;
@@ -325,6 +331,18 @@ public class MonthlyCalendarController extends BaseCalendarController {
         setWeekArrays();
         setGridDates();
         displayMonthAndYear();
+        displayAppointments();
+    }
+
+    private void displayAppointments() {
+        List<Appointment> appointments = Appointment.getAllByYearMonth(this.firstDayOfDisplayedMonth);
+        for (Appointment ap :
+                appointments) {
+            int dayOfMonth = ap.getStart().getDayOfMonth();
+            VBox target = this.dayToGrid.get(dayOfMonth);
+            this.insertAppointmentBlob(target, ap);
+        }
+        System.out.println(appointments);
     }
 
     private void setWeekArrays() {
@@ -361,16 +379,20 @@ public class MonthlyCalendarController extends BaseCalendarController {
         int row = Integer.valueOf((boxId.substring(5)));
         List<Node> children = box.getChildren();
         int dayOfMonth = -1;
+        LocalDate clickedDate = LocalDate.now();
         for (Node child: children) {
 //            System.out.println(child);
-            if (child instanceof Label){
+            ObservableList<String> x = child.getStyleClass();
+            if ( x.contains("monthDay") ){
                 dayOfMonth = Integer.valueOf(((Label) child).getText());
+                clickedDate = LocalDate.of(this.firstDayOfDisplayedMonth.getYear(), this.firstDayOfDisplayedMonth.getMonthValue(), dayOfMonth);
             }
         }
 
 
         try {
-            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times);
+            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, clickedDate, LocalTime.now());
+
 //            AppointmentDialogPane pane = new AppointmentDialogPane();
 //            dialog.setDialogPane(pane);
 //
@@ -379,26 +401,31 @@ public class MonthlyCalendarController extends BaseCalendarController {
 //            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL, saveButtonType);
 
 //            Node saveButton = dialog.getDialogPane().lookupButton(saveButtonType);
-            Node saveButtonType = dialog.getSaveButtonType();
-
+            ButtonType saveButtonType = dialog.getSaveButtonType();
+            System.out.println(saveButtonType);
+            
             dialog.setResultConverter(dialogButton -> {
+                System.out.println(dialogButton);
+                System.out.println(saveButtonType);
                 if (dialogButton == saveButtonType) {
                     System.out.println("save button click registered" + dialogButton);
+                    Appointment appointment = dialog.getAppointment();
 //                    AppointmentDialogPane pane = (AppointmentDialogPane) dialog.getDialogPane();
+                    appointment.save();
 
 
 
-                    return new Appointment();
+                    return appointment;
                 } else {
                     System.out.println("cancel");
                     return null;
                 }
             });
 
-//            System.out.println(dialog.showAndWait());
             Optional<Appointment> appointment = dialog.showAndWait();
             if (appointment.isPresent()){
                 System.out.println("Insert appt into grid");
+                this.insertAppointmentBlob(box, appointment.get());
             } else {
                 System.out.println("Nothing to do right now");
             }
@@ -408,6 +435,6 @@ public class MonthlyCalendarController extends BaseCalendarController {
             e.printStackTrace();
         }
 
-        System.out.println("row: " + row + " column: " + column + " day: " + dayOfMonth);
+//        System.out.println("row: " + row + " column: " + column + " day: " + dayOfMonth);
     }
 }

@@ -37,15 +37,16 @@ public class AppointmentDialog extends Dialog {
         }
     }
 
-    public AppointmentDialog(ArrayList<KeyValuePair> customers, ArrayList<LocalTime> times) {
+    public AppointmentDialog(ArrayList<KeyValuePair> customers, ArrayList<LocalTime> times, LocalDate selectedDate, LocalTime selectedTime) {
         this();
         this.customers = customers;
         this.times = times;
         this.populateComboboxes();
+
     }
 
-    public Node getSaveButtonType() {
-        return this.getDialogPane().lookupButton(saveButtonType);
+    public ButtonType getSaveButtonType() {
+        return this.saveButtonType;
     }
 
     public Appointment getAppointment(){
