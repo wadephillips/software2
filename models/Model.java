@@ -1,6 +1,7 @@
 package calendar.models;
 
 import calendar.DBFactory;
+import calendar.Main;
 
 import javax.sql.DataSource;
 import java.lang.reflect.Field;
@@ -120,7 +121,7 @@ abstract public class Model {
         }
         if (createdBy == null) {
             //todo make this access a static variable with the username in it
-            this.createdBy = "Wade";
+            this.createdBy = Main.getLoggedInUser().getUserName();
         }
 //        System.out.println("helloz: " + createDate + createdBy + lastUpdate +lastUpdateby);
         return this;
@@ -130,7 +131,7 @@ abstract public class Model {
     protected Model checkAndSetUpdate(){
         this.lastUpdate = Instant.now();
         //todo make this access a static variable with the username in it
-        this.lastUpdateby = "Wade";
+        this.lastUpdateby = Main.getLoggedInUser().getUserName();
         return this;
     }
 }

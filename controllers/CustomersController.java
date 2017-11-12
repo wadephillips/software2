@@ -21,16 +21,6 @@ public class CustomersController extends MainController {
 
     public void loadCustomers(){
 
-        //        customerIdColumn.setCellValueFactory(new PropertyValueFactory<Customer, Long>("customerId"));
-//        customerIdColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
-//        System.out.println(this.customerTableView.getItems());
-//        this.customers.addAll(Customer.findAll());
-        //todo why wont this table populate
-
-        ////        this.customers.addAll(allCustomers);
-//        System.out.println(this.customers);
-//        this.customerTableView.getItems().setAll(this.customers);
-
         customersTableController.loadCustomers();
     }
     /**
@@ -55,10 +45,7 @@ public class CustomersController extends MainController {
 
     public void loadAddCustomerView(ActionEvent actionEvent) {
         try {
-//            this.loadContent("customerEditForm.fxml");
-            //todo figure out how to get a copy of the subcontroller
-//            this.customerEditFormController.setTitleText("Add Customer");
-//            System.out.println(this.customerEditFormController.getTitle().getText());
+//
             this.bodyPane.getChildren().clear();
             FXMLLoader root = new FXMLLoader(getClass().getResource("../customerEditForm.fxml"));
             this.bodyPane.getChildren().addAll((Node) root.load());

@@ -32,6 +32,7 @@ public class Main extends Application {
 
 
 
+
     @Override
     public void start(Stage primaryStage) throws Exception{
 //        this.locale = Locale.getDefault();
@@ -96,6 +97,7 @@ public class Main extends Application {
         MainController controller = root.getController();
 //        controller.localize();
         controller.loadContent("monthCalendar.fxml");
+        Main.setLoggedInUser(User.findById(4));
 
         primaryStage.setTitle("ACME Calendar");
         primaryStage.setScene(scene);

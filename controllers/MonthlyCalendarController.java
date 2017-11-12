@@ -1,14 +1,20 @@
 package calendar.controllers;
 
+import calendar.components.AppointmentDialog;
+import calendar.models.Appointment;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
@@ -107,6 +113,95 @@ public class MonthlyCalendarController extends BaseCalendarController {
     @FXML
     public Label day0_6;
 
+    /**
+     * Fields for the calendar grid
+     */
+    @FXML
+    public VBox box0_5;
+    @FXML
+    public VBox box0_1;
+    @FXML
+    public VBox box1_1;
+    @FXML
+    public VBox box2_1;
+    @FXML
+    public VBox box3_1;
+    @FXML
+    public VBox box4_1;
+    @FXML
+    public VBox box5_1;
+    @FXML
+    public VBox box6_1;
+    @FXML
+    public VBox box6_2;
+    @FXML
+    public VBox box5_2;
+    @FXML
+    public VBox box4_2;
+    @FXML
+    public VBox box3_2;
+    @FXML
+    public VBox box0_2;
+    @FXML
+    public VBox box1_2;
+    @FXML
+    public VBox box2_2;
+    @FXML
+    public VBox box0_3;
+    @FXML
+    public VBox box1_3;
+    @FXML
+    public VBox box2_3;
+    @FXML
+    public VBox box3_3;
+    @FXML
+    public VBox box4_3;
+    @FXML
+    public VBox box5_3;
+    @FXML
+    public VBox box6_3;
+    @FXML
+    public VBox box6_4;
+    @FXML
+    public VBox box5_4;
+    @FXML
+    public VBox box4_4;
+    @FXML
+    public VBox box3_4;
+    @FXML
+    public VBox box2_4;
+    @FXML
+    public VBox box1_4;
+    @FXML
+    public VBox box0_4;
+    @FXML
+    public VBox box6_5;
+    @FXML
+    public VBox box5_5;
+    @FXML
+    public VBox box4_5;
+    @FXML
+    public VBox box3_5;
+    @FXML
+    public VBox box2_5;
+    @FXML
+    public VBox box1_5;
+    @FXML
+    public VBox box6_6;
+    @FXML
+    public VBox box5_6;
+    @FXML
+    public VBox box4_6;
+    @FXML
+    public VBox box3_6;
+    @FXML
+    public VBox box2_6;
+    @FXML
+    public VBox box1_6;
+    @FXML
+    public VBox box0_6;
+
+
     private List<Label> week1;
 
     private List<Label> week2;
@@ -116,6 +211,8 @@ public class MonthlyCalendarController extends BaseCalendarController {
     private List<Label> week6;
 
     private List<List<Label>> middleWeeks;
+
+    private Map<Integer, VBox> dayToGrid = new HashMap<>();
 
     @FXML
     public Button showByWeekButton;
@@ -134,6 +231,8 @@ public class MonthlyCalendarController extends BaseCalendarController {
 
     public MonthlyCalendarController() {
         super();
+        initCustomers();
+        initTimes();
 
     }
 
@@ -172,19 +271,24 @@ public class MonthlyCalendarController extends BaseCalendarController {
         int lastDayInMonth = firstDayOfMonthToBeDisplayed.with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth();
         int i = 1;
 
+
         for (int j = 0; j < 7 ; j++) {
             Label day = week1.get(j);
+
             if ( firstWeekDayAsInt == 7 || j>=firstWeekDayAsInt){
+                dayToGrid.put(i, (VBox) day.getParent());
                 day.setText(String.valueOf(i));
                 day.setVisible(true);
                 i++;
             } else {
+                day.setText("-1");
                 day.setVisible(false);
             }
         }
 
         for (List<Label> week: middleWeeks){
             for (Label day: week) {
+                dayToGrid.put(i, (VBox) day.getParent());
                 day.setText(String.valueOf(i));
                 i++;
             }
@@ -200,8 +304,10 @@ public class MonthlyCalendarController extends BaseCalendarController {
         for (int j = 0; j < 7; j++) {
             Label day = week.get(j);
             if (i > lastDayInMonth){
+                day.setText("-1");
                 day.setVisible(false);
             } else {
+                dayToGrid.put(i, (VBox) day.getParent());
                 day.setText(String.valueOf(i));
                 day.setVisible(true);
                 i++;
@@ -225,6 +331,18 @@ public class MonthlyCalendarController extends BaseCalendarController {
         setWeekArrays();
         setGridDates();
         displayMonthAndYear();
+        displayAppointments();
+    }
+
+    private void displayAppointments() {
+        List<Appointment> appointments = Appointment.getAllByYearMonth(this.firstDayOfDisplayedMonth);
+        for (Appointment ap :
+                appointments) {
+            int dayOfMonth = ap.getStart().getDayOfMonth();
+            VBox target = this.dayToGrid.get(dayOfMonth);
+            this.insertAppointmentBlob(target, ap);
+        }
+        System.out.println(appointments);
     }
 
     private void setWeekArrays() {
@@ -253,4 +371,70 @@ public class MonthlyCalendarController extends BaseCalendarController {
     }
 
 
+    public void createAppointment(MouseEvent mouseEvent) {
+        System.out.println(this.times);
+        VBox box = (VBox) mouseEvent.getSource();
+        String boxId = box.getId();
+        int column = Integer.valueOf(boxId.substring(3,4));
+        int row = Integer.valueOf((boxId.substring(5)));
+        List<Node> children = box.getChildren();
+        int dayOfMonth = -1;
+        LocalDate clickedDate = LocalDate.now();
+        for (Node child: children) {
+//            System.out.println(child);
+            ObservableList<String> x = child.getStyleClass();
+            if ( x.contains("monthDay") ){
+                dayOfMonth = Integer.valueOf(((Label) child).getText());
+                clickedDate = LocalDate.of(this.firstDayOfDisplayedMonth.getYear(), this.firstDayOfDisplayedMonth.getMonthValue(), dayOfMonth);
+            }
+        }
+
+
+        try {
+            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, clickedDate, LocalTime.now());
+
+//            AppointmentDialogPane pane = new AppointmentDialogPane();
+//            dialog.setDialogPane(pane);
+//
+//
+//            ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+//            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL, saveButtonType);
+
+//            Node saveButton = dialog.getDialogPane().lookupButton(saveButtonType);
+            ButtonType saveButtonType = dialog.getSaveButtonType();
+            System.out.println(saveButtonType);
+            
+            dialog.setResultConverter(dialogButton -> {
+                System.out.println(dialogButton);
+                System.out.println(saveButtonType);
+                if (dialogButton == saveButtonType) {
+                    System.out.println("save button click registered" + dialogButton);
+                    Appointment appointment = dialog.getAppointment();
+//                    AppointmentDialogPane pane = (AppointmentDialogPane) dialog.getDialogPane();
+                    appointment.save();
+
+
+
+                    return appointment;
+                } else {
+                    System.out.println("cancel");
+                    return null;
+                }
+            });
+
+            Optional<Appointment> appointment = dialog.showAndWait();
+            if (appointment.isPresent()){
+                System.out.println("Insert appt into grid");
+                this.insertAppointmentBlob(box, appointment.get());
+            } else {
+                System.out.println("Nothing to do right now");
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+//        System.out.println("row: " + row + " column: " + column + " day: " + dayOfMonth);
+    }
 }
