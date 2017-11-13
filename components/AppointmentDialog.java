@@ -11,6 +11,9 @@ import javafx.scene.control.Dialog;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +45,12 @@ public class AppointmentDialog extends Dialog {
         this.customers = customers;
         this.times = times;
         this.populateComboboxes();
+        this.pane.getApptDatePicker().setValue(selectedDate);
+        LocalTime now = LocalTime.now();
+        LocalTime soon = now.plusMinutes((75-now.getMinute())%15).truncatedTo(ChronoUnit.MINUTES);
+        LocalTime anHour = soon.plusHours(1).truncatedTo(ChronoUnit.MINUTES);
+        this.pane.getStartTimeComboBox().setValue(soon);
+        this.pane.getEndTimeComboBox().setValue(anHour);
 
     }
 

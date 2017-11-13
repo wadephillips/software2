@@ -46,6 +46,10 @@
                               <DatePicker fx:id="apptDatePicker" />
                            </children>
                         </VBox>
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <children>
                         <VBox>
                            <children>
                               <Label text="Start Time" />
@@ -54,9 +58,6 @@
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
                         </VBox>
                         <VBox>
                            <children>
@@ -66,9 +67,6 @@
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
                         </VBox>
                      </children>
                   </HBox>
