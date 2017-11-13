@@ -1,5 +1,6 @@
 package calendar.controllers;
 
+import calendar.models.Appointment;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,9 +9,7 @@ import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.text.DateFormatSymbols;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.TextStyle;
+import java.time.*;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
@@ -151,6 +150,10 @@ public class WeeklyCalendarController extends BaseCalendarController {
         TemporalField weekOfYear = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
         this.displayedWeekNumber = currentDate.get(weekOfYear);
     }
+
+    
+
+
     public void setDisplayedWeekNumber(int displayedWeekNumber) {
         this.displayedWeekNumber = displayedWeekNumber;
     }

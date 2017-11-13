@@ -92,6 +92,21 @@ public class Appointment extends Model {
         String baseYearMonth = baseDate.getYear() + "-"+ baseDate.getMonthValue();
         String sql = "SELECT * FROM appointment WHERE DATE_FORMAT(start, '%Y-%m') = '" + baseYearMonth + "' ;";
         System.out.println(sql);
+        ArrayList<Appointment> list = getAppointments(zone, sql);
+        return list;
+    }
+
+    public static ArrayList<Appointment> getAllByWeek(LocalDate startOfWeek, LocalDate endOfWeek) {
+//        System.out.println("hi");
+        ZoneId zone = ZoneId.systemDefault();
+//        String baseYearMonth = baseDate.getYear() + "-"+ baseDate.getMonthValue();
+        String sql = "SELECT * FROM appointment WHERE start >= " + startOfWeek + " AND end <= " + endOfWeek + ";";
+        System.out.println(sql);
+        ArrayList<Appointment> list = getAppointments(zone, sql);
+        return list;
+    }
+
+    private static ArrayList<Appointment> getAppointments(ZoneId zone, String sql) {
         ArrayList<Appointment> list = new ArrayList<>();
         try(Connection conn = DATASOURCE.getConnection();
             Statement stmt = conn.createStatement();
@@ -113,14 +128,15 @@ public class Appointment extends Model {
                         ZonedDateTime.ofInstant(resultSet.getTimestamp("createDate").toInstant(), zone),
                         resultSet.getTimestamp("lastUpdate").toInstant(),
                         resultSet.getString("lastUpdateBy")
-                        );
+                );
                 list.add(appointment);
             }
         }catch (Exception e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
         return list;
     }
+
 
     /**
      * method to persist changes on the entity to the database.
