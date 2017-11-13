@@ -14,6 +14,8 @@ import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.*;
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 
 public class WeeklyCalendarController extends BaseCalendarController {
 
@@ -66,6 +68,8 @@ public class WeeklyCalendarController extends BaseCalendarController {
 //    protected
     private List<Label> weekdayLabels;
 
+    private Map<Integer, VBox> dayToGrid = new HashMap<>();
+
 
     public WeeklyCalendarController (){
         super();
@@ -90,6 +94,38 @@ public class WeeklyCalendarController extends BaseCalendarController {
         this.initWeekdayArray();
         this.initWeekYearLabel();
         this.setWeekdayLabels();
+        this.displayAppointments();
+
+    }
+
+    private void displayAppointments() {
+        ArrayList<Appointment> list = Appointment.getAllByWeek(this.firstDayOfDisplayedWeek, this.lastDayOfDisplayedWeek);
+//        List<Appointment> appointments = Appointment.getAllByYearMonth(this.firstDayOfDisplayedMonth);
+        for (Appointment ap :
+                list) {
+            int dayOfMonth = ap.getStart().getDayOfMonth();
+            VBox target = this.dayToGrid.get(dayOfMonth);
+            this.insertAppointmentBlob(target, ap);
+        }
+//        System.out.println(list);
+//        int iDay = this.firstDayOfDisplayedWeek.getDayOfMonth();
+//        //is a lambda going to work here? It should but I think we're approching it wrong
+//        //foreach dayToGrid
+//        //iterate over list and check to see if they belong in the day
+//        for (int i = 0; i < 7; i++) {
+//            VBox box = dayToGrid.get(i);
+//            int aptDay = Integer.valueOf(box.getChildren().);
+//
+//            BiPredicate<Integer, Integer> belongs = (iDay,
+//
+//        }
+//        list.stream().forEach( x -> {
+//            int dayOfMonth = x.getStart().getDayOfMonth();
+//            VBox target = dayToGrid.get(dayOfMonth);
+//            System.out.println(target);
+//            this.insertAppointmentBlob(target, x);
+//        }); // get the day of the appt from start the put in the appropriate column
+        //get
     }
 
     private void initWeekdayArray() {
@@ -121,7 +157,9 @@ public class WeeklyCalendarController extends BaseCalendarController {
             String display = dayNames[i+1] + " " + date.getMonthValue() + "/" + date.getDayOfMonth() ;
             Label label = weekdayLabels.get(i);
             label.setText(display);
+            dayToGrid.put(date.getDayOfMonth(), (VBox) label.getParent());
         }
+        System.out.println("dayToGrid: "+dayToGrid);
     }
 
 
@@ -151,7 +189,7 @@ public class WeeklyCalendarController extends BaseCalendarController {
         this.displayedWeekNumber = currentDate.get(weekOfYear);
     }
 
-    
+
 
 
     public void setDisplayedWeekNumber(int displayedWeekNumber) {

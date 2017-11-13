@@ -95,13 +95,14 @@ abstract public class BaseCalendarController extends BaseController {
     }
 
     public void insertAppointmentBlob(VBox parent, Appointment appointment) {
+        System.out.println(parent.getId());
         DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
 
         String formatedAppTime =  formatter.format(appointment.getStart()) + " - " + formatter.format(appointment.getEnd());
 
         Label blob = new Label(formatedAppTime + "  " + appointment.getCustomerId());
         blob.getStyleClass().add("apptBlob");
-//        System.out.println(blob.getStyleClass());
+        System.out.println(blob.getStyleClass());
 
         parent.getChildren().add(blob);
 
