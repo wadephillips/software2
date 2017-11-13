@@ -1,9 +1,8 @@
 package calendar.components;
 
+import calendar.helpers.AppointmentType;
 import calendar.helpers.KeyValuePair;
 import calendar.models.Appointment;
-import calendar.models.Customer;
-import javafx.scene.Node;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -12,9 +11,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAdjusters;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AppointmentDialog extends Dialog {
@@ -44,7 +42,7 @@ public class AppointmentDialog extends Dialog {
         this();
         this.customers = customers;
         this.times = times;
-        this.populateComboboxes();
+        this.populateComboBoxes();
         this.pane.getApptDatePicker().setValue(selectedDate);
         LocalTime now = LocalTime.now();
         LocalTime soon = now.plusMinutes((75-now.getMinute())%15).truncatedTo(ChronoUnit.MINUTES);
@@ -72,12 +70,13 @@ public class AppointmentDialog extends Dialog {
         return new Appointment(customer,title,description,location,contact,url,start,end);
     }
 
-    public void populateComboboxes(){
+    public void populateComboBoxes(){
 //        List<Customer> customers = Customer.findAll();
 
         this.pane.setComboBoxOptions(this.customers, this.pane.getCustomerComboBox());
         this.pane.setComboBoxOptions(this.times, this.pane.getStartTimeComboBox());
         this.pane.setComboBoxOptions(this.times, this.pane.getEndTimeComboBox());
+        this.pane.setComboBoxOptions(Arrays.asList(AppointmentType.values()), this.pane.getDescriptionComboBox());
     }
 
     public void setCustomers(List<KeyValuePair> customers) {

@@ -21,6 +21,7 @@
                   <Label text="Title" />
                   <TextField fx:id="titleTextField" />
                   <Label text="Description" />
+                  <ComboBox fx:id="descriptionComboBox" prefWidth="150.0" />
                   <TextArea fx:id="descriptionTextArea" prefHeight="200.0" prefWidth="200.0" />
                   <Label text="Location" />
                   <TextField fx:id="locationTextField" />

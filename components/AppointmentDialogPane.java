@@ -1,5 +1,6 @@
 package calendar.components;
 
+import calendar.helpers.AppointmentType;
 import calendar.helpers.KeyValuePair;
 import calendar.models.Appointment;
 import calendar.models.Customer;
@@ -21,7 +22,7 @@ public class AppointmentDialogPane extends DialogPane {
     private TextField titleTextField;
 
     @FXML
-    private TextArea descriptionTextArea;
+    private ComboBox<AppointmentType> descriptionComboBox;
 
     @FXML
     private TextField locationTextField;
@@ -72,20 +73,16 @@ public class AppointmentDialogPane extends DialogPane {
         this.titleTextField = titleTextField;
     }
 
-    public TextArea getDescriptionTextArea() {
-        return descriptionTextArea;
-    }
-
-    public void setDescriptionTextArea(TextArea descriptionTextArea) {
-        this.descriptionTextArea = descriptionTextArea;
-    }
-
-    public TextField getLocationTextField() {
-        return locationTextField;
-    }
-
     public void setLocationTextField(TextField locationTextField) {
         this.locationTextField = locationTextField;
+    }
+
+    public ComboBox<AppointmentType> getDescriptionComboBox() {
+        return descriptionComboBox;
+    }
+
+    public void setDescriptionComboBox(ComboBox<AppointmentType> descriptionComboBox) {
+        this.descriptionComboBox = descriptionComboBox;
     }
 
     public TextField getContactTextField() {
@@ -141,7 +138,7 @@ public class AppointmentDialogPane extends DialogPane {
     }
 
     public String getDescription() {
-        return descriptionTextArea.getText();
+        return descriptionComboBox.getValue().toString();
     }
 
     public String getLocation() {
@@ -172,6 +169,7 @@ public class AppointmentDialogPane extends DialogPane {
     }
 
     public void setComboBoxOptions(List list, ComboBox box){
+        System.out.println(list + " : " + box);
         box.getItems().addAll(list);
     }
 }
