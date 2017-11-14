@@ -35,7 +35,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-//        this.locale = Locale.getDefault();
+        this.locale = Locale.getDefault();
 //        Locale locale = new Locale("es", "ES");
 //        Locale.setDefault(locale);
 //        UserBuilder userBuilder = new UserBuilder();

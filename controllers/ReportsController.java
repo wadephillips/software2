@@ -1,33 +1,72 @@
 package calendar.controllers;
 
+import calendar.Main;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class ReportsController extends MainController {
+
+    @FXML
+    private StackPane bodyPane;
 
     public void loadAppTypeReport(ActionEvent actionEvent) {
 
         System.out.println("Loading the report!! Type");
         String sql = "SELECT COUNT(appointmentId) as count, description as type, month(start) as month, YEAR(start) as year FROM appointment " +
 //                "WHERE date_format(start, '%Y%m') = date_format(now(), '%Y%m')" +
-                "GROUP BY month(start), description ;";
+                "GROUP BY YEAR(start), MONTH(start), description " +
+                "ORDER BY YEAR(start), MONTH(start);";
+
+        ScrollPane scrollPane = new ScrollPane();
+        this.bodyPane.getChildren().add(scrollPane);
+
+        VBox reportContainer = new VBox();
+        reportContainer.setId("reportContainer");
+
 
         try(Connection conn = DATASOURCE.getConnection();
             Statement stmt = conn.createStatement();
             ResultSet resultSet = stmt.executeQuery(sql)){
-
+            int month = 0;
+            int year = 0;
+            String monthYear = "";
             while (resultSet.next()) {
-                System.out.println(resultSet.getInt("count") + " | " + resultSet.getString("type") + " | " + resultSet.getInt("month")  + "/" + resultSet.getInt("year"));
+
+                int currentMonth = resultSet.getInt("month");
+                int currentYear = resultSet.getInt("year");
+                if (month != currentMonth || year != currentYear) {
+                    System.out.println(month+year + " | " + currentMonth+currentYear);
+                    month = currentMonth;
+                    year = currentYear;
+                    LocalDate  displayMonth = LocalDate.of(currentYear,currentMonth,1);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM, yyyy", Main.getLocale());
+                    Label monthLabel = new Label(formatter.format(displayMonth));
+//                    monthLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1.5em;");
+                    reportContainer.getChildren().add(monthLabel);
+                }
+                Label result = new Label(resultSet.getInt("count") + " | " + resultSet.getString("type"));
+                reportContainer.getChildren().add(result);
+//                System.out.println(resultSet.getInt("count") + " | " + resultSet.getString("type") + " | " + currentMonth + "/" + currentYear);
+
             }
 
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        scrollPane.setContent(reportContainer);
+        this.bodyPane.getChildren().add(scrollPane);
 
     }
 

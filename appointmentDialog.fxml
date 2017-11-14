@@ -5,7 +5,6 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -22,7 +21,6 @@
                   <TextField fx:id="titleTextField" />
                   <Label text="Description" />
                   <ComboBox fx:id="descriptionComboBox" prefWidth="150.0" />
-                  <TextArea fx:id="descriptionTextArea" prefHeight="200.0" prefWidth="200.0" />
                   <Label text="Location" />
                   <TextField fx:id="locationTextField" />
                   <Label text="Contact" />
