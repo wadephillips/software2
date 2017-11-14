@@ -159,7 +159,7 @@ public class WeeklyCalendarController extends BaseCalendarController {
             label.setText(display);
             dayToGrid.put(date.getDayOfMonth(), (VBox) label.getParent());
         }
-        System.out.println("dayToGrid: "+dayToGrid);
+//        System.out.println("dayToGrid: "+dayToGrid);
     }
 
 
@@ -175,7 +175,7 @@ public class WeeklyCalendarController extends BaseCalendarController {
     }
 
     public void showNextWeek(ActionEvent actionEvent) {
-        System.out.println("display the next week");
+//        System.out.println("display the next week");
         LocalDate firstOfNextWeek = this.firstDayOfDisplayedWeek.plusWeeks(1);
         LocalDate lastOfNextWeek = this.lastDayOfDisplayedWeek.plusWeeks(1);
         this.initWeekYearLabel(firstOfNextWeek, lastOfNextWeek);

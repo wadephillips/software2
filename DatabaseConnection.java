@@ -65,7 +65,6 @@ public class DatabaseConnection {
 //            String url = "jdbc:mysql://" + this.location + "/" + this.databaseName;
             this.connection = DriverManager.getConnection(this.url, this.username, this.password);
         } catch (SQLException e) {
-            System.out.println("Failed to save connection");
             e.printStackTrace();
         }
     }

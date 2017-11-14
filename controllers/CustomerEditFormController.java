@@ -113,7 +113,7 @@ public class CustomerEditFormController extends MainController {
         List<Country> countries = Country.findAll();
         extractKeyValuePairs(cities, countries);
 //
-        System.out.println(this.countries);
+//        System.out.println(this.countries);
         setChoiceBoxOptions(this.cities, this.cityChoiceBox);
         setChoiceBoxOptions(this.countries, this.countryChoiceBox);
     }
@@ -121,7 +121,7 @@ public class CustomerEditFormController extends MainController {
     public void extractKeyValuePairs(List<City> cities, List<Country> countries) {
         for (City city :
                 cities) {
-            System.out.println(city.getCityId());
+//            System.out.println(city.getCityId());
             this.cities.add(new KeyValuePair(city.getCityId(), city.toString()));
         }
         for (Country country :

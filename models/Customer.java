@@ -279,7 +279,7 @@ public class Customer extends Model {
         String addressString = "";
         addressString += address.getAddress() + "\n";
         if(!address.getAddress2().equals("")) { addressString += address.getAddress2() + "\n"; }
-        System.out.println(address.getCountry());
+//        System.out.println(address.getCountry());
         addressString += address.getCity() + " " + address.getPostalCode() + " " + address.getCountry() + "\n";
         return addressString;
     }

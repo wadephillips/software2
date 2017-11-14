@@ -91,7 +91,7 @@ public class Appointment extends Model {
         ZoneId zone = ZoneId.systemDefault();
         String baseYearMonth = baseDate.getYear() + "-"+ baseDate.getMonthValue();
         String sql = "SELECT * FROM appointment WHERE DATE_FORMAT(start, '%Y-%m') = '" + baseYearMonth + "' ORDER BY start;";
-        System.out.println(sql);
+//        System.out.println(sql);
         ArrayList<Appointment> list = getAppointments(zone, sql);
         return list;
     }
@@ -101,7 +101,7 @@ public class Appointment extends Model {
         ZoneId zone = ZoneId.systemDefault();
 //        String baseYearMonth = baseDate.getYear() + "-"+ baseDate.getMonthValue();
         String sql = "SELECT * FROM appointment WHERE start >= '" + startOfWeek + "' AND end <= '" + endOfWeek + "' ORDER by start;";
-        System.out.println(sql);
+//        System.out.println(sql);
         ArrayList<Appointment> list = getAppointments(zone, sql);
         return list;
     }
@@ -113,7 +113,7 @@ public class Appointment extends Model {
             ResultSet resultSet = stmt.executeQuery(sql)){
             int i = 0;
             while (resultSet.next()){
-                System.out.println(++i);
+//                System.out.println(++i);
                 Appointment appointment = new Appointment(
                         resultSet.getLong("appointmentId"),
                         resultSet.getLong("customerId"),

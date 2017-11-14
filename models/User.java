@@ -81,8 +81,8 @@ public class User extends Model {
             int userExists = nameCheckResult.getInt("count");
 
             if (userExists >= 1) {
-                //todo thow an exception
-                System.out.println("crap, that username already exists!");
+                //todo thow an exception or alert
+                System.out.println(" that username already exists!");
             } else {
 
                 conn.setAutoCommit(false);
@@ -151,7 +151,7 @@ public class User extends Model {
         boolean updated = false;
         String sql = "UPDATE user SET userName=?, password=?, active=?, lastUpdate=?, lastUpdatedBy=? " +
                 "WHERE userId = ?;";
-        System.out.println(sql);
+//        System.out.println(sql);
         try(Connection conn = DATASOURCE.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
         ){

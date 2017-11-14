@@ -49,6 +49,7 @@ public class AppointmentDialog extends Dialog {
         LocalTime anHour = soon.plusHours(1).truncatedTo(ChronoUnit.MINUTES);
         this.pane.getStartTimeComboBox().setValue(soon);
         this.pane.getEndTimeComboBox().setValue(anHour);
+        this.pane.getDescriptionComboBox().setValue(AppointmentType.SALE);
 
     }
 
@@ -62,7 +63,8 @@ public class AppointmentDialog extends Dialog {
         LocalDateTime end = LocalDateTime.of(date, pane.getEndTime());
         long customer = pane.getCustomer().getKey();
         String title = pane.getTitle();
-        String description = pane.getDescription();
+        String description = pane.getDescription().name();
+        System.out.println(description);
         String location = pane.getLocation();
         String contact = pane.getContact();
         String url = pane.getUrl();

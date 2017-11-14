@@ -342,7 +342,7 @@ public class MonthlyCalendarController extends BaseCalendarController {
             VBox target = this.dayToGrid.get(dayOfMonth);
             this.insertAppointmentBlob(target, ap);
         }
-        System.out.println(appointments);
+//        System.out.println(appointments);
     }
 
     private void setWeekArrays() {
@@ -372,7 +372,7 @@ public class MonthlyCalendarController extends BaseCalendarController {
 
 
     public void createAppointment(MouseEvent mouseEvent) {
-        System.out.println(this.times);
+//        System.out.println(this.times);
         VBox box = (VBox) mouseEvent.getSource();
         String boxId = box.getId();
         int column = Integer.valueOf(boxId.substring(3,4));
@@ -402,13 +402,13 @@ public class MonthlyCalendarController extends BaseCalendarController {
 
 //            Node saveButton = dialog.getDialogPane().lookupButton(saveButtonType);
             ButtonType saveButtonType = dialog.getSaveButtonType();
-            System.out.println(saveButtonType);
+//            System.out.println(saveButtonType);
             
             dialog.setResultConverter(dialogButton -> {
-                System.out.println(dialogButton);
-                System.out.println(saveButtonType);
+//                System.out.println(dialogButton);
+//                System.out.println(saveButtonType);
                 if (dialogButton == saveButtonType) {
-                    System.out.println("save button click registered" + dialogButton);
+//                    System.out.println("save button click registered" + dialogButton);
                     Appointment appointment = dialog.getAppointment();
 //                    AppointmentDialogPane pane = (AppointmentDialogPane) dialog.getDialogPane();
                     appointment.save();

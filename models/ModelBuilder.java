@@ -43,7 +43,7 @@ abstract public class ModelBuilder {
     }
 
     protected ModelBuilder checkAndSetCreate(){
-        System.out.println(createDate + createdBy + lastUpdate +lastUpdateBy);
+//        System.out.println(createDate + createdBy + lastUpdate +lastUpdateBy);
         if (createDate == null) {
             this.createDate = ZonedDateTime.now();
         }

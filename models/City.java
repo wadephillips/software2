@@ -118,7 +118,6 @@ public class City extends Model {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(cities);
         return cities;
     }
 

@@ -137,8 +137,8 @@ public class AppointmentDialogPane extends DialogPane {
         return titleTextField.getText();
     }
 
-    public String getDescription() {
-        return descriptionComboBox.getValue().toString();
+    public Enum<AppointmentType> getDescription() {
+        return descriptionComboBox.getValue();
     }
 
     public String getLocation() {

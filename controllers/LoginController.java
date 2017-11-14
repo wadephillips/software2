@@ -74,7 +74,7 @@ public class LoginController extends BaseController {
                     root = new FXMLLoader(getClass().getResource("../navigation.fxml"));
 
                     Scene scene = new Scene(root.load());
-                    System.out.println("controller");
+//                    System.out.println("controller");
                     MainController controller = root.getController();
                     controller.loadContent("monthCalendar.fxml");
 
