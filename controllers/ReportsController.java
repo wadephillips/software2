@@ -21,6 +21,7 @@ public class ReportsController extends MainController {
     private StackPane bodyPane;
 
     public void loadAppTypeReport(ActionEvent actionEvent) {
+        this.bodyPane.getChildren().clear();
 
         System.out.println("Loading the report!! Type");
         String sql = "SELECT COUNT(appointmentId) as count, description as type, month(start) as month, YEAR(start) as year FROM appointment " +
@@ -29,7 +30,6 @@ public class ReportsController extends MainController {
                 "ORDER BY YEAR(start), MONTH(start);";
 
         ScrollPane scrollPane = new ScrollPane();
-        this.bodyPane.getChildren().add(scrollPane);
 
         VBox reportContainer = new VBox();
         reportContainer.setId("reportContainer");
@@ -73,11 +73,53 @@ public class ReportsController extends MainController {
     }
 
     public void loadScheduleByConsultantReport(ActionEvent actionEvent) {
+        this.bodyPane.getChildren().clear();
+//        Label label = new Label("Loading the report!! Consultant");
+//        this.bodyPane.getChildren().add(label);
+        String sql = "SELECT * FROM appointment a " +
+                "JOIN customer c " +
+                "ON a.customerId = c.customerId " +
+                "WHERE date_format(a.start, '%Y%m%d') >= date_format(now(), '%Y%m%d') ORDER BY a.createdBy, a.start;";
 
-        System.out.println("Loading the report!! Consultant");
+        try(Connection conn = DATASOURCE.getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet resultSet = stmt.executeQuery(sql)){
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+//        System.out.println("Loading the report!! Consultant");
     }
 
-    public void loadTotalAppointmentsReport(ActionEvent actionEvent) {
-        System.out.println("Loading the report!! Total");
+    public void loadTotalAppointmentsByConsultantReport(ActionEvent actionEvent) {
+        this.bodyPane.getChildren().clear();
+        ScrollPane scrollPane = new ScrollPane();
+
+        VBox reportContainer = new VBox();
+        reportContainer.setId("reportContainer");
+        Label title = new Label("Total number of Appointments by Consultant");
+        title.setStyle("-fx-font-weight: bolder; -fx-font-size: 1.5em;");
+        reportContainer.getChildren().add(title);
+
+//        Label label = new Label("Loading the report!! Total");
+//        this.bodyPane.getChildren().add(label);
+//        System.out.println("Loading the report!! Total");
+        String sql = "SELECT COUNT(appointmentId) as count, createdBy FROM appointment GROUP BY createdBy ORDER BY createdBy";
+
+        try(Connection conn = DATASOURCE.getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet resultSet = stmt.executeQuery(sql)){
+
+            while (resultSet.next()) {
+                String display = resultSet.getString("createdBy") + " - " + Integer.toString(resultSet.getInt("count"));
+                Label label = new Label(display);
+                reportContainer.getChildren().add(label);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        scrollPane.setContent(reportContainer);
+        this.bodyPane.getChildren().add(scrollPane);
     }
 }
