@@ -64,7 +64,6 @@ public class AppointmentDialog extends Dialog {
         long customer = pane.getCustomer().getKey();
         String title = pane.getTitle();
         String description = pane.getDescription().name();
-        System.out.println(description);
         String location = pane.getLocation();
         String contact = pane.getContact();
         String url = pane.getUrl();
