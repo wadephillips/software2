@@ -108,4 +108,8 @@ abstract public class BaseCalendarController extends BaseController {
         parent.getChildren().add(blob);
 
     }
+    private Object editAppointment() {
+        return null;
+    }
+
 }

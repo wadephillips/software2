@@ -21,6 +21,7 @@ public class ReportsController extends MainController {
     private StackPane bodyPane;
 
     public void loadAppTypeReport(ActionEvent actionEvent) {
+        this.bodyPane.getChildren().clear();
 
         System.out.println("Loading the report!! Type");
         String sql = "SELECT COUNT(appointmentId) as count, description as type, month(start) as month, YEAR(start) as year FROM appointment " +
@@ -29,7 +30,6 @@ public class ReportsController extends MainController {
                 "ORDER BY YEAR(start), MONTH(start);";
 
         ScrollPane scrollPane = new ScrollPane();
-        this.bodyPane.getChildren().add(scrollPane);
 
         VBox reportContainer = new VBox();
         reportContainer.setId("reportContainer");
@@ -73,11 +73,16 @@ public class ReportsController extends MainController {
     }
 
     public void loadScheduleByConsultantReport(ActionEvent actionEvent) {
-
-        System.out.println("Loading the report!! Consultant");
+        this.bodyPane.getChildren().clear();
+        Label label = new Label("Loading the report!! Consultant");
+        this.bodyPane.getChildren().add(label);
+//        System.out.println("Loading the report!! Consultant");
     }
 
     public void loadTotalAppointmentsReport(ActionEvent actionEvent) {
+        this.bodyPane.getChildren().clear();
+        Label label = new Label("Loading the report!! Total");
+        this.bodyPane.getChildren().add(label);
         System.out.println("Loading the report!! Total");
     }
 }
