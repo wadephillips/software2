@@ -115,5 +115,7 @@ abstract public class BaseCalendarController extends BaseController {
     }
 
     private Object editAppointment() {
+        return null;
     }
+
 }
