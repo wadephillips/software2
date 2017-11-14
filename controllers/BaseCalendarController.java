@@ -104,6 +104,7 @@ abstract public class BaseCalendarController extends BaseController {
         blob.getStyleClass().add("apptBlob");
 //        System.out.println(blob.getStyleClass());
 
+
         parent.getChildren().add(blob);
 
     }
