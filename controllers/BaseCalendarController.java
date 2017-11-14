@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -101,10 +102,17 @@ abstract public class BaseCalendarController extends BaseController {
         String formatedAppTime =  formatter.format(appointment.getStart()) + " - " + formatter.format(appointment.getEnd());
 
         Label blob = new Label(formatedAppTime + "  " + appointment.getCustomerId());
+        blob.setId(Long.toString(appointment.getAppointmentId()));
         blob.getStyleClass().add("apptBlob");
+//        blob.setOnMouseClicked((event) -> {
+//            //todo
+//        });
 //        System.out.println(blob.getStyleClass());
 
         parent.getChildren().add(blob);
 
+    }
+
+    private Object editAppointment() {
     }
 }

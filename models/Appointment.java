@@ -229,4 +229,8 @@ public class Appointment extends Model {
     public long getCustomerId() {
         return customerId;
     }
+
+    public long getAppointmentId() {
+        return appointmentId;
+    }
 }
