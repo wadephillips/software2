@@ -393,28 +393,13 @@ public class MonthlyCalendarController extends BaseCalendarController {
         try {
             AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, clickedDate, LocalTime.now());
 
-//            AppointmentDialogPane pane = new AppointmentDialogPane();
-//            dialog.setDialogPane(pane);
-//
-//
-//            ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
-//            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL, saveButtonType);
-
-//            Node saveButton = dialog.getDialogPane().lookupButton(saveButtonType);
             ButtonType saveButtonType = dialog.getSaveButtonType();
-//            System.out.println(saveButtonType);
-            
+
             dialog.setResultConverter(dialogButton -> {
-//                System.out.println(dialogButton);
-//                System.out.println(saveButtonType);
+
                 if (dialogButton == saveButtonType) {
-//                    System.out.println("save button click registered" + dialogButton);
                     Appointment appointment = dialog.getAppointment();
-//                    AppointmentDialogPane pane = (AppointmentDialogPane) dialog.getDialogPane();
                     appointment.save();
-
-
-
                     return appointment;
                 } else {
                     System.out.println("cancel");
@@ -437,4 +422,6 @@ public class MonthlyCalendarController extends BaseCalendarController {
 
 //        System.out.println("row: " + row + " column: " + column + " day: " + dayOfMonth);
     }
+
+
 }
