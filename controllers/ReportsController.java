@@ -33,7 +33,9 @@ public class ReportsController extends MainController {
 
         VBox reportContainer = new VBox();
         reportContainer.setId("reportContainer");
-
+        Label title = new Label("Count of Appointment Types by Month");
+        title.setStyle("-fx-font-weight: bolder; -fx-font-size: 1.5em;");
+        reportContainer.getChildren().add(title);
 
         try(Connection conn = DATASOURCE.getConnection();
             Statement stmt = conn.createStatement();
@@ -52,7 +54,7 @@ public class ReportsController extends MainController {
                     LocalDate  displayMonth = LocalDate.of(currentYear,currentMonth,1);
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM, yyyy", Main.getLocale());
                     Label monthLabel = new Label(formatter.format(displayMonth));
-//                    monthLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1.5em;");
+                    monthLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1.25em;");
                     reportContainer.getChildren().add(monthLabel);
                 }
                 Label result = new Label(resultSet.getInt("count") + " | " + resultSet.getString("type"));
