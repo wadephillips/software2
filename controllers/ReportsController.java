@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ReportsController extends MainController {
@@ -76,19 +77,46 @@ public class ReportsController extends MainController {
         this.bodyPane.getChildren().clear();
 //        Label label = new Label("Loading the report!! Consultant");
 //        this.bodyPane.getChildren().add(label);
+        ScrollPane scrollPane = new ScrollPane();
+
+        VBox reportContainer = new VBox();
+        reportContainer.setId("reportContainer");
+        Label title = new Label("Schedule by Consultant");
+        title.setStyle("-fx-font-weight: bolder; -fx-font-size: 1.5em;");
+        reportContainer.getChildren().add(title);
+
         String sql = "SELECT * FROM appointment a " +
                 "JOIN customer c " +
                 "ON a.customerId = c.customerId " +
                 "WHERE date_format(a.start, '%Y%m%d') >= date_format(now(), '%Y%m%d') ORDER BY a.createdBy, a.start;";
-
+        String consultant = "";
         try(Connection conn = DATASOURCE.getConnection();
             Statement stmt = conn.createStatement();
             ResultSet resultSet = stmt.executeQuery(sql)){
 
+            while (resultSet.next()){
+                String currentConsultant = resultSet.getString("createdBy");
+                if (!consultant.equals(currentConsultant)) {
+                    consultant = currentConsultant;
+                    Label consultantLabel = new Label("Upcoming appointments for " + consultant);
+                    consultantLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1.25em;");
+                    reportContainer.getChildren().add(consultantLabel);
+                }
+                ZonedDateTime start = ZonedDateTime.ofInstant(resultSet.getTimestamp("start").toInstant(), Main.getZone());
+                ZonedDateTime end = ZonedDateTime.ofInstant(resultSet.getTimestamp("end").toInstant(), Main.getZone());
+
+                String appointmentString = start + " - " + end + " w/ " + resultSet.getString("customerName");
+
+                Label appointmentLabel = new Label(appointmentString);
+                reportContainer.getChildren().add(appointmentLabel);
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//        System.out.println("Loading the report!! Consultant");
+        scrollPane.setContent(reportContainer);
+        this.bodyPane.getChildren().add(scrollPane);
+        System.out.println("Loading the report!! Consultant");
     }
 
     public void loadTotalAppointmentsByConsultantReport(ActionEvent actionEvent) {

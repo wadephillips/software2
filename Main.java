@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Locale;
 
@@ -22,6 +23,10 @@ public class Main extends Application {
     static DataSource DATASOURCE = DBFactory.get();
 
     private static Locale locale;
+
+
+
+    private static ZoneId zone;
 
     private static User loggedInUser;
 
@@ -36,6 +41,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.locale = Locale.getDefault();
+        this.zone = ZoneId.systemDefault();
 //        Locale locale = new Locale("es", "ES");
 //        Locale.setDefault(locale);
 //        UserBuilder userBuilder = new UserBuilder();
@@ -124,4 +130,6 @@ public class Main extends Application {
     public static Locale getLocale() {
         return locale;
     }
+
+    public static ZoneId getZone() { return zone; }
 }
