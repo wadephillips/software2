@@ -109,7 +109,7 @@ abstract public class BaseCalendarController extends BaseController {
         blob.setOnMouseClicked((event) -> {
             System.out.println("hi");
         });
-        System.out.println(blob.getStyleClass());
+//        System.out.println(blob.getStyleClass());
 
 
         parent.getChildren().add(blob);
