@@ -11,11 +11,15 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.ResourceBundle;
 
 public class LoginController extends BaseController {
@@ -65,6 +69,14 @@ public class LoginController extends BaseController {
 
                     User user = User.buildUserFromDB(rs);
                     Main.setLoggedInUser(user);
+                    //record user login in log
+                    try {
+                        File log = new File("logs/logins.txt");
+                        this.sendToLog(user, log);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    // check for upcomming appointments and alert if present
                     //change to Calendar scene.
                     Button btn = (Button) actionEvent.getSource();
 //                    this.changeScene(btn, "../navigation.fxml");
@@ -95,6 +107,18 @@ public class LoginController extends BaseController {
             e.printStackTrace();
         }finally {
             password.clear();
+        }
+
+    }
+
+    private void sendToLog(User user, File destination) throws Exception {
+        if (destination.exists()){
+            try(BufferedWriter writer = new BufferedWriter(new FileWriter(destination, true))){
+                String message = "USER_LOGIN: " + user.getUserName() + " @ " + Instant.now().toString();
+                writer.write(message);
+                writer.newLine();
+
+            }
         }
 
     }
