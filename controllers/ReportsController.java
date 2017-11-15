@@ -15,6 +15,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 public class ReportsController extends MainController {
 
@@ -105,7 +106,9 @@ public class ReportsController extends MainController {
                 ZonedDateTime start = ZonedDateTime.ofInstant(resultSet.getTimestamp("start").toInstant(), Main.getZone());
                 ZonedDateTime end = ZonedDateTime.ofInstant(resultSet.getTimestamp("end").toInstant(), Main.getZone());
 
-                String appointmentString = start + " - " + end + " w/ " + resultSet.getString("customerName");
+                DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
+
+                String appointmentString = formatter.format(start) + " - " + formatter.format(end) + " w/ " + resultSet.getString("customerName");
 
                 Label appointmentLabel = new Label(appointmentString);
                 reportContainer.getChildren().add(appointmentLabel);
