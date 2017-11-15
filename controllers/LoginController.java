@@ -15,11 +15,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ResourceBundle;
 
 public class LoginController extends BaseController {
@@ -77,6 +76,7 @@ public class LoginController extends BaseController {
                         e.printStackTrace();
                     }
                     // check for upcomming appointments and alert if present
+                    this.checkForUpcomingAppointments(user);
                     //change to Calendar scene.
                     Button btn = (Button) actionEvent.getSource();
 //                    this.changeScene(btn, "../navigation.fxml");
@@ -109,6 +109,45 @@ public class LoginController extends BaseController {
             password.clear();
         }
 
+    }
+
+    private void checkForUpcomingAppointments(User user) {
+        String username = user.getUserName();
+        // FIXME: 11/15/17 this curently doesn't work because the add appt form is saving a localDateTime and now() returns GMT
+        String sql = "SELECT * FROM appointment a " +
+                "INNER JOIN customer c " +
+                "ON a.customerId = c.customerId " +
+                "WHERE a.createdBy = ? AND a.start >= now() AND a.start <= date_add(now(), INTERVAL 15 MINUTE)";
+
+        try(Connection conn = DATASOURCE.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setString(1, username);
+            ResultSet resultSet = stmt.executeQuery();
+            if (resultSet.first()) {
+                int i = 0;
+                String body = "";
+                DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+                while (resultSet.next()) {
+                    i++;
+                    System.out.println(resultSet.getString("customerName"));
+                    body += "You have an appointment with " + resultSet.getString("customerName") +
+                            " at " + formatter.format(resultSet.getTimestamp("start").toInstant()) + "\n";
+                }
+                if(i > 0 ){
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText("You have upcoming appointments!");
+                    alert.setContentText(body);
+
+                    alert.showAndWait();
+                }
+
+            }
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void sendToLog(User user, File destination) throws Exception {

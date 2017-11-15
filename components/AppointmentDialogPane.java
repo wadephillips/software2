@@ -169,7 +169,7 @@ public class AppointmentDialogPane extends DialogPane {
     }
 
     public void setComboBoxOptions(List list, ComboBox box){
-        System.out.println(list + " : " + box);
+//        System.out.println(list + " : " + box);
         box.getItems().addAll(list);
     }
 }
