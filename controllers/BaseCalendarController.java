@@ -102,11 +102,13 @@ abstract public class BaseCalendarController extends BaseController {
         String formatedAppTime =  formatter.format(appointment.getStart()) + " - " + formatter.format(appointment.getEnd());
 
         Label blob = new Label(formatedAppTime + "  " + appointment.getCustomerId());
-        blob.setId(Long.toString(appointment.getAppointmentId()));
+        String id = Long.toString(appointment.getAppointmentId());
+        blob.setId(id);
+        blob.setWrapText(true);
         blob.getStyleClass().add("apptBlob");
-//        blob.setOnMouseClicked((event) -> {
-//            //todo
-//        });
+        blob.setOnMouseClicked((event) -> {
+            System.out.println("hi");
+        });
 //        System.out.println(blob.getStyleClass());
 
 
