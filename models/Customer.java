@@ -96,6 +96,7 @@ public class Customer extends Model {
                 "ON a.cityId = c.cityId\n" +
                 "JOIN country co\n" +
                 "ON c.countryId = co.countryId\n" +
+                "WHERE cu.active = 1 \n" +
                 "ORDER BY customerId;";
         List<Customer> list = new ArrayList<>();
         try(Connection conn = DATASOURCE.getConnection();
