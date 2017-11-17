@@ -1,6 +1,7 @@
 package calendar.models;
 
 import calendar.ModelDAO;
+import javafx.beans.property.*;
 
 import java.sql.*;
 import java.time.*;
@@ -12,23 +13,23 @@ import java.util.TimeZone;
  */
 public class Appointment extends Model {
 
-    private long appointmentId;
+    private LongProperty appointmentId = new SimpleLongProperty();
 
-    private long customerId;
+    private LongProperty customerId = new SimpleLongProperty();
 
-    private String title;
+    private StringProperty title = new SimpleStringProperty();
 
-    private String description;
+    private StringProperty description = new SimpleStringProperty();
 
-    private String location;
+    private StringProperty location = new SimpleStringProperty();
 
-    private String contact;
+    private StringProperty contact = new SimpleStringProperty();
 
-    private String url;
+    private StringProperty url = new SimpleStringProperty();
 
-    private LocalDateTime start;
+    private ObjectProperty<LocalDateTime> start = new SimpleObjectProperty<>();
 
-    private LocalDateTime end;
+    private ObjectProperty<LocalDateTime> end = new SimpleObjectProperty<>();
 
     /**
      * Instantiate an empty instance
@@ -39,29 +40,29 @@ public class Appointment extends Model {
     }
 
     public Appointment(long customerId, String title, String description, String location, String contact, String url, LocalDateTime start, LocalDateTime end) {
-        this.customerId = customerId;
-        this.title = title;
-        this.description = description;
-        this.location = location;
-        this.contact = contact;
-        this.url = url;
-        this.start = start;
-        this.end = end;
+        this.customerId.set(customerId);
+        this.title.set(title);
+        this.description.set(description);
+        this.location.set(location);
+        this.contact.set(contact);
+        this.url.set(url);
+        this.start.set(start);
+        this.end.set(end);
         this.checkAndSetCreate();
         this.checkAndSetUpdate();
     }
 
     public Appointment(long appointmentId, long customerId, String title, String description, String location, String contact, String url, LocalDateTime start, LocalDateTime end, String createdBy, ZonedDateTime createDate, Instant lastUpdate, String lastUpdateby) {
         super(createdBy, createDate, lastUpdate, lastUpdateby);
-        this.appointmentId = appointmentId;
-        this.customerId = customerId;
-        this.title = title;
-        this.description = description;
-        this.location = location;
-        this.contact = contact;
-        this.url = url;
-        this.start = start;
-        this.end = end;
+        this.appointmentId.set(appointmentId);
+        this.customerId.set(customerId);
+        this.title.set(title);
+        this.description.set(description);
+        this.location.set(location);
+        this.contact.set(contact);
+        this.url.set(url);
+        this.start.set(start);
+        this.end.set(end);
     }
 
     /**
@@ -154,11 +155,11 @@ public class Appointment extends Model {
      * @return
      */
     public Appointment save() {
-        if (this.appointmentId > 0) {
+        if (this.appointmentId.get() > 0) {
             //todo throw an exception
         }
 
-        if(this.customerId <= 0){
+        if(this.customerId.get() <= 0){
             //todo throw and exception
         }
 
@@ -172,17 +173,17 @@ public class Appointment extends Model {
             conn.setAutoCommit(false);
             Savepoint savepoint1 = conn.setSavepoint();
             try {
-                this.appointmentId = this.getNextId();
+                this.appointmentId.set(this.getNextId());
 
-                stmt.setLong(1, this.appointmentId);
-                stmt.setLong(2, this.customerId);
-                stmt.setString(3, this.title);
-                stmt.setString(4, this.description);
-                stmt.setString(5, this.location);
-                stmt.setString(6, this.contact);
-                stmt.setString(7, this.url);
-                stmt.setTimestamp(8, Timestamp.valueOf(this.start));
-                stmt.setTimestamp(9, Timestamp.valueOf(this.end));
+                stmt.setLong(1, this.appointmentId.get());
+                stmt.setLong(2, this.customerId.get());
+                stmt.setString(3, this.title.get());
+                stmt.setString(4, this.description.get());
+                stmt.setString(5, this.location.get());
+                stmt.setString(6, this.contact.get());
+                stmt.setString(7, this.url.get());
+                stmt.setTimestamp(8, Timestamp.valueOf(this.start.get()));
+                stmt.setTimestamp(9, Timestamp.valueOf(this.end.get()));
 
 
                 stmt.setString(10, super.getCreatedBy());
@@ -219,18 +220,18 @@ public class Appointment extends Model {
     }
 
     public LocalDateTime getStart() {
-        return start;
+        return start.get();
     }
 
     public LocalDateTime getEnd() {
-        return end;
+        return end.get();
     }
 
     public long getCustomerId() {
-        return customerId;
+        return customerId.get();
     }
 
     public long getAppointmentId() {
-        return appointmentId;
+        return appointmentId.get();
     }
 }
