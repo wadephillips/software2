@@ -6,16 +6,21 @@ import calendar.models.City;
 import calendar.models.Country;
 import calendar.models.Customer;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CustomersController extends MainController {
+
+    @FXML
+    private Button editCustomerButton;
 
     private CustomersTableController customersTableController = new CustomersTableController();
 
@@ -108,6 +113,9 @@ public class CustomersController extends MainController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../customersTable.fxml"));
             this.bodyPane.getChildren().addAll((Node) loader.load() );
             this.customersTableController = loader.getController();
+            this.customersTableController.getCustomerTableView().setOnMouseReleased(event -> {
+                this.editCustomerButton.setDisable(false);
+            });
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -53,6 +53,10 @@ public class CustomersTableController extends MainController {
         return customer;
     }
 
+    public TableView<Customer> getCustomerTableView() {
+        return customerTableView;
+    }
+
     public ObservableList<Customer> getCustomers() {
         return customers;
     }
