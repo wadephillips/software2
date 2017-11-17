@@ -1,4 +1,4 @@
-#Acme Calendar
+# Acme Calendar
 The **Acme Calendar** has three main sections, Calendars, Customers, and Reports.  Each has its own button at the top of the application window.
 
 
