@@ -94,16 +94,16 @@ public class Main extends Application {
 //        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
         Main.mainStage = primaryStage;
         //todo change back to login.fxml
-//        FXMLLoader root = new FXMLLoader(getClass().getResource("navigation.fxml"));
-        FXMLLoader root = new FXMLLoader(getClass().getResource("login.fxml"));
+        FXMLLoader root = new FXMLLoader(getClass().getResource("navigation.fxml"));
+//        FXMLLoader root = new FXMLLoader(getClass().getResource("login.fxml"));
         Scene scene = new Scene(root.load());
 
         //todo change back to Login Controller
-        LoginController controller = root.<LoginController>getController();
-//        MainController controller = root.getController();
-        controller.localize();
-//        controller.loadContent("monthCalendar.fxml");
-//        Main.setLoggedInUser(User.findById(4));
+//        LoginController controller = root.<LoginController>getController();
+        MainController controller = root.getController();
+//        controller.localize();
+        controller.loadContent("monthCalendar.fxml");
+        Main.setLoggedInUser(User.findById(4));
 
         primaryStage.setTitle("ACME Calendar");
         primaryStage.setScene(scene);

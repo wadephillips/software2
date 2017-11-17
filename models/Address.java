@@ -47,6 +47,8 @@ public class Address extends Model {
      */
     private StringProperty postalCode = new SimpleStringProperty();
 
+    private LongProperty countryId = new SimpleLongProperty();
+
     private StringProperty country = new SimpleStringProperty();
 
 
@@ -60,7 +62,7 @@ public class Address extends Model {
 
     }
 
-    public Address(long addressId, String address, String address2, long cityId, String postalCode, String phone, String createdBy, ZonedDateTime createDate, Instant lastUpdate, String lastUpdateby, String city, String country) {
+    public Address(long addressId, String address, String address2, long cityId, String postalCode, String phone, String createdBy, ZonedDateTime createDate, Instant lastUpdate, String lastUpdateby, String city, String country, long countryId) {
         super(createdBy, createDate, lastUpdate, lastUpdateby);
         this.setAddressId(addressId);
         this.setAddress(address);
@@ -70,6 +72,7 @@ public class Address extends Model {
         this.setPhone(phone);
         this.setCity(city);
         this.setCountry(country);
+        this.setCountryId(countryId);
     }
 
     public Address(String address, String address2, long cityId, String postalCode, String phone) {
@@ -135,12 +138,35 @@ public class Address extends Model {
     /**
      * method to persist changes on the entity to the database.
      *
-     * @param id
-     * @return
+     * @return this
      */
 
-    public Model update(int id) {
-        return null;
+    public Address update() throws Exception {
+
+        String sql = "UPDATE address SET address = ?, address2 = ?, cityId = ?, postalCode = ?, phone = ?, lastUpdateBy = ? " +
+                "WHERE addressId = ? ;";
+
+        try(Connection conn = DATASOURCE.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setString(1, this.getAddress());
+            stmt.setString(2, this.getAddress2());
+            stmt.setLong(3, this.getCityId());
+            stmt.setString(4, this.getPostalCode());
+            stmt.setString(5, this.getPhone());
+            stmt.setString(6, super.getLastUpdateby());
+            stmt.setLong(7, this.getAddressId());
+
+            int result = stmt.executeUpdate();
+
+            if (result == 0) {
+                throw new Exception("The database was unable to update the address");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return this;
     }
 
     /**
@@ -149,7 +175,11 @@ public class Address extends Model {
      * @return
      */
 
-    public Address save() {
+    public Address save() throws Exception {
+
+        if (this.addressId.get() > 0) {
+            return this.update();
+        }
 
         String sql = "INSERT INTO address (addressId, address, address2, cityId, postalCode, phone, createdBy, createDate, lastUpdate, lastUpdateBy) " +
                 "VALUES (?,?,?,?,?,?,?,?,?,?);";
@@ -286,6 +316,12 @@ public class Address extends Model {
     public void setCountry(String country) {
         this.country.set(country);
     }
+
+    public void setCountryId(long countryId) {
+        this.countryId.set(countryId);
+    }
+
+    public long getCountryId() { return this.countryId.get(); }
 
     public String getPhone() {
         return phone.get();
