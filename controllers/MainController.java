@@ -27,9 +27,14 @@ public class MainController extends BaseController {
     protected StackPane bodyPane;
 
 
-    public void showCalendar(ActionEvent actionEvent) throws IOException {
+    public void showCalendar(ActionEvent actionEvent) throws Exception {
 //        this.loadContent("calendarPane.fxml");
-        this.loadContent("monthCalendar.fxml");
+//        this.loadContent("monthCalendar.fxml");
+        this.bodyPane.getChildren().clear();
+        CalendarPane calendarPane = new CalendarPane();
+        calendarPane.showCalendarByMonth();
+        this.bodyPane.getChildren().add(calendarPane);
+
     }
 
     public void loadContent(String fxmlSourceFile) throws IOException {
