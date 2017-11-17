@@ -67,7 +67,7 @@ public class CalendarPane extends VBox {
         private TableColumn endColumn = new TableColumn();
 
     @FXML
-        private TableColumn custmerColumn = new TableColumn();
+        private TableColumn customerColumn = new TableColumn();
 
     @FXML
         private TableColumn contactColumn = new TableColumn();
@@ -90,6 +90,7 @@ public class CalendarPane extends VBox {
     private LocalDate lastDayOfDisplayedWeek;
 
     private int displayedWeekNumber;
+
 
     private ArrayList<KeyValuePair> customers = new ArrayList<>();
 
@@ -156,7 +157,16 @@ public class CalendarPane extends VBox {
         this.showByWeekButton.setUnderline(false);
         this.showByWeekButton.setDisable(false);
         this.setChangeButtons(CalendarType.MONTHLY);
+        this.appointmentTableView.getItems().clear();
 
+
+        //get appointments for the month
+        ArrayList<Appointment> apps = Appointment.getAllByYearMonth(this.firstDayOfDisplayedMonth);
+        apps.stream().forEach( a -> {
+            this.appointments = this.appointmentTableView.getItems();
+            this.appointments.add(a);
+        });
+        //load them into the TableView
 
 
 //        this.
@@ -182,6 +192,18 @@ public class CalendarPane extends VBox {
         this.showByMonthButton.setDisable(false);
         this.showByMonthButton.setUnderline(false);
         this.setChangeButtons(CalendarType.WEEKLY);
+        this.appointmentTableView.getItems().clear();
+
+        //get appointments for the week
+        ArrayList<Appointment> apps = Appointment.getAllByWeek(this.firstDayOfDisplayedWeek,this.lastDayOfDisplayedWeek);
+        apps.stream().forEach( a -> {
+            System.out.println();
+            this.appointments = this.appointmentTableView.getItems();
+            this.appointments.add(a);
+        });
+
+        //load them into the TableView
+
 //        FXMLLoader weekRoot = new FXMLLoader(getClass().getResource("../calendarWeek.fxml"));
 //        System.out.println(weekRoot.getLocation());
 //        this.bodyPane.getChildren().setAll(weekRoot);

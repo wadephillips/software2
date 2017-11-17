@@ -5,6 +5,8 @@ import javafx.beans.property.*;
 
 import java.sql.*;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.TimeZone;
 
@@ -31,6 +33,19 @@ public class Appointment extends Model {
 
     private ObjectProperty<LocalDateTime> end = new SimpleObjectProperty<>();
 
+    private StringProperty customerName = new SimpleStringProperty();
+
+    private StringProperty startTime = new SimpleStringProperty();
+
+    private StringProperty endTime = new SimpleStringProperty();
+
+    private SimpleStringProperty apptDate = new SimpleStringProperty();
+
+    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
+
+    private DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
+
+
     /**
      * Instantiate an empty instance
      */
@@ -48,6 +63,7 @@ public class Appointment extends Model {
         this.url.set(url);
         this.start.set(start);
         this.end.set(end);
+        this.formatDateTimes();
         this.checkAndSetCreate();
         this.checkAndSetUpdate();
     }
@@ -63,6 +79,13 @@ public class Appointment extends Model {
         this.url.set(url);
         this.start.set(start);
         this.end.set(end);
+        this.formatDateTimes();
+    }
+
+    private void formatDateTimes() {
+        this.apptDate.set(this.start.get().format(this.dateFormatter));
+        this.startTime.set(this.start.get().format(this.timeFormatter));
+        this.endTime.set(this.end.get().format(this.timeFormatter));
     }
 
     /**
@@ -233,5 +256,61 @@ public class Appointment extends Model {
 
     public long getAppointmentId() {
         return appointmentId.get();
+    }
+
+    public String getTitle() {
+        return title.get();
+    }
+
+    public StringProperty titleProperty() {
+        return title;
+    }
+
+    public String getContact() {
+        return contact.get();
+    }
+
+    public StringProperty contactProperty() {
+        return contact;
+    }
+
+    public String getCustomerName() {
+        return customerName.get();
+    }
+
+    public StringProperty customerNameProperty() {
+        return customerName;
+    }
+
+    public String getStartTime() {
+        return startTime.get();
+    }
+
+    public StringProperty startTimeProperty() {
+        return startTime;
+    }
+
+    public String getEndTime() {
+        return endTime.get();
+    }
+
+    public StringProperty endTimeProperty() {
+        return endTime;
+    }
+
+    public String getDescription() {
+        return description.get();
+    }
+
+    public StringProperty descriptionProperty() {
+        return description;
+    }
+
+    public String getApptDate() {
+        return apptDate.get();
+    }
+
+    public SimpleStringProperty apptDateProperty() {
+        return apptDate;
     }
 }
