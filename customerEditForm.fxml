@@ -41,7 +41,7 @@
             <Label text="Postal Code" />
              <TextField fx:id="postalCodeField" />
             <Label text="Country" />
-             <ChoiceBox fx:id="countryChoiceBox" />
+             <ChoiceBox fx:id="countryChoiceBox" disable="true" />
             <HBox alignment="CENTER_RIGHT">
                <children>
                   <Button fx:id="updateButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#updateCustomer" text="Update" visible="false" />
