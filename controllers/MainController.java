@@ -1,12 +1,14 @@
 package calendar.controllers;
 
 import calendar.Main;
+import calendar.components.CalendarPane;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
@@ -22,10 +24,11 @@ public class MainController extends BaseController {
     private Button reportsNavButton;
 
     @FXML
-    protected Pane bodyPane;
+    protected StackPane bodyPane;
 
 
     public void showCalendar(ActionEvent actionEvent) throws IOException {
+//        this.loadContent("calendarPane.fxml");
         this.loadContent("monthCalendar.fxml");
     }
 
@@ -43,5 +46,10 @@ public class MainController extends BaseController {
 
     public void showReports(ActionEvent actionEvent) throws IOException {
         this.loadContent("reports.fxml");
+    }
+
+    public void setBodyPaneChild(CalendarPane bodyPaneChild) {
+        this.bodyPane.getChildren().clear();
+        this.bodyPane.getChildren().add(bodyPaneChild);
     }
 }

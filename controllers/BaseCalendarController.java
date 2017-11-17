@@ -30,10 +30,8 @@ abstract public class BaseCalendarController extends BaseController {
     protected static LocalDate currentDate;
     @FXML
     public AnchorPane calendarPane;
-    protected LocalDate firstDayOfDisplayedMonth;
 
-    @FXML
-    protected Pane bodyPane;
+    protected LocalDate firstDayOfDisplayedMonth;
 
     protected ArrayList<KeyValuePair> customers = new ArrayList<>();
 

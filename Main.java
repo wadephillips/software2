@@ -1,5 +1,6 @@
 package calendar;
 
+import calendar.components.CalendarPane;
 import calendar.controllers.LoginController;
 import calendar.controllers.MainController;
 import calendar.models.User;
@@ -103,6 +104,10 @@ public class Main extends Application {
         MainController controller = root.getController();
 //        controller.localize();
         controller.loadContent("monthCalendar.fxml");
+        CalendarPane calendarPane = new CalendarPane();
+        calendarPane.showCalendarByMonth();
+        controller.setBodyPaneChild(calendarPane);
+
         Main.setLoggedInUser(User.findById(4));
 
         primaryStage.setTitle("ACME Calendar");
