@@ -3,6 +3,7 @@ package calendar.controllers;
 import calendar.models.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -41,6 +42,19 @@ public class CustomersTableController extends MainController {
             this.customers.add(customer);
         }
 
+    }
+
+    public Customer getSelectedCustomer() {
+        //get the selected customer
+        int index = this.customerTableView.getSelectionModel().getSelectedIndex();
+        //get the customer
+        Customer customer = customers.get(index);
+        //return the customer
+        return customer;
+    }
+
+    public ObservableList<Customer> getCustomers() {
+        return customers;
     }
 
     /**

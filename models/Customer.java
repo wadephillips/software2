@@ -76,7 +76,7 @@ public class Customer extends Model {
      * @return
      */
 
-    public Model find(int id) {
+    public Customer find(int id) {
         return null;
     }
 
@@ -87,7 +87,7 @@ public class Customer extends Model {
     public static List<Customer> findAll() {
         String sql ="SELECT customerId, customerName, cu.addressId, active, cu.createDate as customerCreateDate,\n" +
                 "  cu.createdBy as customerCreatedBy, cu.lastUpdate as customerLastUpdate, cu.lastUpdateBy  as customerLastUpdateBy,\n" +
-                "  address, address2, city, postalCode, phone, country, a.createDate as addressCreateDate, a.createdBy as addressCreatedBy,\n" +
+                "  address, address2, city, a.cityId, postalCode, phone, country, c.countryId, a.createDate as addressCreateDate, a.createdBy as addressCreatedBy,\n" +
                 "  a.lastUpdate as addressLastUpdate, a.lastUpdateBy as addressLastUpdateBy\n" +
                 "FROM customer cu\n" +
                 "JOIN address a\n" +
@@ -120,10 +120,11 @@ public class Customer extends Model {
         addressBuilder.setAddress(resultSet.getString("address"))
                 .setAddress2(resultSet.getString("address2"))
                 .setAddressId(resultSet.getLong("addressId"))
-//                .setCity(resultSet.getLong("cityId"))
+                .setCityId(resultSet.getLong("cityId"))
                 .setCity(resultSet.getString("city"))
                 .setPostalCode(resultSet.getString("postalCode"))
                 .setCountry(resultSet.getString("country"))
+                .setCountryId(resultSet.getLong("countryId"))
                 .setPhone(resultSet.getString("phone"))
                 .setCreatedBy(resultSet.getString("addressCreatedBy"))
                 .setLastUpdateBy(resultSet.getString("addressLastUpdateBy"))
@@ -150,12 +151,33 @@ public class Customer extends Model {
     /**
      * method to persist changes on the entity to the database.
      *
-     * @param id
-     * @return
+     *
+     * @return this
      */
 
-    public Model update(int id) {
-        return null;
+    public Customer update() throws Exception{
+
+        String sql = "UPDATE customer SET customerName = ?, addressId = ?, active = ?, lastUpdateBy = ? WHERE customerId = ?;";
+
+        try(Connection conn = DATASOURCE.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setString(1, this.getCustomerName());
+            stmt.setLong(2, this.getAddressId());
+            stmt.setInt(3, this.getActive());
+            stmt.setString(4, this.getLastUpdateby());
+            stmt.setLong(5, this.getCustomerId());
+
+            int result = stmt.executeUpdate();
+            if (result == 0) {
+                throw new Exception("The customer record didn't update");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return this;
     }
 
     /**
@@ -164,10 +186,10 @@ public class Customer extends Model {
      * @return
      */
 
-    public Customer save() {
+    public Customer save() throws Exception {
 
         if (this.customerId.get() > 0) {
-            //todo throw an exception
+            return this.update();
         }
 
         String sql = "INSERT INTO customer (customerId, customerName, addressId, active, createdBy, createDate, lastUpdate, lastUpdateBy) " +
@@ -251,6 +273,12 @@ public class Customer extends Model {
         return active.get();
     }
 
+    public boolean isActive() {
+        boolean custActive = false;
+        if (this.active.get() == 1) { custActive = true; }
+        return custActive;
+    }
+
     public IntegerProperty activeProperty() {
         return active;
     }
@@ -261,6 +289,10 @@ public class Customer extends Model {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public Address getAddress() {
+        return address;
     }
 
     public void setAddressString(String addressString) {

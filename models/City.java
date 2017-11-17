@@ -62,7 +62,22 @@ public class City extends Model {
      * @return
      */
 
-    public Model find(int id) {
+    public static City find(int id) {
+        String sql = "SELECT * FROM city WHERE cityId = ? ";
+
+        try(Connection conn = DATASOURCE.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setLong(1, id);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if (resultSet.first()){
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
