@@ -7,6 +7,8 @@ import calendar.models.Address;
 import calendar.models.City;
 import calendar.models.Country;
 import calendar.models.Customer;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,8 +18,10 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class CustomerEditFormController extends MainController {
 
@@ -188,6 +192,15 @@ public class CustomerEditFormController extends MainController {
         }
     }
 
+    @FXML
+    private void displayCountry(long cityId) {
+        long countryId = City.lookupCountryId(cityId);
+        if (countryId > 0) {
+            KeyValuePair country = countries.stream().filter(x -> x.getKey() == countryId).findFirst().get();
+            this.countryChoiceBox.setValue(country);
+        }
+    }
+
     private void setChoiceBoxOptions(List<KeyValuePair> list, ChoiceBox box){
             box.getItems().addAll(list);
     }
@@ -278,6 +291,25 @@ public class CustomerEditFormController extends MainController {
 
         stage.setScene(scene);
         stage.show();
+    }
+
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed.
+     *
+     * @param location  The location used to resolve relative paths for the root object, or
+     *                  <tt>null</tt> if the location is not known.
+     * @param resources The resources used to localize the root object, or <tt>null</tt> if
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+
+        this.cityChoiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            this.displayCountry(cities.get(newValue.intValue()).getKey());
+            System.out.println(observable);
+//          return cities.get(newValue.intValue());
+        });
     }
 }
 

@@ -175,4 +175,23 @@ public class City extends Model {
     public String getCity() {
         return city;
     }
+
+    public static long lookupCountryId(long cityId) {
+        long countryId = 0;
+        String sql = "SELECT countryId FROM city WHERE cityId = ?";
+
+        try(Connection conn = DATASOURCE.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setLong(1, cityId);
+            ResultSet resultSet = stmt.executeQuery();
+            if (resultSet.first()){
+                countryId = resultSet.getLong("countryId");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return countryId;
+    }
 }
