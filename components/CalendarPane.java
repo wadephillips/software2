@@ -2,6 +2,7 @@ package calendar.components;
 
 import calendar.Main;
 import calendar.controllers.MainController;
+import calendar.helpers.CalendarType;
 import calendar.helpers.KeyValuePair;
 import calendar.models.Appointment;
 import calendar.models.Customer;
@@ -43,10 +44,10 @@ public class CalendarPane extends VBox {
     public Button showByMonthButton;
 
     @FXML
-    public Button previousMonthButton;
+    public Button previousButton;
 
     @FXML
-    public Button nextMonthButton;
+    public Button nextButton;
 
     @FXML
     public Label monthYearLabel;
@@ -113,8 +114,16 @@ public class CalendarPane extends VBox {
         loader.load();
     }
 
+    private void showPreviousWeek() {
+        System.out.println("display the previous week");
+    }
+
+    private void showNextWeek() {
+        System.out.println("display the next week");
+    }
+
     @FXML
-    public void showPreviousMonth(ActionEvent actionEvent) {
+    public void showPreviousMonth() {
 
         System.out.println("Display the previous month");
 //        LocalDate firstOfPreviousMonth = this.firstDayOfDisplayedMonth.minusMonths(1);
@@ -125,7 +134,7 @@ public class CalendarPane extends VBox {
     }
 
     @FXML
-    public void showNextMonth(ActionEvent actionEvent) {
+    public void showNextMonth() {
         System.out.println("display the next month");
 //        LocalDate firstOfNextMonth = this.firstDayOfDisplayedMonth.plusMonths(1);
 //        this.displayMonthAndYear(firstOfNextMonth);
@@ -146,6 +155,7 @@ public class CalendarPane extends VBox {
         this.showByMonthButton.setUnderline(true);
         this.showByWeekButton.setUnderline(false);
         this.showByWeekButton.setDisable(false);
+        this.setChangeButtons(CalendarType.MONTHLY);
 
 
 
@@ -171,6 +181,7 @@ public class CalendarPane extends VBox {
         this.showByWeekButton.setDisable(true);
         this.showByMonthButton.setDisable(false);
         this.showByMonthButton.setUnderline(false);
+        this.setChangeButtons(CalendarType.WEEKLY);
 //        FXMLLoader weekRoot = new FXMLLoader(getClass().getResource("../calendarWeek.fxml"));
 //        System.out.println(weekRoot.getLocation());
 //        this.bodyPane.getChildren().setAll(weekRoot);
@@ -217,6 +228,21 @@ public class CalendarPane extends VBox {
                 "/" + lastDay.getMonthValue() + "/" + lastDay.getYear();
         this.monthYearLabel.setText(display);
 
+    }
+
+    private void setChangeButtons(CalendarType type) {
+        switch (type) {
+            case WEEKLY:
+                System.out.println("setting to weekly");
+                this.previousButton.setOnAction(event -> this.showPreviousWeek());
+                this.nextButton.setOnAction(event -> this.showNextWeek());
+                break;
+            case MONTHLY:
+                System.out.println("setting to monthly");
+                this.previousButton.setOnAction(event -> this.showPreviousMonth());
+                this.nextButton.setOnAction(event -> this.showNextMonth());
+                break;
+        }
     }
     /**
      * Initilization Methods

@@ -12,19 +12,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <fx:root fx:id="calendarPane" type="VBox" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane fx:id="calendarNavBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0">
          <children>
             <Group layoutX="14.0" layoutY="6.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="8.0">
                <children>
-                  <Button fx:id="previousMonthButton" mnemonicParsing="false" onAction="#showPreviousMonth" text="">
+                  <Button fx:id="previousButton" mnemonicParsing="false" onAction="#showPreviousMonth" text="">
                      <font>
                         <Font name="Font Awesome 5 Pro Regular" size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="nextMonthButton" layoutX="181.0" mnemonicParsing="false" onAction="#showNextMonth" text="">
+                  <Button fx:id="nextButton" layoutX="181.0" mnemonicParsing="false" onAction="#showNextMonth" text="">
                      <font>
                         <Font name="Font Awesome 5 Pro Regular" size="13.0" />
                      </font>
@@ -45,7 +44,7 @@
       </AnchorPane>
       <StackPane fx:id="calendarTablePane" prefHeight="150.0" prefWidth="200.0">
          <children>
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="appointmentTableView" prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date" />
                 <TableColumn fx:id="startColumn" prefWidth="75.0" text="Start Time" />
