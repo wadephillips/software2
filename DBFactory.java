@@ -17,7 +17,7 @@ public class DBFactory {
         MysqlDataSource dataSource = null;
         try{
             String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-            File file = new File(rootPath + "calendar/database.properties");
+            File file = new File(rootPath + "database.properties");
             fileInput = new FileInputStream(file);
 
             properties = new Properties();

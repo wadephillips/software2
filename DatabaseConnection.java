@@ -1,6 +1,5 @@
 package calendar;
 
-import javax.imageio.IIOException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,7 +32,7 @@ public class DatabaseConnection {
     private DatabaseConnection(){
         try {
             String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-            File file = new File(rootPath + "calendar/database.properties");
+            File file = new File(rootPath + "database.properties");
             FileInputStream fileInput = new FileInputStream(file);
 
             Properties properties = new Properties();
