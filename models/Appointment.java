@@ -1,5 +1,6 @@
 package calendar.models;
 
+import calendar.Main;
 import calendar.ModelDAO;
 import javafx.beans.property.*;
 
@@ -41,9 +42,11 @@ public class Appointment extends Model {
 
     private SimpleStringProperty apptDate = new SimpleStringProperty();
 
-    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
+//    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
+    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("eee, MMM-d", Main.getLocale());
 
-    private DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
+
+    private DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
 
 
     /**

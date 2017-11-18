@@ -116,31 +116,62 @@ public class CalendarPane extends VBox {
     }
 
     private void showPreviousWeek() {
-        System.out.println("display the previous week");
+
+        try {
+            System.out.println("display the previous week");
+            this.firstDayOfDisplayedWeek = this.firstDayOfDisplayedWeek.minusWeeks(1);
+            this.lastDayOfDisplayedWeek = this.lastDayOfDisplayedWeek.minusWeeks(1);
+            this.showCalendarByWeek();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        this.initWeekYearLabel(this.firstDayOfDisplayedMonth, this.lastDayOfDisplayedWeek);
+//        this.firstDayOfDisplayedWeek = firstOfPreviousWeek;
+//        this.lastDayOfDisplayedWeek = lastOfPreviousWeek;
+//        this.setWeekdayLabels();
     }
 
     private void showNextWeek() {
-        System.out.println("display the next week");
+
+        try {
+            System.out.println("display the next week");
+            this.firstDayOfDisplayedWeek = this.firstDayOfDisplayedWeek.plusWeeks(1);
+            this.lastDayOfDisplayedWeek = this.lastDayOfDisplayedWeek.plusWeeks(1);
+            this.showCalendarByWeek();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        this.initWeekYearLabel(firstOfNextWeek, lastOfNextWeek);
+//        this.firstDayOfDisplayedWeek = firstOfNextWeek;
+//        this.lastDayOfDisplayedWeek = lastOfNextWeek;
+//        this.setWeekdayLabels();
     }
 
     @FXML
     public void showPreviousMonth() {
-
-        System.out.println("Display the previous month");
-//        LocalDate firstOfPreviousMonth = this.firstDayOfDisplayedMonth.minusMonths(1);
-//        this.displayMonthAndYear(firstOfPreviousMonth);
-//        this.firstDayOfDisplayedMonth = firstOfPreviousMonth;
-//        this.setGridDates();
-
+        try {
+            System.out.println("Display the previous month");
+            LocalDate firstOfPreviousMonth = this.firstDayOfDisplayedMonth.minusMonths(1);
+            this.displayMonthAndYear(firstOfPreviousMonth);
+            this.firstDayOfDisplayedMonth = firstOfPreviousMonth;
+//        ArrayList<Appointment> apps = Appointment.getAllByYearMonth(this.firstDayOfDisplayedMonth);
+            showCalendarByMonth();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     public void showNextMonth() {
-        System.out.println("display the next month");
-//        LocalDate firstOfNextMonth = this.firstDayOfDisplayedMonth.plusMonths(1);
-//        this.displayMonthAndYear(firstOfNextMonth);
-//        this.firstDayOfDisplayedMonth = firstOfNextMonth;
-//        this.setGridDates();
+        try {
+            System.out.println("display the next month");
+            LocalDate firstOfNextMonth = this.firstDayOfDisplayedMonth.plusMonths(1);
+            this.displayMonthAndYear(firstOfNextMonth);
+            this.firstDayOfDisplayedMonth = firstOfNextMonth;
+            showCalendarByMonth();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void showCalendarByMonth() throws Exception {
@@ -150,7 +181,6 @@ public class CalendarPane extends VBox {
 
     @FXML
     public void showCalendarByMonth(ActionEvent actionEvent) throws Exception {
-        //todo probably don't need to reload the entire pane.  We nca probably just change some things: button actions/displayed monthYear/reload the table
         this.displayMonthAndYear();
         this.showByMonthButton.setDisable(true);
         this.showByMonthButton.setUnderline(true);
@@ -166,26 +196,16 @@ public class CalendarPane extends VBox {
             this.appointments = this.appointmentTableView.getItems();
             this.appointments.add(a);
         });
-        //load them into the TableView
+    }
 
-
-//        this.
-//        Stage mainStage = Main.getMainStage();
-//        FXMLLoader root = new FXMLLoader(getClass().getResource("../navigation.fxml"));
-//
-//        Scene scene = new Scene(root.load());
-//
-//        MainController controller = root.getController();
-//        CalendarPane calendarPane = new CalendarPane();
-//        controller.setBodyPaneChild(calendarPane);
-////        controller.loadContent("monthCalendar.fxml");
-////
-//        mainStage.setScene(scene);
-//        mainStage.show();
+    private void showCalendarByWeek() throws IOException {
+        ActionEvent ae = new ActionEvent();
+        this.showCalendarByWeek(ae);
     }
 
     @FXML
     public void showCalendarByWeek(ActionEvent actionEvent) throws IOException {
+        System.out.println(this.firstDayOfDisplayedWeek + " | " + this.lastDayOfDisplayedWeek);
         this.displayWeekYearLabel();
         this.showByWeekButton.setUnderline(true);
         this.showByWeekButton.setDisable(true);
@@ -201,22 +221,6 @@ public class CalendarPane extends VBox {
             this.appointments = this.appointmentTableView.getItems();
             this.appointments.add(a);
         });
-
-        //load them into the TableView
-
-//        FXMLLoader weekRoot = new FXMLLoader(getClass().getResource("../calendarWeek.fxml"));
-//        System.out.println(weekRoot.getLocation());
-//        this.bodyPane.getChildren().setAll(weekRoot);
-//        Parent parent = Main.getMainStage().getScene().getRoot();
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("../calendarWeek.fxml"));
-//        this.calendarPane.getChildren().clear();
-//        this.calendarPane.getChildren().add((Node) loader.load());
-
-
-
-
-//        this.bodyPane.getChildren().clear();
-//        this.bodyPane.getChildren().add((Node) FXMLLoader.load(getClass().getResource("../calendarWeek.fxml")));
     }
 
 
@@ -247,20 +251,19 @@ public class CalendarPane extends VBox {
             isSameYear = "/" + firstDay.getYear();
         }
         String display = firstDay.getMonthValue() + "/" + firstDay.getDayOfMonth()+ isSameYear + " - " + lastDay.getMonthValue() +
-                "/" + lastDay.getMonthValue() + "/" + lastDay.getYear();
+                "/" + lastDay.getDayOfMonth() + "/" + lastDay.getYear();
         this.monthYearLabel.setText(display);
 
     }
 
+
     private void setChangeButtons(CalendarType type) {
         switch (type) {
             case WEEKLY:
-                System.out.println("setting to weekly");
                 this.previousButton.setOnAction(event -> this.showPreviousWeek());
                 this.nextButton.setOnAction(event -> this.showNextWeek());
                 break;
             case MONTHLY:
-                System.out.println("setting to monthly");
                 this.previousButton.setOnAction(event -> this.showPreviousMonth());
                 this.nextButton.setOnAction(event -> this.showNextMonth());
                 break;
@@ -291,5 +294,7 @@ public class CalendarPane extends VBox {
         TemporalField weekOfYear = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
         this.displayedWeekNumber = currentDate.get(weekOfYear);
     }
+
+
 
 }
