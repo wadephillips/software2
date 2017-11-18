@@ -13,14 +13,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -31,6 +29,7 @@ import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 public class CalendarPane extends VBox {
 
@@ -113,6 +112,9 @@ public class CalendarPane extends VBox {
         loader.setController(this);
 
         loader.load();
+
+        initTimes();
+        initCustomers();
     }
 
     private void showPreviousWeek() {
@@ -223,6 +225,49 @@ public class CalendarPane extends VBox {
         });
     }
 
+    @FXML
+    private void addAppointment(ActionEvent actionEvent) {
+        try {
+            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, LocalDate.now(), LocalTime.now());
+
+            ButtonType saveButtonType = dialog.getSaveButtonType();
+
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == saveButtonType) {
+                    Appointment appointment = dialog.getAppointment();
+                    appointment.save();
+                    return appointment;
+                } else {
+                    System.out.println("cancel");
+                    return null;
+                }
+            });
+
+            Optional<Appointment> appointment = dialog.showAndWait();
+            if (appointment.isPresent()){
+                System.out.println("Insert appt into grid");
+                //todo next - need to insert the appt into the tableview or reload the appts
+//                this.insertAppointmentBlob(box, appointment.get());
+            } else {
+                System.out.println("Nothing to do right now");
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void editAppointment(ActionEvent actionEvent) {
+
+    }
+
+    @FXML
+    private void deleteAppointment(ActionEvent actionEvent) {
+
+    }
+
 
     /**
      * Scene Setup Methods
@@ -294,6 +339,8 @@ public class CalendarPane extends VBox {
         TemporalField weekOfYear = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
         this.displayedWeekNumber = currentDate.get(weekOfYear);
     }
+
+
 
 
 
