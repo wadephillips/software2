@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
@@ -17,25 +18,55 @@
    <children>
       <AnchorPane fx:id="calendarNavBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0">
          <children>
-            <Group layoutX="14.0" layoutY="6.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="8.0">
+            <Group layoutX="14.0" layoutY="6.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="8.0">
                <children>
                   <Button fx:id="previousButton" mnemonicParsing="false" onAction="#showPreviousMonth" text="">
                      <font>
                         <Font name="Font Awesome 5 Pro Regular" size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="nextButton" layoutX="181.0" mnemonicParsing="false" onAction="#showNextMonth" text="">
+                  <Button fx:id="nextButton" layoutX="28.0" mnemonicParsing="false" onAction="#showNextMonth" text="">
                      <font>
                         <Font name="Font Awesome 5 Pro Regular" size="13.0" />
                      </font>
                   </Button>
-                  <Label fx:id="monthYearLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="60.0" layoutY="4.0" styleClass="monthDay" text="Month" />
+                  <Label fx:id="monthYearLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="60.0" layoutY="4.0" prefHeight="17.0" prefWidth="187.0" styleClass="monthDay" text="Month" />
+                  <Button fx:id="addAppointmentButton" layoutX="298.0" layoutY="-1.0" mnemonicParsing="false" onAction="#addAppointment" text="" textAlignment="CENTER">
+                     <tooltip>
+                        <Tooltip text="Add Appointment" />
+                     </tooltip>
+                     <font>
+                        <Font name="Font Awesome 5 Pro Regular" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="editAppointmentButton" disable="true" layoutX="332.0" layoutY="-1.0" mnemonicParsing="false" onAction="#editAppointment" text="" textAlignment="CENTER">
+                     <tooltip>
+                        <Tooltip text="Edit Appointment" />
+                     </tooltip>
+                     <font>
+                        <Font name="Font Awesome 5 Pro Regular" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="deleteAppointmentButton1" disable="true" layoutX="366.0" layoutY="-1.0" mnemonicParsing="false" onAction="#deleteAppointment" text="" textAlignment="CENTER">
+                     <tooltip>
+                        <Tooltip text="Delete Appointment" />
+                     </tooltip>
+                     <font>
+                        <Font name="Font Awesome 5 Pro Regular" size="14.0" />
+                     </font>
+                  </Button>
                </children>
             </Group>
-            <ButtonBar prefHeight="40.0" prefWidth="200.0" AnchorPane.rightAnchor="0.0">
+            <ButtonBar prefHeight="40.0" prefWidth="166.0" AnchorPane.rightAnchor="0.0">
                <buttons>
-                  <Button fx:id="showByWeekButton" mnemonicParsing="false" onAction="#showCalendarByWeek" text="Week" />
-                  <Button fx:id="showByMonthButton" disable="true" mnemonicParsing="false" onAction="#showCalendarByMonth" text="Month" textFill="#1c50eb" underline="true" />
+                  <Button fx:id="showByWeekButton" mnemonicParsing="false" onAction="#showCalendarByWeek" text="Week">
+                     <tooltip>
+                        <Tooltip text="Empty Tooltip" />
+                     </tooltip></Button>
+                  <Button fx:id="showByMonthButton" disable="true" mnemonicParsing="false" onAction="#showCalendarByMonth" text="Month" textFill="#1c50eb" underline="true">
+                     <tooltip>
+                        <Tooltip text="Empty Tooltip" />
+                     </tooltip></Button>
                </buttons>
                <padding>
                   <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
