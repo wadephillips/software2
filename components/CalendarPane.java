@@ -20,16 +20,11 @@ import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
 public class CalendarPane extends VBox {
 
@@ -228,6 +223,17 @@ public class CalendarPane extends VBox {
     @FXML
     private void addAppointment(ActionEvent actionEvent) {
         try {
+//            ZoneId zoneId = Main.getZone();
+//            ZoneOffset offset = zoneId.getRules().getOffset(LocalDateTime.now());
+//            Comparator<Appointment> comparator = (a1, a2) -> { a1.getStart().toInstant(offset).compareTo(a2.getStart().toInstant(offset))  };
+//            for (Appointment a :
+//                    appointments) {
+//
+//                System.out.print(a.getStart() + " | ");
+//                    System.out.println(a.getStart().compareTo(LocalDateTime.of(2017, 11, 18, 12,00)));
+//            }
+
+
             AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, LocalDate.now(), LocalTime.now());
 
             ButtonType saveButtonType = dialog.getSaveButtonType();
@@ -247,6 +253,11 @@ public class CalendarPane extends VBox {
             if (appointment.isPresent()){
                 System.out.println("Insert appt into grid");
                 //todo next - need to insert the appt into the tableview or reload the appts
+                Appointment appt = appointment.get();
+                Appointment apptAfter = appointments.stream().filter(a -> a.getStart().compareTo(appt.getStart()) == 1).findFirst().get();
+                int index = appointments.indexOf(apptAfter);
+                this.appointments = this.appointmentTableView.getItems();
+                this.appointments.add(index, appt);
 //                this.insertAppointmentBlob(box, appointment.get());
             } else {
                 System.out.println("Nothing to do right now");
