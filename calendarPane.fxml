@@ -47,7 +47,7 @@
                         <Font name="Font Awesome 5 Pro Regular" size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="deleteAppointmentButton1" disable="true" layoutX="366.0" layoutY="-1.0" mnemonicParsing="false" onAction="#deleteAppointment" text="" textAlignment="CENTER">
+                  <Button fx:id="deleteAppointmentButton" disable="true" layoutX="366.0" layoutY="-1.0" mnemonicParsing="false" onAction="#deleteAppointment" text="" textAlignment="CENTER">
                      <tooltip>
                         <Tooltip text="Delete Appointment" />
                      </tooltip>

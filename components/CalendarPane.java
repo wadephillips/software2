@@ -38,6 +38,12 @@ public class CalendarPane extends VBox {
     public Button showByMonthButton;
 
     @FXML
+    private Button editAppointmentButton;
+
+    @FXML
+    private Button deleteAppointmentButton;
+
+    @FXML
     public Button previousButton;
 
     @FXML
@@ -108,6 +114,11 @@ public class CalendarPane extends VBox {
 
         loader.load();
 
+        this.appointmentTableView.setOnMouseReleased(event -> {
+            this.editAppointmentButton.setDisable(false);
+            this.deleteAppointmentButton.setDisable(false);
+        });
+
         initTimes();
         initCustomers();
     }
@@ -122,10 +133,7 @@ public class CalendarPane extends VBox {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        this.initWeekYearLabel(this.firstDayOfDisplayedMonth, this.lastDayOfDisplayedWeek);
-//        this.firstDayOfDisplayedWeek = firstOfPreviousWeek;
-//        this.lastDayOfDisplayedWeek = lastOfPreviousWeek;
-//        this.setWeekdayLabels();
+
     }
 
     private void showNextWeek() {
@@ -138,10 +146,7 @@ public class CalendarPane extends VBox {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        this.initWeekYearLabel(firstOfNextWeek, lastOfNextWeek);
-//        this.firstDayOfDisplayedWeek = firstOfNextWeek;
-//        this.lastDayOfDisplayedWeek = lastOfNextWeek;
-//        this.setWeekdayLabels();
+
     }
 
     @FXML
@@ -223,16 +228,6 @@ public class CalendarPane extends VBox {
     @FXML
     private void addAppointment(ActionEvent actionEvent) {
         try {
-//            ZoneId zoneId = Main.getZone();
-//            ZoneOffset offset = zoneId.getRules().getOffset(LocalDateTime.now());
-//            Comparator<Appointment> comparator = (a1, a2) -> { a1.getStart().toInstant(offset).compareTo(a2.getStart().toInstant(offset))  };
-//            for (Appointment a :
-//                    appointments) {
-//
-//                System.out.print(a.getStart() + " | ");
-//                    System.out.println(a.getStart().compareTo(LocalDateTime.of(2017, 11, 18, 12,00)));
-//            }
-
 
             AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, LocalDate.now(), LocalTime.now());
 
@@ -252,13 +247,11 @@ public class CalendarPane extends VBox {
             Optional<Appointment> appointment = dialog.showAndWait();
             if (appointment.isPresent()){
                 System.out.println("Insert appt into grid");
-                //todo next - need to insert the appt into the tableview or reload the appts
                 Appointment appt = appointment.get();
                 Appointment apptAfter = appointments.stream().filter(a -> a.getStart().compareTo(appt.getStart()) == 1).findFirst().get();
                 int index = appointments.indexOf(apptAfter);
                 this.appointments = this.appointmentTableView.getItems();
                 this.appointments.add(index, appt);
-//                this.insertAppointmentBlob(box, appointment.get());
             } else {
                 System.out.println("Nothing to do right now");
             }
@@ -272,11 +265,26 @@ public class CalendarPane extends VBox {
     @FXML
     private void editAppointment(ActionEvent actionEvent) {
 
+        System.out.println("edit that shit");
     }
 
     @FXML
     private void deleteAppointment(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Appointment");
+        alert.setHeaderText("Are you sure?");
+        alert.setContentText("You're about to delete this appointment forever, this cannot be undone. ");
 
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.get() == ButtonType.OK) {
+            Appointment appointment = this.appointmentTableView.getSelectionModel().getSelectedItem();
+            boolean deleted = appointment.delete();
+            if(deleted){
+                this.appointments = this.appointmentTableView.getItems();
+                this.appointments.remove(appointment);
+            }
+        }
     }
 
 

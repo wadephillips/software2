@@ -238,11 +238,25 @@ public class Appointment extends Model {
     /**
      * method to delete the entitie's record from the database.
      *
-     * @param id
-     * @return
+     * @return boolean
      */
-    public Model delete(int id) {
-        return null;
+    public boolean delete() {
+        boolean deleted = false;
+
+        String sql = "DELETE FROM appointment WHERE appointmentId = " + this.appointmentId.get();
+
+        try(Connection conn = DATASOURCE.getConnection();
+            Statement stmt = conn.createStatement()) {
+            int result = stmt.executeUpdate(sql);
+
+            if (result == 1) deleted = true;
+            else throw new RuntimeException("Could not delete appointment " + this.getAppointmentId() + " from DB");
+
+            } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return deleted;
     }
 
     public LocalDateTime getStart() {
