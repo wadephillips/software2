@@ -2,6 +2,7 @@ package calendar.components;
 
 import calendar.Main;
 import calendar.controllers.MainController;
+import calendar.helpers.AppointmentType;
 import calendar.helpers.CalendarType;
 import calendar.helpers.KeyValuePair;
 import calendar.models.Appointment;
@@ -20,16 +21,11 @@ import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
 public class CalendarPane extends VBox {
 
@@ -41,6 +37,12 @@ public class CalendarPane extends VBox {
 
     @FXML
     public Button showByMonthButton;
+
+    @FXML
+    private Button editAppointmentButton;
+
+    @FXML
+    private Button deleteAppointmentButton;
 
     @FXML
     public Button previousButton;
@@ -113,6 +115,11 @@ public class CalendarPane extends VBox {
 
         loader.load();
 
+        this.appointmentTableView.setOnMouseReleased(event -> {
+            this.editAppointmentButton.setDisable(false);
+            this.deleteAppointmentButton.setDisable(false);
+        });
+
         initTimes();
         initCustomers();
     }
@@ -127,10 +134,7 @@ public class CalendarPane extends VBox {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        this.initWeekYearLabel(this.firstDayOfDisplayedMonth, this.lastDayOfDisplayedWeek);
-//        this.firstDayOfDisplayedWeek = firstOfPreviousWeek;
-//        this.lastDayOfDisplayedWeek = lastOfPreviousWeek;
-//        this.setWeekdayLabels();
+
     }
 
     private void showNextWeek() {
@@ -143,10 +147,7 @@ public class CalendarPane extends VBox {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        this.initWeekYearLabel(firstOfNextWeek, lastOfNextWeek);
-//        this.firstDayOfDisplayedWeek = firstOfNextWeek;
-//        this.lastDayOfDisplayedWeek = lastOfNextWeek;
-//        this.setWeekdayLabels();
+
     }
 
     @FXML
@@ -228,6 +229,7 @@ public class CalendarPane extends VBox {
     @FXML
     private void addAppointment(ActionEvent actionEvent) {
         try {
+
             AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, LocalDate.now(), LocalTime.now());
 
             ButtonType saveButtonType = dialog.getSaveButtonType();
@@ -246,8 +248,8 @@ public class CalendarPane extends VBox {
             Optional<Appointment> appointment = dialog.showAndWait();
             if (appointment.isPresent()){
                 System.out.println("Insert appt into grid");
-                //todo next - need to insert the appt into the tableview or reload the appts
-//                this.insertAppointmentBlob(box, appointment.get());
+                Appointment appt = appointment.get();
+                compareAndInsertInTable(appt);
             } else {
                 System.out.println("Nothing to do right now");
             }
@@ -258,14 +260,80 @@ public class CalendarPane extends VBox {
         }
     }
 
+
+
     @FXML
     private void editAppointment(ActionEvent actionEvent) {
+        try {
+            Appointment selectedAppt = this.appointmentTableView.getSelectionModel().getSelectedItem();
+            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, LocalDate.now(), LocalTime.now());
+            AppointmentDialogPane adp = dialog.getPane();
+            adp.setTitleTextField(selectedAppt.getTitle());
+            adp.getDescriptionComboBox().setValue((AppointmentType.valueOf(selectedAppt.getDescription())));
+            adp.setLocationTextField(selectedAppt.getLocation());
+            adp.setContactTextField(selectedAppt.getContact());
+            adp.setUrlTextField(selectedAppt.getUrl());
 
+            Optional<KeyValuePair> result = this.customers.stream().filter(c -> c.getKey() == selectedAppt.getCustomerId()).findFirst();
+            if (result.isPresent()) {
+                adp.getCustomerComboBox().setValue(result.get());
+            }
+
+            adp.getApptDatePicker().setValue(selectedAppt.getStart().toLocalDate());
+            adp.getStartTimeComboBox().setValue(selectedAppt.getStart().toLocalTime());
+            adp.getEndTimeComboBox().setValue(selectedAppt.getEnd().toLocalTime());
+
+
+            long appointmentId = selectedAppt.getAppointmentId();
+            ButtonType saveButtonType = dialog.getSaveButtonType();
+
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == saveButtonType) {
+                    Appointment appointment = dialog.getAppointment();
+                    appointment.setAppointmentId(appointmentId);
+                    appointment.save();
+                    return appointment;
+                } else {
+                    System.out.println("cancel");
+                    return null;
+                }
+            });
+
+            Optional<Appointment> appointment = dialog.showAndWait();
+            if (appointment.isPresent()){
+                int initalIndex = this.appointmentTableView.getSelectionModel().getSelectedIndex();
+                this.appointments.remove(initalIndex);
+                compareAndInsertInTable(appointment.get());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void compareAndInsertInTable(Appointment appt) {
+        Appointment apptAfter = appointments.stream().filter(a -> a.getStart().compareTo(appt.getStart()) == 1).findFirst().get();
+        int index = appointments.indexOf(apptAfter);
+        this.appointments = this.appointmentTableView.getItems();
+        this.appointments.add(index, appt);
     }
 
     @FXML
     private void deleteAppointment(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Appointment");
+        alert.setHeaderText("Are you sure?");
+        alert.setContentText("You're about to delete this appointment forever, this cannot be undone. ");
 
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.get() == ButtonType.OK) {
+            Appointment appointment = this.appointmentTableView.getSelectionModel().getSelectedItem();
+            boolean deleted = appointment.delete();
+            if(deleted){
+                this.appointments = this.appointmentTableView.getItems();
+                this.appointments.remove(appointment);
+            }
+        }
     }
 
 

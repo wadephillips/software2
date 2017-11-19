@@ -75,7 +75,7 @@ public class CustomersController extends MainController {
                  ) {
                 if (c.getKey() == address.getCityId()) {
                     city = c;
-                    System.out.println(city.toString());
+//                    System.out.println(city.toString());
                 }
             }
             this.customerEditFormController.getCityChoiceBox().setValue(city);

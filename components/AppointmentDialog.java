@@ -87,4 +87,8 @@ public class AppointmentDialog extends Dialog {
     public void setTimes(List<LocalTime> times) {
         this.times = times;
     }
+
+    public AppointmentDialogPane getPane() {
+        return pane;
+    }
 }

@@ -69,12 +69,12 @@ public class AppointmentDialogPane extends DialogPane {
         return titleTextField;
     }
 
-    public void setTitleTextField(TextField titleTextField) {
-        this.titleTextField = titleTextField;
+    public void setTitleTextField(String titleText) {
+        this.titleTextField.setText(titleText);
     }
 
-    public void setLocationTextField(TextField locationTextField) {
-        this.locationTextField = locationTextField;
+    public void setLocationTextField(String locationText) {
+        this.locationTextField.setText(locationText);
     }
 
     public ComboBox<AppointmentType> getDescriptionComboBox() {
@@ -89,16 +89,16 @@ public class AppointmentDialogPane extends DialogPane {
         return contactTextField;
     }
 
-    public void setContactTextField(TextField contactTextField) {
-        this.contactTextField = contactTextField;
+    public void setContactTextField(String contactText) {
+        this.contactTextField.setText(contactText);
     }
 
     public TextField getUrlTextField() {
         return urlTextField;
     }
 
-    public void setUrlTextField(TextField urlTextField) {
-        this.urlTextField = urlTextField;
+    public void setUrlTextField(String urlText) {
+        this.urlTextField.setText(urlText);
     }
 
     public ComboBox<KeyValuePair> getCustomerComboBox() {
@@ -172,4 +172,7 @@ public class AppointmentDialogPane extends DialogPane {
 //        System.out.println(list + " : " + box);
         box.getItems().addAll(list);
     }
+
+
+
 }

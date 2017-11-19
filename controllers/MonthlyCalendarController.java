@@ -395,17 +395,17 @@ public class MonthlyCalendarController extends BaseCalendarController {
 
             ButtonType saveButtonType = dialog.getSaveButtonType();
 
-            dialog.setResultConverter(dialogButton -> {
-
-                if (dialogButton == saveButtonType) {
-                    Appointment appointment = dialog.getAppointment();
-                    appointment.save();
-                    return appointment;
-                } else {
-                    System.out.println("cancel");
-                    return null;
-                }
-            });
+//            dialog.setResultConverter(dialogButton -> {
+//
+//                if (dialogButton == saveButtonType) {
+//                    Appointment appointment = dialog.getAppointment();
+//                    appointment.save();
+//                    return appointment;
+//                } else {
+//                    System.out.println("cancel");
+//                    return null;
+//                }
+//            });
 
             Optional<Appointment> appointment = dialog.showAndWait();
             if (appointment.isPresent()){
