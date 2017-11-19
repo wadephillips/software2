@@ -168,11 +168,42 @@ public class Appointment extends Model {
     /**
      * method to persist changes on the entity to the database.
      *
-     * @param id
      * @return
      */
-    public Model update(int id) {
-        return null;
+    private Appointment update() {
+
+        String sql = "UPDATE appointment SET customerId = ?, title = ?, description = ?, " +
+                "location = ?, contact = ?, url = ?, start = ?, end = ?, lastUpdateBy = ?" +
+                "WHERE appointmentId = ? ";
+
+        try(Connection conn = DATASOURCE.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setLong(1, this.customerId.get());
+            stmt.setString(2, this.title.get());
+            stmt.setString(3, this.description.get());
+            stmt.setString(4, this.location.get());
+            stmt.setString(5, this.contact.get());
+            stmt.setString(6, this.url.get());
+            stmt.setTimestamp(7, Timestamp.valueOf(this.start.get()));
+            stmt.setTimestamp(8, Timestamp.valueOf(this.end.get()));
+
+            stmt.setString(9, Main.getLoggedInUser().getUserName());
+            stmt.setLong(10, this.appointmentId.get());
+
+
+
+
+            int result = stmt.executeUpdate();
+
+            if (result == 0) {
+                throw new RuntimeException(("The appointment didn't update in the db"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return this;
     }
 
     /**
@@ -182,7 +213,7 @@ public class Appointment extends Model {
      */
     public Appointment save() {
         if (this.appointmentId.get() > 0) {
-            //todo throw an exception
+            return this.update();
         }
 
         if(this.customerId.get() <= 0){
@@ -330,4 +361,21 @@ public class Appointment extends Model {
     public SimpleStringProperty apptDateProperty() {
         return apptDate;
     }
+
+    public String getLocation() {
+        return location.get();
+    }
+
+    public StringProperty locationProperty() {
+        return location;
+    }
+
+    public String getUrl() {
+        return url.get();
+    }
+
+    public void setAppointmentId(long appointmentId) {
+        this.appointmentId.set(appointmentId);
+    }
 }
+

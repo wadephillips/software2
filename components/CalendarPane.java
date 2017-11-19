@@ -2,6 +2,7 @@ package calendar.components;
 
 import calendar.Main;
 import calendar.controllers.MainController;
+import calendar.helpers.AppointmentType;
 import calendar.helpers.CalendarType;
 import calendar.helpers.KeyValuePair;
 import calendar.models.Appointment;
@@ -248,10 +249,7 @@ public class CalendarPane extends VBox {
             if (appointment.isPresent()){
                 System.out.println("Insert appt into grid");
                 Appointment appt = appointment.get();
-                Appointment apptAfter = appointments.stream().filter(a -> a.getStart().compareTo(appt.getStart()) == 1).findFirst().get();
-                int index = appointments.indexOf(apptAfter);
-                this.appointments = this.appointmentTableView.getItems();
-                this.appointments.add(index, appt);
+                compareAndInsertInTable(appt);
             } else {
                 System.out.println("Nothing to do right now");
             }
@@ -262,10 +260,61 @@ public class CalendarPane extends VBox {
         }
     }
 
+
+
     @FXML
     private void editAppointment(ActionEvent actionEvent) {
+        try {
+            Appointment selectedAppt = this.appointmentTableView.getSelectionModel().getSelectedItem();
+            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, LocalDate.now(), LocalTime.now());
+            AppointmentDialogPane adp = dialog.getPane();
+            adp.setTitleTextField(selectedAppt.getTitle());
+            adp.getDescriptionComboBox().setValue((AppointmentType.valueOf(selectedAppt.getDescription())));
+            adp.setLocationTextField(selectedAppt.getLocation());
+            adp.setContactTextField(selectedAppt.getContact());
+            adp.setUrlTextField(selectedAppt.getUrl());
 
-        System.out.println("edit that shit");
+            Optional<KeyValuePair> result = this.customers.stream().filter(c -> c.getKey() == selectedAppt.getCustomerId()).findFirst();
+            if (result.isPresent()) {
+                adp.getCustomerComboBox().setValue(result.get());
+            }
+
+            adp.getApptDatePicker().setValue(selectedAppt.getStart().toLocalDate());
+            adp.getStartTimeComboBox().setValue(selectedAppt.getStart().toLocalTime());
+            adp.getEndTimeComboBox().setValue(selectedAppt.getEnd().toLocalTime());
+
+
+            long appointmentId = selectedAppt.getAppointmentId();
+            ButtonType saveButtonType = dialog.getSaveButtonType();
+
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == saveButtonType) {
+                    Appointment appointment = dialog.getAppointment();
+                    appointment.setAppointmentId(appointmentId);
+                    appointment.save();
+                    return appointment;
+                } else {
+                    System.out.println("cancel");
+                    return null;
+                }
+            });
+
+            Optional<Appointment> appointment = dialog.showAndWait();
+            if (appointment.isPresent()){
+                int initalIndex = this.appointmentTableView.getSelectionModel().getSelectedIndex();
+                this.appointments.remove(initalIndex);
+                compareAndInsertInTable(appointment.get());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void compareAndInsertInTable(Appointment appt) {
+        Appointment apptAfter = appointments.stream().filter(a -> a.getStart().compareTo(appt.getStart()) == 1).findFirst().get();
+        int index = appointments.indexOf(apptAfter);
+        this.appointments = this.appointmentTableView.getItems();
+        this.appointments.add(index, appt);
     }
 
     @FXML
