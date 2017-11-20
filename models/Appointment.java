@@ -71,10 +71,11 @@ public class Appointment extends Model {
         this.checkAndSetUpdate();
     }
 
-    public Appointment(long appointmentId, long customerId, String title, String description, String location, String contact, String url, LocalDateTime start, LocalDateTime end, String createdBy, ZonedDateTime createDate, Instant lastUpdate, String lastUpdateby) {
+    public Appointment(long appointmentId, long customerId, String customerName, String title, String description, String location, String contact, String url, LocalDateTime start, LocalDateTime end, String createdBy, ZonedDateTime createDate, Instant lastUpdate, String lastUpdateby) {
         super(createdBy, createDate, lastUpdate, lastUpdateby);
         this.appointmentId.set(appointmentId);
         this.customerId.set(customerId);
+        this.customerName.set(customerName);
         this.title.set(title);
         this.description.set(description);
         this.location.set(location);
@@ -119,7 +120,7 @@ public class Appointment extends Model {
         String baseYearMonth = baseDate.getYear() + "-"+ baseDate.getMonthValue();
 
         String consultantName = Main.getLoggedInUser().getUserName();
-        String sql = "SELECT * FROM appointment WHERE createdBy = '" + consultantName + "' AND DATE_FORMAT(start, '%Y-%m') = '" + baseYearMonth + "' ORDER BY start;";
+        String sql = "SELECT a.*, c.customerName FROM appointment as a INNER JOIN customer as c ON a.customerId = c.customerId WHERE a.createdBy = '" + consultantName + "' AND DATE_FORMAT(start, '%Y-%m') = '" + baseYearMonth + "' ORDER BY start;";
 //        System.out.println(sql);
         ArrayList<Appointment> list = getAppointments(zone, sql);
         return list;
@@ -130,7 +131,7 @@ public class Appointment extends Model {
         ZoneId zone = ZoneId.systemDefault();
 //        String baseYearMonth = baseDate.getYear() + "-"+ baseDate.getMonthValue();
         String consultantName = Main.getLoggedInUser().getUserName();
-        String sql = "SELECT * FROM appointment WHERE createdBy = '" + consultantName + "' AND start >= '" + startOfWeek + "' AND end <= '" + endOfWeek + "' ORDER by start;";
+        String sql = "SELECT a.*, c.customerName FROM appointment as a INNER JOIN customer as c ON a.customerId = c.customerId WHERE a.createdBy = '" + consultantName + "' AND start >= '" + startOfWeek + "' AND end <= '" + endOfWeek + "' ORDER by start;";
 //        System.out.println(sql);
         ArrayList<Appointment> list = getAppointments(zone, sql);
         return list;
@@ -147,6 +148,7 @@ public class Appointment extends Model {
                 Appointment appointment = new Appointment(
                         resultSet.getLong("appointmentId"),
                         resultSet.getLong("customerId"),
+                        resultSet.getString("c.customerName"),
                         resultSet.getString("title"),
                         resultSet.getString("description"),
                         resultSet.getString("location"),
@@ -154,10 +156,10 @@ public class Appointment extends Model {
                         resultSet.getString("url"),
                         LocalDateTime.ofInstant(resultSet.getTimestamp("start").toInstant(), zone),
                         LocalDateTime.ofInstant(resultSet.getTimestamp("end").toInstant(), zone),
-                        resultSet.getString("createdBy"),
-                        ZonedDateTime.ofInstant(resultSet.getTimestamp("createDate").toInstant(), zone),
-                        resultSet.getTimestamp("lastUpdate").toInstant(),
-                        resultSet.getString("lastUpdateBy")
+                        resultSet.getString("a.createdBy"),
+                        ZonedDateTime.ofInstant(resultSet.getTimestamp("a.createDate").toInstant(), zone),
+                        resultSet.getTimestamp("a.lastUpdate").toInstant(),
+                        resultSet.getString("a.lastUpdateBy")
                 );
                 list.add(appointment);
             }

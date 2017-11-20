@@ -88,7 +88,7 @@
                       <cellValueFactory><PropertyValueFactory property="endTime" /></cellValueFactory>
                   </TableColumn>
                   <TableColumn fx:id="customerColumn" prefWidth="75.0" text="Customer">
-                      <cellValueFactory><PropertyValueFactory property="customerId" /></cellValueFactory>
+                      <cellValueFactory><PropertyValueFactory property="customerName" /></cellValueFactory>
                   </TableColumn>
                   <TableColumn fx:id="contactColumn" prefWidth="75.0" text="Contact">
                       <cellValueFactory><PropertyValueFactory property="title" /></cellValueFactory>
