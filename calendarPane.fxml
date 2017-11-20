@@ -74,7 +74,7 @@
             </ButtonBar>
          </children>
       </AnchorPane>
-      <StackPane fx:id="calendarTablePane" prefHeight="150.0" prefWidth="200.0">
+      <StackPane fx:id="calendarTablePane" prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
             <TableView fx:id="appointmentTableView" prefHeight="600.0">
               <columns>

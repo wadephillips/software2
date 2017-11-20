@@ -311,10 +311,14 @@ public class CalendarPane extends VBox {
     }
 
     private void compareAndInsertInTable(Appointment appt) {
-        Appointment apptAfter = appointments.stream().filter(a -> a.getStart().compareTo(appt.getStart()) == 1).findFirst().get();
-        int index = appointments.indexOf(apptAfter);
+        Optional<Appointment> apptAfter = appointments.stream().filter(a -> a.getStart().compareTo(appt.getStart()) == 1).findFirst(); //todo next what if it should be last in the TableView?
         this.appointments = this.appointmentTableView.getItems();
-        this.appointments.add(index, appt);
+        if(apptAfter.isPresent()){
+            int index = appointments.indexOf(apptAfter);
+            this.appointments.add(index, appt);
+        } else {
+            this.appointments.add(appt);
+        }
     }
 
     @FXML

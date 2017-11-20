@@ -42,8 +42,8 @@ public class Appointment extends Model {
 
     private SimpleStringProperty apptDate = new SimpleStringProperty();
 
-//    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
-    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("eee, MMM-d", Main.getLocale());
+    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
+//    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("eee, MMM-d", Main.getLocale());
 
 
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
@@ -117,7 +117,9 @@ public class Appointment extends Model {
 //        System.out.println("hi");
         ZoneId zone = ZoneId.systemDefault();
         String baseYearMonth = baseDate.getYear() + "-"+ baseDate.getMonthValue();
-        String sql = "SELECT * FROM appointment WHERE DATE_FORMAT(start, '%Y-%m') = '" + baseYearMonth + "' ORDER BY start;";
+
+        String consultantName = Main.getLoggedInUser().getUserName();
+        String sql = "SELECT * FROM appointment WHERE createdBy = '" + consultantName + "' AND DATE_FORMAT(start, '%Y-%m') = '" + baseYearMonth + "' ORDER BY start;";
 //        System.out.println(sql);
         ArrayList<Appointment> list = getAppointments(zone, sql);
         return list;
@@ -127,7 +129,8 @@ public class Appointment extends Model {
 //        System.out.println("hi");
         ZoneId zone = ZoneId.systemDefault();
 //        String baseYearMonth = baseDate.getYear() + "-"+ baseDate.getMonthValue();
-        String sql = "SELECT * FROM appointment WHERE start >= '" + startOfWeek + "' AND end <= '" + endOfWeek + "' ORDER by start;";
+        String consultantName = Main.getLoggedInUser().getUserName();
+        String sql = "SELECT * FROM appointment WHERE createdBy = '" + consultantName + "' AND start >= '" + startOfWeek + "' AND end <= '" + endOfWeek + "' ORDER by start;";
 //        System.out.println(sql);
         ArrayList<Appointment> list = getAppointments(zone, sql);
         return list;

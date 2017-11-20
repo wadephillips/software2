@@ -18,6 +18,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class Main extends Application {
 
@@ -42,9 +43,11 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.locale = Locale.getDefault();
-        this.zone = ZoneId.systemDefault();
-//        Locale locale = new Locale("es", "ES");
-//        Locale.setDefault(locale);
+//        this.zone = ZoneId.systemDefault();
+        this.zone =  ZoneId.of("America/New_York");//TimeZone.getTimeZone().;
+//        Locale locale = new Locale("en", "GB");
+        Locale locale = new Locale("es", "ES");
+        Locale.setDefault(locale);
 //        UserBuilder userBuilder = new UserBuilder();
 //        userBuilder.setActive(1).setUserName("Xander").setPassword("pepelepew");
 //                .setCreatedBy("wade").setCreateDate(ZonedDateTime.now())
@@ -91,7 +94,7 @@ public class Main extends Application {
 //                ));
 //            }
 //        }
-
+        Main.setLoggedInUser(User.findById(4));
 //        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
         Main.mainStage = primaryStage;
         //todo change back to login.fxml
@@ -108,7 +111,7 @@ public class Main extends Application {
         calendarPane.showCalendarByMonth();
         controller.setBodyPaneChild(calendarPane);
 
-        Main.setLoggedInUser(User.findById(4));
+
 
         primaryStage.setTitle("ACME Calendar");
         primaryStage.setScene(scene);
