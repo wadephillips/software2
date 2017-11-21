@@ -43,8 +43,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.locale = Locale.getDefault();
-//        this.zone = ZoneId.systemDefault();
-        this.zone =  ZoneId.of("America/New_York");//TimeZone.getTimeZone().;
+        this.zone = ZoneId.systemDefault();
+//        this.zone =  ZoneId.of("America/New_York");//TimeZone.getTimeZone().;
 //        Locale locale = new Locale("en", "GB");
 //        Locale locale = new Locale("es", "ES");
 //        Locale.setDefault(locale);

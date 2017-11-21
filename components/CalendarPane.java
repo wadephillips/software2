@@ -1,7 +1,5 @@
 package calendar.components;
 
-import calendar.Main;
-import calendar.controllers.MainController;
 import calendar.helpers.AppointmentType;
 import calendar.helpers.CalendarType;
 import calendar.helpers.KeyValuePair;
@@ -12,14 +10,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.time.*;
 import java.time.temporal.TemporalAdjusters;
@@ -279,9 +272,9 @@ public class CalendarPane extends VBox {
                 adp.getCustomerComboBox().setValue(result.get());
             }
 
-            adp.getApptDatePicker().setValue(selectedAppt.getStart().toLocalDate());
-            adp.getStartTimeComboBox().setValue(selectedAppt.getStart().toLocalTime());
-            adp.getEndTimeComboBox().setValue(selectedAppt.getEnd().toLocalTime());
+            adp.getApptDatePicker().setValue(selectedAppt.getStartLocal().toLocalDate());
+            adp.getStartTimeComboBox().setValue(selectedAppt.getStartLocal().toLocalTime());
+            adp.getEndTimeComboBox().setValue(selectedAppt.getEndLocal().toLocalTime());
 
 
             long appointmentId = selectedAppt.getAppointmentId();
@@ -311,10 +304,10 @@ public class CalendarPane extends VBox {
     }
 
     private void compareAndInsertInTable(Appointment appt) {
-        Optional<Appointment> apptAfter = appointments.stream().filter(a -> a.getStart().compareTo(appt.getStart()) == 1).findFirst(); //todo next what if it should be last in the TableView?
+        Optional<Appointment> apptAfter = appointments.stream().filter(a -> a.getStartLocal().compareTo(appt.getStartLocal()) == 1).findFirst(); //todo next what if it should be last in the TableView?
         this.appointments = this.appointmentTableView.getItems();
         if(apptAfter.isPresent()){
-            int index = appointments.indexOf(apptAfter);
+            int index = appointments.indexOf(apptAfter.get());
             this.appointments.add(index, appt);
         } else {
             this.appointments.add(appt);

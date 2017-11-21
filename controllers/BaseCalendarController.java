@@ -10,9 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -93,26 +91,26 @@ abstract public class BaseCalendarController extends BaseController {
         }
     }
 
-    public void insertAppointmentBlob(VBox parent, Appointment appointment) {
-//        System.out.println(parent.getId());
-        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
-
-        String formatedAppTime =  formatter.format(appointment.getStart()) + " - " + formatter.format(appointment.getEnd());
-
-        Label blob = new Label(formatedAppTime + "  " + appointment.getCustomerId());
-        String id = Long.toString(appointment.getAppointmentId());
-        blob.setId(id);
-        blob.setWrapText(true);
-        blob.getStyleClass().add("apptBlob");
-        blob.setOnMouseClicked((event) -> {
-            System.out.println("hi");
-        });
-//        System.out.println(blob.getStyleClass());
-
-
-        parent.getChildren().add(blob);
-
-    }
+//    public void insertAppointmentBlob(VBox parent, Appointment appointment) {
+////        System.out.println(parent.getId());
+//        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+//
+//        String formatedAppTime =  formatter.format(appointment.getStartLocal()) + " - " + formatter.format(appointment.getEndLocal());
+//
+//        Label blob = new Label(formatedAppTime + "  " + appointment.getCustomerId());
+//        String id = Long.toString(appointment.getAppointmentId());
+//        blob.setId(id);
+//        blob.setWrapText(true);
+//        blob.getStyleClass().add("apptBlob");
+//        blob.setOnMouseClicked((event) -> {
+//            System.out.println("hi");
+//        });
+////        System.out.println(blob.getStyleClass());
+//
+//
+//        parent.getChildren().add(blob);
+//
+//    }
 
     private Object editAppointment() {
         return null;

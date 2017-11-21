@@ -3,6 +3,7 @@ package calendar.models;
 import calendar.Main;
 import calendar.ModelDAO;
 import javafx.beans.property.*;
+import javafx.fxml.FXML;
 
 import java.sql.*;
 import java.time.*;
@@ -30,9 +31,9 @@ public class Appointment extends Model {
 
     private StringProperty url = new SimpleStringProperty();
 
-    private ObjectProperty<LocalDateTime> start = new SimpleObjectProperty<>();
+    private ObjectProperty<ZonedDateTime> start = new SimpleObjectProperty<>();
 
-    private ObjectProperty<LocalDateTime> end = new SimpleObjectProperty<>();
+    private ObjectProperty<ZonedDateTime> end = new SimpleObjectProperty<>();
 
     private StringProperty customerName = new SimpleStringProperty();
 
@@ -64,8 +65,8 @@ public class Appointment extends Model {
         this.location.set(location);
         this.contact.set(contact);
         this.url.set(url);
-        this.start.set(start);
-        this.end.set(end);
+        this.start.set(this.localDateTimeToUTC(start));
+        this.end.set(this.localDateTimeToUTC(end));
         this.formatDateTimes();
         this.checkAndSetCreate();
         this.checkAndSetUpdate();
@@ -81,8 +82,8 @@ public class Appointment extends Model {
         this.location.set(location);
         this.contact.set(contact);
         this.url.set(url);
-        this.start.set(start);
-        this.end.set(end);
+        this.start.set(ZonedDateTime.of(start, ZoneId.of("UTC")));
+        this.end.set(ZonedDateTime.of(end, ZoneId.of("UTC")));
         this.formatDateTimes();
     }
 
@@ -116,28 +117,29 @@ public class Appointment extends Model {
      */
     public static ArrayList<Appointment> getAllByYearMonth(LocalDate baseDate) {
 //        System.out.println("hi");
-        ZoneId zone = ZoneId.systemDefault();
+//        ZoneId zone = ZoneId.systemDefault();
         String baseYearMonth = baseDate.getYear() + "-"+ baseDate.getMonthValue();
 
         String consultantName = Main.getLoggedInUser().getUserName();
         String sql = "SELECT a.*, c.customerName FROM appointment as a INNER JOIN customer as c ON a.customerId = c.customerId WHERE a.createdBy = '" + consultantName + "' AND DATE_FORMAT(start, '%Y-%m') = '" + baseYearMonth + "' ORDER BY start;";
 //        System.out.println(sql);
-        ArrayList<Appointment> list = getAppointments(zone, sql);
+        ArrayList<Appointment> list = getAppointments(sql);
         return list;
     }
 
     public static ArrayList<Appointment> getAllByWeek(LocalDate startOfWeek, LocalDate endOfWeek) {
 //        System.out.println("hi");
-        ZoneId zone = ZoneId.systemDefault();
+//        ZoneId zone = ZoneId.systemDefault();
 //        String baseYearMonth = baseDate.getYear() + "-"+ baseDate.getMonthValue();
         String consultantName = Main.getLoggedInUser().getUserName();
         String sql = "SELECT a.*, c.customerName FROM appointment as a INNER JOIN customer as c ON a.customerId = c.customerId WHERE a.createdBy = '" + consultantName + "' AND start >= '" + startOfWeek + "' AND end <= '" + endOfWeek + "' ORDER by start;";
 //        System.out.println(sql);
-        ArrayList<Appointment> list = getAppointments(zone, sql);
+        ArrayList<Appointment> list = getAppointments(sql);
         return list;
     }
 
-    private static ArrayList<Appointment> getAppointments(ZoneId zone, String sql) {
+    private static ArrayList<Appointment> getAppointments(String sql) {
+        ZoneId zone = ZoneId.of("UTC");
         ArrayList<Appointment> list = new ArrayList<>();
         try(Connection conn = DATASOURCE.getConnection();
             Statement stmt = conn.createStatement();
@@ -154,8 +156,10 @@ public class Appointment extends Model {
                         resultSet.getString("location"),
                         resultSet.getString("contact"),
                         resultSet.getString("url"),
-                        ZonedDateTime.ofInstant(resultSet.getTimestamp("start").toInstant(), zone),
-                        ZonedDateTime.ofInstant(resultSet.getTimestamp("end").toInstant(), zone),
+//                        LocalDateTime.ofInstant(resultSet.getTimestamp("start").toInstant(), zone),
+                        resultSet.getTimestamp("start").toLocalDateTime(),
+//                        LocalDateTime.ofInstant(resultSet.getTimestamp("end").toInstant(), zone),
+                        resultSet.getTimestamp("end").toLocalDateTime(),
                         resultSet.getString("a.createdBy"),
                         ZonedDateTime.ofInstant(resultSet.getTimestamp("a.createDate").toInstant(), zone),
                         resultSet.getTimestamp("a.lastUpdate").toInstant(),
@@ -190,8 +194,8 @@ public class Appointment extends Model {
             stmt.setString(4, this.location.get());
             stmt.setString(5, this.contact.get());
             stmt.setString(6, this.url.get());
-            stmt.setTimestamp(7, Timestamp.valueOf(this.start.get()));
-            stmt.setTimestamp(8, Timestamp.valueOf(this.end.get()));
+            stmt.setTimestamp(7, Timestamp.valueOf(this.start.get().toLocalDateTime()));
+            stmt.setTimestamp(8, Timestamp.valueOf(this.end.get().toLocalDateTime()));
 
             stmt.setString(9, Main.getLoggedInUser().getUserName());
             stmt.setLong(10, this.appointmentId.get());
@@ -244,8 +248,8 @@ public class Appointment extends Model {
                 stmt.setString(5, this.location.get());
                 stmt.setString(6, this.contact.get());
                 stmt.setString(7, this.url.get());
-                stmt.setTimestamp(8, Timestamp.valueOf(this.start.get()));
-                stmt.setTimestamp(9, Timestamp.valueOf(this.end.get()));
+                stmt.setTimestamp(8, Timestamp.valueOf(this.start.get().toLocalDateTime()));
+                stmt.setTimestamp(9, Timestamp.valueOf(this.end.get().toLocalDateTime()));
 
 
                 stmt.setString(10, super.getCreatedBy());
@@ -295,11 +299,37 @@ public class Appointment extends Model {
         return deleted;
     }
 
-    public LocalDateTime getStart() {
+    public ZonedDateTime getStartLocal() {
+        return utcDateTimeToLocal(start.get());
+    }
+
+    public ZonedDateTime getEndLocal() {
+        return utcDateTimeToLocal(end.get());
+    }
+
+    @FXML
+    public String getStartLocalFormatted() {
+        ZonedDateTime zonedDateTime = this.getStartLocal();
+        return zonedDateTime.format(timeFormatter);
+    }
+
+    @FXML
+    public String getEndLocalFormatted() {
+        ZonedDateTime zonedDateTime = this.getEndLocal();
+        return zonedDateTime.format(timeFormatter);
+    }
+
+    @FXML
+    public String getApptDateLocalFormatted() {
+        ZonedDateTime zonedDateTime = this.getStartLocal();
+        return zonedDateTime.format(dateFormatter);
+    }
+
+    public ZonedDateTime getStartUTC() {
         return start.get();
     }
 
-    public LocalDateTime getEnd() {
+    public ZonedDateTime getEndUTC() {
         return end.get();
     }
 

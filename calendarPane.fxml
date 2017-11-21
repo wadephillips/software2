@@ -79,13 +79,13 @@
             <TableView fx:id="appointmentTableView" prefHeight="600.0">
               <columns>
                   <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date">
-                      <cellValueFactory><PropertyValueFactory property="apptDate" /></cellValueFactory>
+                      <cellValueFactory><PropertyValueFactory property="apptDateLocalFormatted" /></cellValueFactory>
                   </TableColumn>
                   <TableColumn fx:id="startColumn" prefWidth="75.0" text="Start Time">
-                      <cellValueFactory><PropertyValueFactory property="startTime" /></cellValueFactory>
+                      <cellValueFactory><PropertyValueFactory property="startLocalFormatted" /></cellValueFactory>
                   </TableColumn>
                   <TableColumn fx:id="endColumn" prefWidth="75.0" text="End Time">
-                      <cellValueFactory><PropertyValueFactory property="endTime" /></cellValueFactory>
+                      <cellValueFactory><PropertyValueFactory property="endLocalFormatted" /></cellValueFactory>
                   </TableColumn>
                   <TableColumn fx:id="customerColumn" prefWidth="75.0" text="Customer">
                       <cellValueFactory><PropertyValueFactory property="customerName" /></cellValueFactory>

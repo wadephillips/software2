@@ -14,8 +14,6 @@ import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.*;
-import java.util.function.BiPredicate;
-import java.util.function.Predicate;
 
 public class WeeklyCalendarController extends BaseCalendarController {
 
@@ -99,14 +97,14 @@ public class WeeklyCalendarController extends BaseCalendarController {
     }
 
     private void displayAppointments() {
-        ArrayList<Appointment> list = Appointment.getAllByWeek(this.firstDayOfDisplayedWeek, this.lastDayOfDisplayedWeek);
-//        List<Appointment> appointments = Appointment.getAllByYearMonth(this.firstDayOfDisplayedMonth);
-        for (Appointment ap :
-                list) {
-            int dayOfMonth = ap.getStart().getDayOfMonth();
-            VBox target = this.dayToGrid.get(dayOfMonth);
-            this.insertAppointmentBlob(target, ap);
-        }
+//        ArrayList<Appointment> list = Appointment.getAllByWeek(this.firstDayOfDisplayedWeek, this.lastDayOfDisplayedWeek);
+////        List<Appointment> appointments = Appointment.getAllByYearMonth(this.firstDayOfDisplayedMonth);
+//        for (Appointment ap :
+//                list) {
+//            int dayOfMonth = ap.getStartLocal().getDayOfMonth();
+//            VBox target = this.dayToGrid.get(dayOfMonth);
+//            this.insertAppointmentBlob(target, ap);
+//        }
 //        System.out.println(list);
 //        int iDay = this.firstDayOfDisplayedWeek.getDayOfMonth();
 //        //is a lambda going to work here? It should but I think we're approching it wrong
@@ -120,12 +118,12 @@ public class WeeklyCalendarController extends BaseCalendarController {
 //
 //        }
 //        list.stream().forEach( x -> {
-//            int dayOfMonth = x.getStart().getDayOfMonth();
+//            int dayOfMonth = x.getStartLocal().getDayOfMonth();
 //            VBox target = dayToGrid.get(dayOfMonth);
 //            System.out.println(target);
 //            this.insertAppointmentBlob(target, x);
 //        }); // get the day of the appt from start the put in the appropriate column
-        //get
+//        get
     }
 
     private void initWeekdayArray() {
