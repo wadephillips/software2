@@ -1,5 +1,6 @@
 package calendar.components;
 
+import calendar.Main;
 import calendar.helpers.AppointmentType;
 import calendar.helpers.KeyValuePair;
 import calendar.models.Appointment;
@@ -7,9 +8,7 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,8 +58,12 @@ public class AppointmentDialog extends Dialog {
 
     public Appointment getAppointment(){
         LocalDate date = pane.getDate();
-        LocalDateTime start = LocalDateTime.of(date, pane.getStartTime());
-        LocalDateTime end = LocalDateTime.of(date, pane.getEndTime());
+        LocalTime startTime = pane.getStartTime();
+        LocalTime endTime = pane.getEndTime();
+//        final ZoneId zone = Main.getZone();
+        LocalDateTime start = LocalDateTime.of(date, startTime);
+        LocalDateTime end = LocalDateTime.of(date, endTime);
+
         long customer = pane.getCustomer().getKey();
         String title = pane.getTitle();
         String description = pane.getDescription().name();
@@ -70,6 +73,8 @@ public class AppointmentDialog extends Dialog {
 
         return new Appointment(customer,title,description,location,contact,url,start,end);
     }
+
+
 
     public void populateComboBoxes(){
 //        List<Customer> customers = Customer.findAll();

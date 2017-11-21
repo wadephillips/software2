@@ -6,8 +6,7 @@ import calendar.Main;
 import javax.sql.DataSource;
 import java.lang.reflect.Field;
 import java.sql.*;
-import java.time.Instant;
-import java.time.ZonedDateTime;
+import java.time.*;
 
 /**
  * Created by wadelp on 10/17/17.
@@ -117,10 +116,9 @@ abstract public class Model {
     protected Model checkAndSetCreate(){
 //        System.out.println(createDate + createdBy + lastUpdate +lastUpdateby);
         if (createDate == null) {
-            this.createDate = ZonedDateTime.now();
+            this.createDate = ZonedDateTime.now(ZoneId.of("UTC"));
         }
         if (createdBy == null) {
-            //todo make this access a static variable with the username in it
             this.createdBy = Main.getLoggedInUser().getUserName();
         }
 //        System.out.println("helloz: " + createDate + createdBy + lastUpdate +lastUpdateby);
@@ -130,8 +128,30 @@ abstract public class Model {
 
     protected Model checkAndSetUpdate(){
         this.lastUpdate = Instant.now();
-        //todo make this access a static variable with the username in it
         this.lastUpdateby = Main.getLoggedInUser().getUserName();
         return this;
+    }
+
+    /**
+     * Helper method to take in a LocalDateTime and convert it to a UTC ZonedDateTime
+     * @param dateTime
+     * @return ZonedDateTime
+     */
+    protected ZonedDateTime localDateTimeToUTC(LocalDateTime dateTime) {
+        ZoneOffset offset = Main.getZone().getRules().getOffset(dateTime);
+        ZonedDateTime utc = dateTime.atOffset(offset).atZoneSameInstant(ZoneId.of("UTC"));
+        return utc;
+    }
+
+    /**
+     * Helper method to take in a LocalDateTime and convert it to a UTC ZonedDateTime
+     * @param dateTime
+     * @return ZonedDateTime
+     */
+    protected ZonedDateTime utcDateTimeToLocal(ZonedDateTime dateTime) {
+
+        ZonedDateTime local = dateTime.withZoneSameInstant(Main.getZone());
+        System.out.println(dateTime + " | " + local);
+        return local;
     }
 }

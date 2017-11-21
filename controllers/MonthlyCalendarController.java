@@ -338,9 +338,9 @@ public class MonthlyCalendarController extends BaseCalendarController {
         List<Appointment> appointments = Appointment.getAllByYearMonth(this.firstDayOfDisplayedMonth);
         for (Appointment ap :
                 appointments) {
-            int dayOfMonth = ap.getStart().getDayOfMonth();
-            VBox target = this.dayToGrid.get(dayOfMonth);
-            this.insertAppointmentBlob(target, ap);
+//            int dayOfMonth = ap.getStartLocal().getDayOfMonth();
+//            VBox target = this.dayToGrid.get(dayOfMonth);
+//            this.insertAppointmentBlob(target, ap);
         }
 //        System.out.println(appointments);
     }
@@ -410,7 +410,7 @@ public class MonthlyCalendarController extends BaseCalendarController {
             Optional<Appointment> appointment = dialog.showAndWait();
             if (appointment.isPresent()){
                 System.out.println("Insert appt into grid");
-                this.insertAppointmentBlob(box, appointment.get());
+//                this.insertAppointmentBlob(box, appointment.get());
             } else {
                 System.out.println("Nothing to do right now");
             }
