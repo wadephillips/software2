@@ -46,8 +46,8 @@ public class Main extends Application {
 //        this.zone = ZoneId.systemDefault();
         this.zone =  ZoneId.of("America/New_York");//TimeZone.getTimeZone().;
 //        Locale locale = new Locale("en", "GB");
-        Locale locale = new Locale("es", "ES");
-        Locale.setDefault(locale);
+//        Locale locale = new Locale("es", "ES");
+//        Locale.setDefault(locale);
 //        UserBuilder userBuilder = new UserBuilder();
 //        userBuilder.setActive(1).setUserName("Xander").setPassword("pepelepew");
 //                .setCreatedBy("wade").setCreateDate(ZonedDateTime.now())
