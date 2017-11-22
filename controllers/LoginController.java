@@ -148,12 +148,14 @@ public class LoginController extends BaseController {
                             " at " + formatter.format(resultSet.getTimestamp("start").toLocalDateTime()) + "\n";
                 }
                 if(i > 0 ){
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setHeaderText("You have upcoming appointments!");
-                    alert.setContentText(body);
-
-
-                    alert.showAndWait();
+                    Main.popup.accept("You have upcoming appointments!", body);
+                    //todo get rid of this comment if everything is working
+//                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                    alert.setHeaderText("You have upcoming appointments!");
+//                    alert.setContentText(body);
+//
+//
+//                    alert.showAndWait();
                 }
 
             }
@@ -177,7 +179,7 @@ public class LoginController extends BaseController {
 
     }
 
-    public void setNoMatchErrorMessage() {
+    private void setNoMatchErrorMessage() {
         messageLabel.setText("Username and password combination is incorrect. Please try again.");
         messageLabel.setVisible(true);
     }
