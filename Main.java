@@ -9,6 +9,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import javax.sql.DataSource;
@@ -19,6 +22,8 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
 public class Main extends Application {
 
@@ -37,7 +42,21 @@ public class Main extends Application {
      */
     private static Stage mainStage;
 
+    public static BiConsumer<String, String> popup = (title, body) -> {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Acme Calendar");
+        alert.setHeaderText(title);
+        alert.setContentText(body);
+        alert.show();
+    };
 
+    public static BiConsumer<String, String> alert = (title, body) -> {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Acme Calendar");
+        alert.setHeaderText(title);
+        alert.setContentText(body);
+        alert.show();
+    };
 
 
     @Override
@@ -116,6 +135,7 @@ public class Main extends Application {
         primaryStage.setTitle("ACME Calendar");
         primaryStage.setScene(scene);
         primaryStage.show();
+        popup.accept("Welcome to Acme Calendar", "You put the A in Acme");
     }
 
 

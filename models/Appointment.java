@@ -116,24 +116,17 @@ public class Appointment extends Model {
      * method to retrieve all instances of the entity from the database
      */
     public static ArrayList<Appointment> getAllByYearMonth(LocalDate baseDate) {
-//        System.out.println("hi");
-//        ZoneId zone = ZoneId.systemDefault();
         String baseYearMonth = baseDate.getYear() + "-"+ baseDate.getMonthValue();
 
         String consultantName = Main.getLoggedInUser().getUserName();
         String sql = "SELECT a.*, c.customerName FROM appointment as a INNER JOIN customer as c ON a.customerId = c.customerId WHERE a.createdBy = '" + consultantName + "' AND DATE_FORMAT(start, '%Y-%m') = '" + baseYearMonth + "' ORDER BY start;";
-//        System.out.println(sql);
         ArrayList<Appointment> list = getAppointments(sql);
         return list;
     }
 
     public static ArrayList<Appointment> getAllByWeek(LocalDate startOfWeek, LocalDate endOfWeek) {
-//        System.out.println("hi");
-//        ZoneId zone = ZoneId.systemDefault();
-//        String baseYearMonth = baseDate.getYear() + "-"+ baseDate.getMonthValue();
         String consultantName = Main.getLoggedInUser().getUserName();
         String sql = "SELECT a.*, c.customerName FROM appointment as a INNER JOIN customer as c ON a.customerId = c.customerId WHERE a.createdBy = '" + consultantName + "' AND start >= '" + startOfWeek + "' AND end <= '" + endOfWeek + "' ORDER by start;";
-//        System.out.println(sql);
         ArrayList<Appointment> list = getAppointments(sql);
         return list;
     }
@@ -146,7 +139,6 @@ public class Appointment extends Model {
             ResultSet resultSet = stmt.executeQuery(sql)){
             int i = 0;
             while (resultSet.next()){
-//                System.out.println(++i);
                 Appointment appointment = new Appointment(
                         resultSet.getLong("appointmentId"),
                         resultSet.getLong("customerId"),
@@ -267,7 +259,6 @@ public class Appointment extends Model {
 
 
         } catch(SQLException e){
-            //            System.out.println(sql);
             e.printStackTrace();
 
         }
