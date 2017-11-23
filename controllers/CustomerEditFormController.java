@@ -10,6 +10,7 @@ import calendar.models.Customer;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -81,6 +82,8 @@ public class CustomerEditFormController extends MainController {
         this.title = title;
     }
 
+
+
     @FXML
     public void createCustomer(ActionEvent actionEvent) {
         System.out.println("saving!");
@@ -88,6 +91,7 @@ public class CustomerEditFormController extends MainController {
 
         Address custAddress = extractAddress();
         try {
+
             custAddress.save();
         } catch (Exception e) {
             e.printStackTrace();
@@ -161,7 +165,6 @@ public class CustomerEditFormController extends MainController {
     @FXML
     public void cancelAndReturn(ActionEvent actionEvent) throws IOException {
         Button cancel = (Button) actionEvent.getSource();
-//        this.changeScene(cancel,"../na.fxml");
         System.out.println("canceling!");
         this.returnToCustomersScene();
     }
@@ -310,6 +313,74 @@ public class CustomerEditFormController extends MainController {
             System.out.println(observable);
 //          return cities.get(newValue.intValue());
         });
+
+        this.saveButton.addEventFilter(ActionEvent.ACTION, handler);
+        this.updateButton.addEventFilter(ActionEvent.ACTION, handler);
+    }
+
+    private EventHandler<ActionEvent> handler = event -> {
+        boolean isValidCustomer = false;
+        boolean isValidAddress = false;
+        try{
+            isValidCustomer = this.validateCustomer();
+            isValidAddress = this.validateAddress();
+        } catch (Exception e) {
+            Main.alert.accept("Please correct the following issue(s) with this customer entry before submitting",
+                    e.getMessage());
+        }
+        if (!isValidCustomer || !isValidAddress) {
+            event.consume();
+        }
+    };
+
+
+    private boolean validateAddress() throws Exception {
+        boolean isValid = true;
+        StringBuilder body = new StringBuilder();
+
+        if (this.phoneField.getText().equals("")){
+            isValid = false;
+            body.append("You must enter a phone number.");
+            body.append(System.lineSeparator());
+        }
+        if (this.addressField.getText().equals("")) {
+            isValid = false;
+            body.append("You must enter an address.");
+            body.append(System.lineSeparator());
+        }
+        if (this.cityChoiceBox.getValue() == null) {
+            isValid = false;
+            body.append("You must select a city");
+            body.append(System.lineSeparator());
+        }
+        if (this.postalCodeField.getText().equals("")) {
+            isValid = false;
+            body.append("You must enter a postal code");
+            body.append(System.lineSeparator());
+        }
+
+
+        if (!isValid) {
+            throw new Exception(body.toString());
+        }
+
+        return isValid;
+    }
+
+    private boolean validateCustomer() throws Exception {
+        boolean isValid = true;
+        StringBuilder body = new StringBuilder();
+
+        if (this.nameField.getText().equals("")) {
+            isValid = false;
+            body.append("You must enter a Customer name");
+            body.append(System.lineSeparator());
+        }
+        if (!isValid) {
+            throw new Exception(body.toString());
+        }
+
+        return isValid;
     }
 }
 

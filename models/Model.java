@@ -137,7 +137,7 @@ abstract public class Model {
      * @param dateTime
      * @return ZonedDateTime
      */
-    protected ZonedDateTime localDateTimeToUTC(LocalDateTime dateTime) {
+    public static ZonedDateTime localDateTimeToUTC(LocalDateTime dateTime) {
         ZoneOffset offset = Main.getZone().getRules().getOffset(dateTime);
         ZonedDateTime utc = dateTime.atOffset(offset).atZoneSameInstant(ZoneId.of("UTC"));
         return utc;
@@ -148,7 +148,7 @@ abstract public class Model {
      * @param dateTime
      * @return ZonedDateTime
      */
-    protected ZonedDateTime utcDateTimeToLocal(ZonedDateTime dateTime) {
+    public static ZonedDateTime utcDateTimeToLocal(ZonedDateTime dateTime) {
 
         ZonedDateTime local = dateTime.withZoneSameInstant(Main.getZone());
         System.out.println(dateTime + " | " + local);

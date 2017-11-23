@@ -120,7 +120,7 @@ public class CalendarPane extends VBox {
     private void showPreviousWeek() {
 
         try {
-            System.out.println("display the previous week");
+//            System.out.println("display the previous week");
             this.firstDayOfDisplayedWeek = this.firstDayOfDisplayedWeek.minusWeeks(1);
             this.lastDayOfDisplayedWeek = this.lastDayOfDisplayedWeek.minusWeeks(1);
             this.showCalendarByWeek();
@@ -133,7 +133,7 @@ public class CalendarPane extends VBox {
     private void showNextWeek() {
 
         try {
-            System.out.println("display the next week");
+//            System.out.println("display the next week");
             this.firstDayOfDisplayedWeek = this.firstDayOfDisplayedWeek.plusWeeks(1);
             this.lastDayOfDisplayedWeek = this.lastDayOfDisplayedWeek.plusWeeks(1);
             this.showCalendarByWeek();
@@ -146,7 +146,7 @@ public class CalendarPane extends VBox {
     @FXML
     public void showPreviousMonth() {
         try {
-            System.out.println("Display the previous month");
+//            System.out.println("Display the previous month");
             LocalDate firstOfPreviousMonth = this.firstDayOfDisplayedMonth.minusMonths(1);
             this.displayMonthAndYear(firstOfPreviousMonth);
             this.firstDayOfDisplayedMonth = firstOfPreviousMonth;
@@ -160,7 +160,7 @@ public class CalendarPane extends VBox {
     @FXML
     public void showNextMonth() {
         try {
-            System.out.println("display the next month");
+//            System.out.println("display the next month");
             LocalDate firstOfNextMonth = this.firstDayOfDisplayedMonth.plusMonths(1);
             this.displayMonthAndYear(firstOfNextMonth);
             this.firstDayOfDisplayedMonth = firstOfNextMonth;
@@ -201,7 +201,7 @@ public class CalendarPane extends VBox {
 
     @FXML
     public void showCalendarByWeek(ActionEvent actionEvent) throws IOException {
-        System.out.println(this.firstDayOfDisplayedWeek + " | " + this.lastDayOfDisplayedWeek);
+//        System.out.println(this.firstDayOfDisplayedWeek + " | " + this.lastDayOfDisplayedWeek);
         this.displayWeekYearLabel();
         this.showByWeekButton.setUnderline(true);
         this.showByWeekButton.setDisable(true);
@@ -213,7 +213,6 @@ public class CalendarPane extends VBox {
         //get appointments for the week
         ArrayList<Appointment> apps = Appointment.getAllByWeek(this.firstDayOfDisplayedWeek,this.lastDayOfDisplayedWeek);
         apps.stream().forEach( a -> {
-            System.out.println();
             this.appointments = this.appointmentTableView.getItems();
             this.appointments.add(a);
         });
@@ -230,21 +229,22 @@ public class CalendarPane extends VBox {
             dialog.setResultConverter(dialogButton -> {
                 if (dialogButton == saveButtonType) {
                     Appointment appointment = dialog.getAppointment();
-                    appointment.save();
                     return appointment;
                 } else {
-                    System.out.println("cancel");
+//                    System.out.println("cancel");
                     return null;
                 }
             });
 
             Optional<Appointment> appointment = dialog.showAndWait();
             if (appointment.isPresent()){
-                System.out.println("Insert appt into grid");
+                appointment.get().save();
+
+//                System.out.println("Insert appt into grid");
                 Appointment appt = appointment.get();
                 compareAndInsertInTable(appt);
             } else {
-                System.out.println("Nothing to do right now");
+//                System.out.println("Nothing to do right now");
             }
 
 
@@ -284,16 +284,24 @@ public class CalendarPane extends VBox {
                 if (dialogButton == saveButtonType) {
                     Appointment appointment = dialog.getAppointment();
                     appointment.setAppointmentId(appointmentId);
-                    appointment.save();
+//                    appointment.save();
                     return appointment;
                 } else {
-                    System.out.println("cancel");
+//                    System.out.println("cancel");
                     return null;
                 }
+//                if (dialogButton == saveButtonType) {
+//                    Appointment appointment = dialog.getAppointment();
+//                    return appointment;
+//                } else {
+////                    System.out.println("cancel");
+//                    return null;
+//                }
             });
 
             Optional<Appointment> appointment = dialog.showAndWait();
             if (appointment.isPresent()){
+                appointment.get().save();
                 int initalIndex = this.appointmentTableView.getSelectionModel().getSelectedIndex();
                 this.appointments.remove(initalIndex);
                 compareAndInsertInTable(appointment.get());
@@ -304,7 +312,7 @@ public class CalendarPane extends VBox {
     }
 
     private void compareAndInsertInTable(Appointment appt) {
-        Optional<Appointment> apptAfter = appointments.stream().filter(a -> a.getStartLocal().compareTo(appt.getStartLocal()) == 1).findFirst(); //todo next what if it should be last in the TableView?
+        Optional<Appointment> apptAfter = appointments.stream().filter(a -> a.getStartLocal().compareTo(appt.getStartLocal()) == 1).findFirst();
         this.appointments = this.appointmentTableView.getItems();
         if(apptAfter.isPresent()){
             int index = appointments.indexOf(apptAfter.get());

@@ -1,0 +1,24 @@
+@font-face {
+    font-family: "Font Awesome Light";
+    src: url("fontawesome-pro-light-300.ttf");
+}
+@font-face {
+    font-family: "Font Awesome Regular";
+    src: url("fontawesome-pro-regular-400.ttf");
+}
+@font-face {
+    font-family: "Font Awesome Solid";
+    src: url("fontawesome-pro-solid-900.ttf");
+}
+.fa-regular {
+    -fx-font-family: "Font Awesome Regular";
+}
+.fa-solid {
+    -fx-font-family: "Font Awesome Solid";
+}
+.apptBlob {
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-background-color: aqua;
+
+}
