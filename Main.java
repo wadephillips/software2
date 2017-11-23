@@ -113,22 +113,22 @@ public class Main extends Application {
 //                ));
 //            }
 //        }
-        Main.setLoggedInUser(User.findById(4));
+//        Main.setLoggedInUser(User.findById(4));
 //        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
         Main.mainStage = primaryStage;
         //todo change back to login.fxml
-        FXMLLoader root = new FXMLLoader(getClass().getResource("navigation.fxml"));
-//        FXMLLoader root = new FXMLLoader(getClass().getResource("login.fxml"));
+//        FXMLLoader root = new FXMLLoader(getClass().getResource("navigation.fxml"));
+        FXMLLoader root = new FXMLLoader(getClass().getResource("login.fxml"));
         Scene scene = new Scene(root.load());
 
         //todo change back to Login Controller
-//        LoginController controller = root.<LoginController>getController();
-        MainController controller = root.getController();
-//        controller.localize();
-        controller.loadContent("monthCalendar.fxml");
-        CalendarPane calendarPane = new CalendarPane();
-        calendarPane.showCalendarByMonth();
-        controller.setBodyPaneChild(calendarPane);
+        LoginController controller = root.<LoginController>getController();
+//        MainController controller = root.getController();
+        controller.localize();
+//        controller.loadContent("monthCalendar.fxml");
+//        CalendarPane calendarPane = new CalendarPane();
+//        calendarPane.showCalendarByMonth();
+//        controller.setBodyPaneChild(calendarPane);
 
 
 

@@ -54,7 +54,10 @@ when an appointment is created or edited.  Exceptions are caught and displayed t
 .checkForOverlappingAppointment() .  This method throws an exception if any of a number of conditions are not met 
 when an appointment is created or edited.  Exceptions are caught and displayed to the user as an alert.
 - Prevent entering non-existent or or invalid customer data - 
-- Prevent entering an incorrect username and password -   
+- Prevent entering an incorrect username and password -   This is handled by a try/catch block in calendar.controllers
+.LoginController.submitLogin() .  An unknown username or mismatched username and password combinations cause an Exception to be 
+thrown.  The Exception is caught and the Exceptions's message is displayed to the user as an error above the login 
+field.
 ### G
 ### H
 ### I

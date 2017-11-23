@@ -119,7 +119,6 @@ public class AppointmentDialog extends Dialog {
     private boolean validateForm() throws Exception {
         boolean isValid = true;
         StringBuilder body = new StringBuilder();
-        System.out.println(pane.getTitleTextField().getText());
         if(pane.getTitleTextField().getText().equals("")) {
             isValid = false;
             body.append("You must enter a title");
