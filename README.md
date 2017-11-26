@@ -46,7 +46,7 @@ At the time of successful authentication the calendar.controllers.LoginControlle
 ### J
 The application tracks user activity by recording the user's username and a timestamp of the login.  This is handled in the calendar.controllers.LoginController.submitLogin() method via a call to the super.sendToLog() method.  This method writes a simple mesage to log file located just above the root of the project (project_root/../logs/logins.txt);
 
-<hr/>
+____________________
 
 The **Acme Calendar** has four main sections; Login, Calendars, Customers, and Reports.  Each has its own button at the top of the application window.
 
@@ -59,7 +59,7 @@ Incorrect combinations of username and password will result in an error message.
 Upon authentication the logged in users information is stored as a static variable, Main.loggedInUser;
 
 Other static variable on Main are:
-- DATASOURCE - contains a package-private DataSource object which provides access to the database.  Connection information is stored in database.properties file.
+- DATASOURCE - contains a package-private DataSource object which provides access to the database.  Connection information is stored in the database.properties file.
 
 
 

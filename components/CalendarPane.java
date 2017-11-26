@@ -222,7 +222,7 @@ public class CalendarPane extends VBox {
     private void addAppointment(ActionEvent actionEvent) {
         try {
 
-            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, LocalDate.now(), LocalTime.now());
+            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, LocalDate.now());
 
             ButtonType saveButtonType = dialog.getSaveButtonType();
 
@@ -259,7 +259,7 @@ public class CalendarPane extends VBox {
     private void editAppointment(ActionEvent actionEvent) {
         try {
             Appointment selectedAppt = this.appointmentTableView.getSelectionModel().getSelectedItem();
-            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, LocalDate.now(), LocalTime.now());
+            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, LocalDate.now());
             AppointmentDialogPane adp = dialog.getPane();
             adp.setTitleTextField(selectedAppt.getTitle());
             adp.getDescriptionComboBox().setValue((AppointmentType.valueOf(selectedAppt.getDescription())));

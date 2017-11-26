@@ -391,7 +391,7 @@ public class MonthlyCalendarController extends BaseCalendarController {
 
 
         try {
-            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, clickedDate, LocalTime.now());
+            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, clickedDate);
 
             ButtonType saveButtonType = dialog.getSaveButtonType();
 

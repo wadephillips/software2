@@ -24,19 +24,40 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-
+/**
+ * AppointmentDialog provides a container for an AppointmentDialogPane which provides a form for adding or editing an Appointment.
+ */
 public class AppointmentDialog extends Dialog {
 
+    /**
+     * The type of the saveButton
+     */
     private ButtonType saveButtonType;
 
+    /**
+     * The DialogPane that is contained by this Dialog
+     */
     private AppointmentDialogPane pane;
 
+    /**
+     * A list to hold the values available for the customers ComboBox.
+     */
     private List<KeyValuePair> customers;
 
+    /**
+     * A list to hold the values available for the start and end ComboBoxes.
+     */
     private List<LocalTime> times;
 
+    /**
+     * The link to the Database for adding and editing Appointment records
+     */
     static final DataSource DATASOURCE = DBFactory.get();
 
+
+    /**
+     * A constructor for creating new Appointments
+     */
     public AppointmentDialog() {
 
         try {
@@ -45,6 +66,8 @@ public class AppointmentDialog extends Dialog {
             this.saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
             this.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL, saveButtonType);
             final Button saveButton = (Button) this.getDialogPane().lookupButton(saveButtonType);
+
+            //This event filter prevents the submission of the form if required information is missing
             saveButton.addEventFilter(ActionEvent.ACTION, event -> {
                 boolean isValid = false;
                 boolean hasOverlap = false;
@@ -66,9 +89,14 @@ public class AppointmentDialog extends Dialog {
     }
 
 
-
-
-    public AppointmentDialog(ArrayList<KeyValuePair> customers, ArrayList<LocalTime> times, LocalDate selectedDate, LocalTime selectedTime) {
+    /**
+     * A constructor for editing existing Appointments
+     *
+     * @param customers A list to be used to populate the customers ComboBox
+     * @param times A list to be used to populate the start and end times ComboBoxes
+     * @param selectedDate The date that should be displayed in the DatePicker
+     */
+    public AppointmentDialog(List<KeyValuePair> customers, List<LocalTime> times, LocalDate selectedDate) {
         this();
         this.customers = customers;
         this.times = times;
@@ -83,23 +111,20 @@ public class AppointmentDialog extends Dialog {
 
     }
 
-    public ButtonType getSaveButtonType() {
-        return this.saveButtonType;
-    }
-
+    /**
+     * Takes the input from the AppointmentDialog form and returns an Appointment object.
+     *
+     * @return An Appointment object
+     */
     public Appointment getAppointment(){
         LocalDate date = pane.getDate();
         LocalTime startTime = pane.getStartTime();
         LocalTime endTime = pane.getEndTime();
-//        final ZoneId zone = Main.getZone();
         LocalDateTime start = LocalDateTime.of(date, startTime);
         LocalDateTime end = LocalDateTime.of(date, endTime);
 
         long customer = 0;
-//        System.out.println(pane.getCustomerComboBox().getValue());
-//        if (pane.getCustomerComboBox().getValue() == null) {
-//
-//            return null;
+
         try {
             customer = pane.getCustomer().getKey();
         } catch (Exception e) {
@@ -116,6 +141,12 @@ public class AppointmentDialog extends Dialog {
         return new Appointment(customer,title,description,location,contact,url,start,end);
     }
 
+    /**
+     * Checks the form fields to ensure that all required fields are filled out before creating the object.
+     *
+     * @return Returns true if all required fields are filled out and false if they are not.
+     * @throws Exception  If a required field is not filled out an exception is thrown with a message to be displayed to the user.
+     */
     private boolean validateForm() throws Exception {
         boolean isValid = true;
         StringBuilder body = new StringBuilder();
@@ -163,6 +194,12 @@ public class AppointmentDialog extends Dialog {
         return isValid;
     }
 
+    /**
+     * Checks to make sure that the current user doesn't already have an appointment scheduled during the requested time slot.
+     *
+     * @return Returns true if the user already has appointments that conflict with the requested start or end time.  Otherwise returns false.
+     * @throws Exception If there is a scheduling conflict an Exception is thrown with a message describing the conflict.
+     */
     private boolean checkForOverlappingAppointment() throws Exception {
         boolean overlap = false;
         LocalDate date = pane.getDate();
@@ -203,9 +240,10 @@ public class AppointmentDialog extends Dialog {
     }
 
 
-
-    public void populateComboBoxes(){
-//        List<Customer> customers = Customer.findAll();
+    /**
+     * Sets the values to be displayed in the ComboBoxes on the form.
+     */
+    private void populateComboBoxes(){
 
         this.pane.setComboBoxOptions(this.customers, this.pane.getCustomerComboBox());
         this.pane.setComboBoxOptions(this.times, this.pane.getStartTimeComboBox());
@@ -213,14 +251,39 @@ public class AppointmentDialog extends Dialog {
         this.pane.setComboBoxOptions(Arrays.asList(AppointmentType.values()), this.pane.getDescriptionComboBox());
     }
 
+    /**
+     * Sets the list to be used to populate the customers ComboBox
+     *
+     * @param customers A list of KeyValuePairs with the customer's id as the key and the Customer object as the value.
+     */
     public void setCustomers(List<KeyValuePair> customers) {
         this.customers = customers;
     }
 
+    /**
+     * Sets the list to be used to populate the start and end times ComboBoxes
+     *
+     * @param times A list of LocalTime objects.
+     *
+     */
     public void setTimes(List<LocalTime> times) {
         this.times = times;
     }
 
+    /**
+     * Returns the ButtonType for the SaveButton
+     *
+     * @return Returns the ButtonType for the SaveButton
+     */
+    public ButtonType getSaveButtonType() {
+        return this.saveButtonType;
+    }
+
+    /**
+     * Returns the AppointmentDialogPane contained within this Dialog.
+     *
+     * @return Returns the AppointmentDialogPane contained within this Dialog.
+     */
     public AppointmentDialogPane getPane() {
         return pane;
     }
