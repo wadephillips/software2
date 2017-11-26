@@ -17,21 +17,60 @@
          <children>
             <VBox>
                <children>
-                  <Label text="Title" />
+                  <HBox>
+                     <children>
+                        <Label text="Title" />
+                        <Label text="*" textFill="#f20303">
+                           <padding>
+                              <Insets left="2.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </HBox>
                   <TextField fx:id="titleTextField" />
-                  <Label text="Description" />
+                  <HBox>
+                     <children>
+                        <Label text="Description" />
+                        <Label text="*" textFill="#f20303">
+                           <padding>
+                              <Insets left="2.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </HBox>
                   <ComboBox fx:id="descriptionComboBox" prefWidth="150.0" />
-                  <Label text="Location" />
+                  <HBox>
+                     <children>
+                        <Label text="Location" />
+                     </children>
+                  </HBox>
                   <TextField fx:id="locationTextField" />
-                  <Label text="Contact" />
+                  <HBox>
+                     <children>
+                        <Label text="Contact" />
+                        <Label text="*" textFill="#f20303">
+                           <padding>
+                              <Insets left="2.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </HBox>
                   <TextField fx:id="contactTextField" />
                   <Label text="URL" />
                   <TextField fx:id="urlTextField" />
-                  <Label text="Customer">
+                  <HBox>
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
-                  </Label>
+                     <children>
+                        <Label text="Customer" />
+                        <Label text="*" textFill="#f20303">
+                           <padding>
+                              <Insets left="2.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </HBox>
                   <ComboBox fx:id="customerComboBox" prefWidth="150.0">
                      <VBox.margin>
                         <Insets />
@@ -41,7 +80,16 @@
                      <children>
                         <VBox>
                            <children>
-                              <Label text="Appointment Date" />
+                              <HBox>
+                                 <children>
+                                    <Label text="Appointment Date" />
+                                    <Label text="*" textFill="#f20303">
+                                       <padding>
+                                          <Insets left="2.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </HBox>
                               <DatePicker fx:id="apptDatePicker" />
                            </children>
                         </VBox>
@@ -51,7 +99,16 @@
                      <children>
                         <VBox>
                            <children>
-                              <Label text="Start Time" />
+                              <HBox>
+                                 <children>
+                                    <Label text="Start Time" />
+                                    <Label text="*" textFill="#f20303">
+                                       <padding>
+                                          <Insets left="2.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </HBox>
                               <ComboBox fx:id="startTimeComboBox" prefWidth="150.0" />
                            </children>
                            <opaqueInsets>
@@ -60,7 +117,16 @@
                         </VBox>
                         <VBox>
                            <children>
-                              <Label text="End Time" />
+                              <HBox>
+                                 <children>
+                                    <Label text="End Time" />
+                                    <Label text="*" textFill="#f20303">
+                                       <padding>
+                                          <Insets left="2.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </HBox>
                               <ComboBox fx:id="endTimeComboBox" prefWidth="150.0" />
                            </children>
                            <opaqueInsets>
