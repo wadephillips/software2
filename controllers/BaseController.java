@@ -2,6 +2,7 @@ package calendar.controllers;
 
 import calendar.DBFactory;
 import calendar.Main;
+import calendar.models.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,8 +11,12 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import javax.sql.DataSource;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.time.Instant;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
@@ -49,6 +54,18 @@ abstract public class BaseController implements Initializable {
         Scene scene = new Scene(root.load());
         stage.setScene(scene);
         stage.show();
+    }
+
+    protected void sendToLog(String action, User user, File destination) throws Exception {
+        if (destination.exists()){
+            try(BufferedWriter writer = new BufferedWriter(new FileWriter(destination, true))){
+                String message = action + ": " + user.getUserName() + " @ " + Instant.now().toString();
+                writer.write(message);
+                writer.newLine();
+
+            }
+        }
+
     }
 
     /**
