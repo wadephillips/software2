@@ -65,7 +65,7 @@ public class User extends Model {
      */
     public User save() {
         if (userId > 0) {
-            //todo throw an exception
+            this.update();
         }
         String nameCheckSql = "SELECT COUNT(userId) as count FROM user WHERE userName = ?;";
 
@@ -81,7 +81,6 @@ public class User extends Model {
             int userExists = nameCheckResult.getInt("count");
 
             if (userExists >= 1) {
-                //todo thow an exception or alert
                 System.out.println(" that username already exists!");
             } else {
 
@@ -146,7 +145,7 @@ public class User extends Model {
      */
     public boolean update() {
         if (userId == null) {
-            //todo throw an exception
+            this.save();
         }
         boolean updated = false;
         String sql = "UPDATE user SET userName=?, password=?, active=?, lastUpdate=?, lastUpdatedBy=? " +

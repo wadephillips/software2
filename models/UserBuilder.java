@@ -42,7 +42,6 @@ public class UserBuilder extends ModelBuilder {
     }
 
     public User build(){
-        //todo implement a check to see if the the createDate and updatedAt have been set.  Set automatically them if they haven't been
         super.checkAndSetCreate();
         super.checkAndSetUpdate();
         return new User(this.userId, this.userName, this.password, this.active, this.createdBy, this.createDate,this.lastUpdate, this.lastUpdateBy);
