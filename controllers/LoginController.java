@@ -71,11 +71,13 @@ public class LoginController extends BaseController {
                 if (pass.equals(this.password.getText()) ){
 
                     User user = User.buildUserFromDB(rs);
+
                     Main.setLoggedInUser(user);
                     //record user login in log
                     try {
                         File log = new File("logs/logins.txt");
-                        this.sendToLog("USER LOGIN", user, log);
+                        super.sendToLog("USER_LOGIN", user, log);
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -113,6 +115,7 @@ public class LoginController extends BaseController {
             e.printStackTrace();
         }catch (Exception e){
             this.setNoMatchErrorMessage(e.getMessage());
+            e.printStackTrace();
         }finally{
             password.clear();
         }

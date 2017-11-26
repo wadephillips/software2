@@ -261,6 +261,7 @@ public class CalendarPane extends VBox {
             Appointment selectedAppt = this.appointmentTableView.getSelectionModel().getSelectedItem();
             AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, LocalDate.now());
             AppointmentDialogPane adp = dialog.getPane();
+            adp.getDialogTitle().setText("Edit Appointment");
             adp.setTitleTextField(selectedAppt.getTitle());
             adp.getDescriptionComboBox().setValue((AppointmentType.valueOf(selectedAppt.getDescription())));
             adp.setLocationTextField(selectedAppt.getLocation());

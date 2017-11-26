@@ -152,9 +152,11 @@ public class AppointmentDialog extends Dialog {
         StringBuilder body = new StringBuilder();
         if(pane.getTitleTextField().getText().equals("")) {
             isValid = false;
-            body.append("You must enter a title");
+            body.append("You must enter an appointment title");
             body.append(System.lineSeparator());
         }
+        //todo add check for description
+
         if(pane.getContactTextField().getText().equals("")) {
             isValid = false;
             body.append("You must enter a contact for this appointment");
@@ -165,6 +167,8 @@ public class AppointmentDialog extends Dialog {
             body.append("You must select a customer for this appointment");
             body.append(System.lineSeparator());
         }
+        //todo add check for Customer
+
         if (pane.getStartTimeComboBox().getValue() == null) {
             isValid = false;
             body.append("You must select a start time");
