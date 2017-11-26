@@ -75,7 +75,7 @@ public class LoginController extends BaseController {
                     //record user login in log
                     try {
                         File log = new File("logs/logins.txt");
-                        this.sendToLog(user, log);
+                        this.sendToLog("USER LOGIN", user, log);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -154,13 +154,6 @@ public class LoginController extends BaseController {
                 }
                 if(i > 0 ){
                     Main.popup.accept("You have upcoming appointments!", body);
-                    //todo get rid of this comment if everything is working
-//                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//                    alert.setHeaderText("You have upcoming appointments!");
-//                    alert.setContentText(body);
-//
-//
-//                    alert.showAndWait();
                 }
 
             }
@@ -170,18 +163,6 @@ public class LoginController extends BaseController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    private void sendToLog(User user, File destination) throws Exception {
-        if (destination.exists()){
-            try(BufferedWriter writer = new BufferedWriter(new FileWriter(destination, true))){
-                String message = "USER_LOGIN: " + user.getUserName() + " @ " + Instant.now().toString();
-                writer.write(message);
-                writer.newLine();
-
-            }
-        }
-
     }
 
     private void setNoMatchErrorMessage(String message) {

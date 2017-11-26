@@ -1,5 +1,7 @@
 package calendar.models;
 
+import calendar.Main;
+
 import java.time.Instant;
 import java.time.ZonedDateTime;
 
@@ -48,8 +50,7 @@ abstract public class ModelBuilder {
             this.createDate = ZonedDateTime.now();
         }
         if (createdBy == null) {
-            //todo make this access a static variable with the username in it
-            this.createdBy = "Wade";
+            this.createdBy = Main.getLoggedInUser().getUserName();
         }
         return this;
     }
@@ -57,8 +58,7 @@ abstract public class ModelBuilder {
     protected ModelBuilder checkAndSetUpdate(){
 //        System.out.println(createDate + createdBy + lastUpdate +lastUpdateBy);
         this.lastUpdate = Instant.now();
-        //todo make this access a static variable with the username in it
-        this.lastUpdateBy = "Wade";
+        this.lastUpdateBy = Main.getLoggedInUser().getUserName();;
         return this;
     }
 
