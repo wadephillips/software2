@@ -1,23 +1,43 @@
 package calendar.models;
 
 import calendar.Main;
-
 import java.time.Instant;
 import java.time.ZonedDateTime;
 
+/**
+ * An abstract builder class for handling common methods and instance variables
+ */
 abstract public class ModelBuilder {
 
+    /**
+     * The user who created the Model
+     */
     protected String createdBy;
 
+    /**
+     * The date and time when the Modle instance was created
+     */
     protected ZonedDateTime createDate;
 
+    /**
+     * The time when this Model instance was last updated
+     */
     protected Instant lastUpdate;
 
+    /**
+     * The user who last updated this Model instance
+     */
     protected String lastUpdateBy;
 
+    /**
+     * The name of the database table that contains this Model instances record
+     */
     protected String tableName;
 
 
+    /**
+     * Setters
+     */
 
     public ModelBuilder setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
@@ -44,8 +64,11 @@ abstract public class ModelBuilder {
         return this;
     }
 
+    /**
+     * Check to see if the createDate and createdBy fields have been set and if not set them.
+     * @return this
+     */
     protected ModelBuilder checkAndSetCreate(){
-//        System.out.println(createDate + createdBy + lastUpdate +lastUpdateBy);
         if (createDate == null) {
             this.createDate = ZonedDateTime.now();
         }
@@ -55,13 +78,5 @@ abstract public class ModelBuilder {
         return this;
     }
 
-    protected ModelBuilder checkAndSetUpdate(){
-//        System.out.println(createDate + createdBy + lastUpdate +lastUpdateBy);
-        this.lastUpdate = Instant.now();
-        if (lastUpdateBy == null) {
-            this.lastUpdateBy = Main.getLoggedInUser().getUserName();
-        }
-        return this;
-    }
 
 }

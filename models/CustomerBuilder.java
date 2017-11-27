@@ -1,5 +1,8 @@
 package calendar.models;
 
+/**
+ * A builder class for instantiating a Customer object
+ */
 public class CustomerBuilder extends ModelBuilder {
 
     /**
@@ -23,6 +26,18 @@ public class CustomerBuilder extends ModelBuilder {
     private int active;
 
 
+    /**
+     * Builds up and returns a Customer object
+     * @return
+     */
+    public Customer build(){
+        return new Customer(this.customerId, this.customerName, this.addressId, this.active,
+                this.createdBy, this.createDate, this.lastUpdate, this.lastUpdateBy);
+    }
+
+    /**
+     * Setters
+     */
 
     public CustomerBuilder setCustomerId(long customerId) {
         this.customerId = customerId;
@@ -42,10 +57,5 @@ public class CustomerBuilder extends ModelBuilder {
     public CustomerBuilder setActive(int active) {
         this.active = active;
         return this;
-    }
-
-    public Customer build(){
-        return new Customer(this.customerId, this.customerName, this.addressId, this.active,
-                this.createdBy, this.createDate, this.lastUpdate, this.lastUpdateBy);
     }
 }

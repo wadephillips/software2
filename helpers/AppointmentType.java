@@ -1,29 +1,44 @@
 package calendar.helpers;
 
+/**
+ * An Enum to describe different types of appointments
+ */
 public enum AppointmentType {
+    /**
+     * The main declaration
+     */
     INITIAL("Initial Appt"),FOLLOW_UP("Follow Up"),SALE("Sales Call"),SURVEY("Follow up survey"),THANKS("Thank You Call");
 
-    private String humanDescription;
+    /**
+     * An easier version to read
+     */
+    private String descriptionForHumans;
 
-    private AppointmentType(String humanDescription) {
-        this.humanDescription = humanDescription;
+    /**
+     * The Constructor
+     * @param descriptionForHumans A very short description that is easier to read
+     */
+    AppointmentType(String descriptionForHumans) {
+        this.descriptionForHumans = descriptionForHumans;
     }
 
-    public String getHumanDescription() {
-        return humanDescription;
+    /**
+     * A getter to return the more friendly version of the constant
+     * @return
+     */
+    public String getDescriptionForHumans() {
+        return descriptionForHumans;
     }
 
 
     /**
-     * Returns the name of this enum constant, as contained in the
-     * declaration.  This method may be overridden, though it typically
-     * isn't necessary or desirable.  An enum type should override this
-     * method when a more "programmer-friendly" string form exists.
+     * Returns the human friendly version of this enum constant, as contained in the
+     * declaration.
      *
      * @return the name of this enum constant
      */
     @Override
     public String toString() {
-        return getHumanDescription();
+        return getDescriptionForHumans();
     }
 }
