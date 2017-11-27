@@ -25,72 +25,116 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- *
+ * Controller to handle the logic for the Add Customer and Edit Customer forms.
  */
 public class CustomerFormController extends MainController {
 
-
+    /**
+     * The title of the form
+     */
     @FXML
     private Label title;
 
+    /**
+     * The name of the customer
+     */
     @FXML
     private TextField nameField;
 
+    /**
+     * A checkbox to indicate whether or not the customer is active or not
+     */
     @FXML
     private CheckBox activeCheckBox;
 
+    /**
+     * A phone number of the customer
+     */
     @FXML
     private TextField phoneField;
 
+    /**
+     * The street address of the customer
+     */
     @FXML
     private TextField addressField;
 
+    /**
+     * An additional field for address information
+     */
     @FXML
     private TextField address2Field;
 
+    /**
+     * The city where the customer is located
+     */
     @FXML
     private ChoiceBox<KeyValuePair> cityChoiceBox = new ChoiceBox<>();
 
+    /**
+     * The customer's postal code
+     */
     @FXML
     private TextField postalCodeField;
 
+    /**
+     * The customer's country
+     */
     @FXML
     private ChoiceBox<KeyValuePair> countryChoiceBox = new ChoiceBox<>();
 
+    /**
+     * The button displayed to save changes made to an existing customer
+     */
     @FXML
     private Button updateButton;
 
+    /**
+     * The button displayed to save a new customer
+     */
     @FXML
     private Button saveButton;
 
+    /**
+     * The button for canceling out of the add or edit customer forms
+     */
     @FXML
     private Button cancelButton;
 
+    /**
+     * A container Pane to hold the add or edit customer form
+     */
     @FXML
     private StackPane bodyPane;
 
+    /**
+     * The list of cities that are displayed to the user when creating or editing a customer
+     */
     private List<KeyValuePair> cities = new ArrayList<>();
 
+    /**
+     * The list of countries that are displayed to the user when creating or editing a customer
+     */
     private List<KeyValuePair> countries = new ArrayList<>();
 
+    /**
+     * The addresses database id
+     */
     private long addressId;
 
+    /**
+     * The customer's id in the customer database table
+     */
     private long customerId;
 
-    public Label getTitle() {
-        return title;
-    }
 
-    public void setTitle(Label title) {
-        this.title = title;
-    }
-
-
-
+    /**
+     * The onAction handler for the saveButton.
+     * Takes the information from the form and sends it to the Address and Customer Models for saving.
+     * @param actionEvent
+     */
     @FXML
     public void createCustomer(ActionEvent actionEvent) {
-        System.out.println("saving!");
-//        Instant instant = Instant.now();
 
         Address custAddress = extractAddress();
         try {
@@ -114,10 +158,13 @@ public class CustomerFormController extends MainController {
         }
     }
 
+    /**
+     * The onAction handler for the updateButton.
+     * Takes the information from the form and sends it to the Address and Customer Models for updating.
+     * @param actionEvent
+     */
     @FXML
     public void updateCustomer(ActionEvent actionEvent) {
-        System.out.println("saving!");
-//        Instant instant = Instant.now();
 
         Address custAddress = extractAddress();
         custAddress.setAddressId(this.addressId);
@@ -145,6 +192,11 @@ public class CustomerFormController extends MainController {
         }
     }
 
+    /**
+     * Gets Customer information from the add or edit form and returns a Customer object
+     * @param custAddress the address of the customer from the form.
+     * @return a Customer object
+     */
     Customer extractCustomer(Address custAddress) {
         String name = this.nameField.getText();
         int active = 0;
@@ -154,6 +206,10 @@ public class CustomerFormController extends MainController {
         return new Customer(name, custAddress.getAddressId(), active);
     }
 
+    /**
+     * Gets Address information from the add or edit form and returns an Address object
+     * @return a Address object
+     */
     Address extractAddress() {
         String phone = this.phoneField.getText();
         String address = this.addressField.getText();
@@ -165,6 +221,11 @@ public class CustomerFormController extends MainController {
         return new Address(address, address2, cityId, postalCode, phone);
     }
 
+    /**
+     * The onAction handler for the cancelButton on the add and edit forms
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void cancelAndReturn(ActionEvent actionEvent) throws IOException {
         Button cancel = (Button) actionEvent.getSource();
@@ -172,21 +233,32 @@ public class CustomerFormController extends MainController {
         this.returnToCustomersScene();
     }
 
+    /**
+     * Sets the title to be displayed at the top of the add or edit customer form
+     * @param text
+     */
     public void setTitleText(String text) {
         this.title.setText(text);
     }
 
+    /**
+     * Gets a list of cities and countries to be added to the appropriate ChoiceBoxes on the form
+     */
     public void initAddChoiceBoxes(){
         List<City> cities = City.findAll();
         List<Country> countries = Country.findAll();
         extractKeyValuePairs(cities, countries);
-//
-//        System.out.println(this.countries);
+
         setChoiceBoxOptions(this.cities, this.cityChoiceBox);
         setChoiceBoxOptions(this.countries, this.countryChoiceBox);
     }
 
-    public void extractKeyValuePairs(List<City> cities, List<Country> countries) {
+    /**
+     * Helper method that transforms the lists of Cities and Countries into KeyValuePairs
+     * @param cities
+     * @param countries
+     */
+    private void extractKeyValuePairs(List<City> cities, List<Country> countries) {
         for (City city :
                 cities) {
 //            System.out.println(city.getCityId());
@@ -198,6 +270,10 @@ public class CustomerFormController extends MainController {
         }
     }
 
+    /**
+     * Displays the appropriate Country for the address on the add/edit form based on the selected City
+     * @param cityId
+     */
     @FXML
     private void displayCountry(long cityId) {
         long countryId = City.lookupCountryId(cityId);
@@ -205,6 +281,138 @@ public class CustomerFormController extends MainController {
             KeyValuePair country = countries.stream().filter(x -> x.getKey() == countryId).findFirst().get();
             this.countryChoiceBox.setValue(country);
         }
+    }
+
+    /**
+     * Loads and displays the main customer scene, without making changes to the underlying controller's properties, after a button click.
+     */
+    public void returnToCustomersScene() throws IOException {
+        Stage stage;
+        FXMLLoader root;
+        stage = Main.getMainStage();
+        root = new FXMLLoader(getClass().getResource("../navigation.fxml"));
+
+        Scene scene = new Scene(root.load());
+
+        MainController controller = root.getController();
+        controller.showCustomers();
+
+
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
+    /**
+     * Validates the fields on the add/edit form that relate to the Customer's Address.
+     * @return True if the address information is valid and complete, false if any required information is missing.
+     * @throws Exception
+     */
+    private boolean validateAddress() throws Exception {
+        boolean isValid = true;
+        StringBuilder body = new StringBuilder();
+
+        if (this.phoneField.getText().equals("")){
+            isValid = false;
+            body.append("You must enter a phone number.");
+            body.append(System.lineSeparator());
+        }
+        if (this.addressField.getText().equals("")) {
+            isValid = false;
+            body.append("You must enter an address.");
+            body.append(System.lineSeparator());
+        }
+        if (this.cityChoiceBox.getValue() == null) {
+            isValid = false;
+            body.append("You must select a city");
+            body.append(System.lineSeparator());
+        }
+        if (this.postalCodeField.getText().equals("")) {
+            isValid = false;
+            body.append("You must enter a postal code");
+            body.append(System.lineSeparator());
+        }
+
+
+        if (!isValid) {
+            throw new Exception(body.toString());
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Validates the fields on the add/edit form that relate to the Customer.
+     * @return True if the Customer information is valid and complete, false if any required information is missing.
+     * @throws Exception
+     */
+    private boolean validateCustomer() throws Exception {
+        boolean isValid = true;
+        StringBuilder body = new StringBuilder();
+
+        if (this.nameField.getText().equals("")) {
+            isValid = false;
+            body.append("You must enter a Customer name");
+            body.append(System.lineSeparator());
+        }
+        if (!isValid) {
+            throw new Exception(body.toString());
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed.
+     *
+     * @param location  The location used to resolve relative paths for the root object, or
+     *                  <tt>null</tt> if the location is not known.
+     * @param resources The resources used to localize the root object, or <tt>null</tt> if
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+
+        this.cityChoiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            this.displayCountry(cities.get(newValue.intValue()).getKey());
+            System.out.println(observable);
+        });
+
+        this.saveButton.addEventFilter(ActionEvent.ACTION, handler);
+        this.updateButton.addEventFilter(ActionEvent.ACTION, handler);
+    }
+
+    /**
+     * An event handler to validate Customer and Address fields on the Add/Edit forms.  If any of the information is
+     * invalid an Alert is presented to the user with a description of the issue and the the save or update action is
+     * not performed.
+     */
+    private EventHandler<ActionEvent> handler = event -> {
+        boolean isValidCustomer = false;
+        boolean isValidAddress = false;
+        try{
+            isValidCustomer = this.validateCustomer();
+            isValidAddress = this.validateAddress();
+        } catch (Exception e) {
+            Main.alert.accept("Please correct the following issue(s) with this customer entry before submitting",
+                    e.getMessage());
+        }
+        if (!isValidCustomer || !isValidAddress) {
+            event.consume();
+        }
+    };
+
+    /**
+     * Getters and Setters for instance variables
+     */
+
+    public Label getTitle() {
+        return title;
+    }
+
+    public void setTitle(Label title) {
+        this.title = title;
     }
 
     private void setChoiceBoxOptions(List<KeyValuePair> list, ChoiceBox box){
@@ -276,115 +484,6 @@ public class CustomerFormController extends MainController {
         this.customerId = customerId;
     }
 
-    /**
-     * Loads and displays a scene, without making changes to the underlying controller's properties, after a button click.
-     *
-     *
-     *
-     */
-    public void returnToCustomersScene() throws IOException {
-//        super.changeScene(clicked, fxmlSourceFile);
-        Stage stage;
-        FXMLLoader root;
-        stage = Main.getMainStage();
-        root = new FXMLLoader(getClass().getResource("../navigation.fxml"));
-
-        Scene scene = new Scene(root.load());
-
-        MainController controller = root.getController();
-        controller.showCustomers();
-
-
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    /**
-     * Called to initialize a controller after its root element has been
-     * completely processed.
-     *
-     * @param location  The location used to resolve relative paths for the root object, or
-     *                  <tt>null</tt> if the location is not known.
-     * @param resources The resources used to localize the root object, or <tt>null</tt> if
-     */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        super.initialize(location, resources);
-
-        this.cityChoiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
-            this.displayCountry(cities.get(newValue.intValue()).getKey());
-            System.out.println(observable);
-//          return cities.get(newValue.intValue());
-        });
-
-        this.saveButton.addEventFilter(ActionEvent.ACTION, handler);
-        this.updateButton.addEventFilter(ActionEvent.ACTION, handler);
-    }
-
-    private EventHandler<ActionEvent> handler = event -> {
-        boolean isValidCustomer = false;
-        boolean isValidAddress = false;
-        try{
-            isValidCustomer = this.validateCustomer();
-            isValidAddress = this.validateAddress();
-        } catch (Exception e) {
-            Main.alert.accept("Please correct the following issue(s) with this customer entry before submitting",
-                    e.getMessage());
-        }
-        if (!isValidCustomer || !isValidAddress) {
-            event.consume();
-        }
-    };
-
-
-    private boolean validateAddress() throws Exception {
-        boolean isValid = true;
-        StringBuilder body = new StringBuilder();
-
-        if (this.phoneField.getText().equals("")){
-            isValid = false;
-            body.append("You must enter a phone number.");
-            body.append(System.lineSeparator());
-        }
-        if (this.addressField.getText().equals("")) {
-            isValid = false;
-            body.append("You must enter an address.");
-            body.append(System.lineSeparator());
-        }
-        if (this.cityChoiceBox.getValue() == null) {
-            isValid = false;
-            body.append("You must select a city");
-            body.append(System.lineSeparator());
-        }
-        if (this.postalCodeField.getText().equals("")) {
-            isValid = false;
-            body.append("You must enter a postal code");
-            body.append(System.lineSeparator());
-        }
-
-
-        if (!isValid) {
-            throw new Exception(body.toString());
-        }
-
-        return isValid;
-    }
-
-    private boolean validateCustomer() throws Exception {
-        boolean isValid = true;
-        StringBuilder body = new StringBuilder();
-
-        if (this.nameField.getText().equals("")) {
-            isValid = false;
-            body.append("You must enter a Customer name");
-            body.append(System.lineSeparator());
-        }
-        if (!isValid) {
-            throw new Exception(body.toString());
-        }
-
-        return isValid;
-    }
 }
 
 
