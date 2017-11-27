@@ -9,8 +9,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * A class to provide a connection to the database.  This class pulls all of the database access credentials from the
+ * database.properties file, which is located at the root of the project.
+ */
 public class DBFactory {
 
+    /**
+     * Get a DataSource based on the properties contained in the database.properties file
+     * @return DataSource
+     */
     public static DataSource get() {
         Properties properties = null;
         FileInputStream fileInput = null;

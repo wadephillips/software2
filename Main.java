@@ -6,23 +6,36 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import javax.sql.DataSource;
+import java.io.InputStream;
 import java.time.ZoneId;
 import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.function.BiConsumer;
 
 public class Main extends Application {
 
-    static DataSource DATASOURCE = DBFactory.get();
+    /**
+     * todo does the application work with out this connection?  Should we point the other refernces to this one?
+     */
+//    final static DataSource DATASOURCE = DBFactory.get();
 
+    /**
+     * Holds the Locale to be used by the application
+     */
     private static Locale locale;
 
-
-
+    /**
+     * Holds the Time Zone Id to be used by the application
+     */
     private static ZoneId zone;
 
+    /**
+     * Holds a User object representing the logged in user.
+     */
     private static User loggedInUser;
 
     /**
@@ -30,6 +43,43 @@ public class Main extends Application {
      */
     private static Stage mainStage;
 
+
+    @Override
+    public void start(Stage primaryStage) throws Exception{
+        this.locale = Locale.getDefault();
+        this.zone = ZoneId.systemDefault();
+
+        // Uncomment one of the next two lines to test localization
+        // Locale locale = new Locale("en", "GB");
+        // Locale locale = new Locale("es", "ES");
+
+        // Uncomment the following line to test localization
+        // Locale.setDefault(locale);
+
+        Main.mainStage = primaryStage;
+        FXMLLoader root = new FXMLLoader(getClass().getResource("login.fxml"));
+        Scene scene = new Scene(root.load());
+
+        LoginController controller = root.<LoginController>getController();
+        controller.localize();
+
+        primaryStage.setTitle("ACME Calendar");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        popup.accept("Welcome to Acme Calendar", "You put the A in Acme");
+    }
+
+    /**
+     * The main method
+     * @param args not used
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    /**
+     * Provides standardized popups for the application;
+     */
     public static BiConsumer<String, String> popup = (title, body) -> {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Acme Calendar");
@@ -38,6 +88,9 @@ public class Main extends Application {
         alert.show();
     };
 
+    /**
+     * Provides standardized alerts for the application
+     */
     public static BiConsumer<String, String> alert = (title, body) -> {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Acme Calendar");
@@ -46,90 +99,9 @@ public class Main extends Application {
         alert.show();
     };
 
-
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-        this.locale = Locale.getDefault();
-        this.zone = ZoneId.systemDefault();
-//        this.zone =  ZoneId.of("America/New_York");//TimeZone.getTimeZone().;
-//        Locale locale = new Locale("en", "GB");
-//        Locale locale = new Locale("es", "ES");
-//        Locale.setDefault(locale);
-//        UserBuilder userBuilder = new UserBuilder();
-//        userBuilder.setActive(1).setUserName("Xander").setPassword("pepelepew");
-//                .setCreatedBy("wade").setCreateDate(ZonedDateTime.now())
-//                .setLastUpdate(Instant.now()).setLastUpdateBy("wade");
-
-//        User user = User.findById(7);
-//        System.out.println(user.toString());
-//        ArrayList<User> list = User.findAll();
-//        for (User user :
-//                list) {
-//            System.out.println(user);
-//        }
-//        System.out.println(user.delete());
-//        User user = userBuilder.build();
-//        user.save();
-//        System.out.println(user.getUserId());
-//        user.setUserName("Candra");
-//        System.out.println(user.getUserName());
-//        user.update();
-//        boolean success = User.deleteById(7);
-//        System.out.println(success);
-//        System.out.println(user.getNextId());
-//        Address address = new Address();
-//        address.find(1);
-//        while (resultSet.next()){
-//            System.out.println(resultSet.getString(2));
-//        }
-
-
-//        ArrayList<ModelDAO> users = new User().findAll();
-//        System.out.println(users);
-//        for (ModelDAO user: users
-//             ) {
-//            User user2 = (User) user;
-//            System.out.println(user2.getUserName());
-//        }
-//        DataSource dataSource = DBFactory.get();
-//        try (Connection conn = DATASOURCE.getConnection();
-//            Statement stmt = conn.createStatement();
-//            ResultSet rs = stmt.executeQuery("SELECT * FROM user; ");){
-//
-//            while (rs.next()){
-//                System.out.println(rs.getString(2
-//                ));
-//            }
-//        }
-//        Main.setLoggedInUser(User.findById(4));
-//        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
-        Main.mainStage = primaryStage;
-        //todo change back to login.fxml
-//        FXMLLoader root = new FXMLLoader(getClass().getResource("navigation.fxml"));
-        FXMLLoader root = new FXMLLoader(getClass().getResource("login.fxml"));
-        Scene scene = new Scene(root.load());
-
-        //todo change back to Login Controller
-        LoginController controller = root.<LoginController>getController();
-//        MainController controller = root.getController();
-        controller.localize();
-//        controller.loadContent("monthCalendar.fxml");
-//        CalendarPane calendarPane = new CalendarPane();
-//        calendarPane.showCalendarByMonth();
-//        controller.setBodyPaneChild(calendarPane);
-
-
-
-        primaryStage.setTitle("ACME Calendar");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-        popup.accept("Welcome to Acme Calendar", "You put the A in Acme");
-    }
-
-
-    public static void main(String[] args) {
-        launch(args);
-    }
+    /**
+     * Getters and Setters
+     */
 
     public static void setLoggedInUser(User loggedInUser) {
         Main.loggedInUser = loggedInUser;
