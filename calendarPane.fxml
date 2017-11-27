@@ -67,11 +67,11 @@
                <buttons>
                   <Button fx:id="showByWeekButton" mnemonicParsing="false" onAction="#showCalendarByWeek" text="Week">
                      <tooltip>
-                        <Tooltip text="Empty Tooltip" />
+                        <Tooltip text="Display calendar by week" />
                      </tooltip></Button>
                   <Button fx:id="showByMonthButton" disable="true" mnemonicParsing="false" onAction="#showCalendarByMonth" text="Month" textFill="#1c50eb" underline="true">
                      <tooltip>
-                        <Tooltip text="Empty Tooltip" />
+                        <Tooltip text="Display calendar by month" />
                      </tooltip></Button>
                </buttons>
                <padding>
