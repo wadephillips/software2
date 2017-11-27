@@ -130,7 +130,6 @@ public class Customer extends Model {
     private static Customer buildCustomerFromDB(ResultSet resultSet) throws SQLException {
         ZoneId zone = ZoneId.systemDefault();
         AddressBuilder addressBuilder = new AddressBuilder();
-//        System.out.println("builder: " + resultSet.getString("country"));
         addressBuilder.setAddress(resultSet.getString("address"))
                 .setAddress2(resultSet.getString("address2"))
                 .setAddressId(resultSet.getLong("addressId"))
@@ -239,7 +238,6 @@ public class Customer extends Model {
 
 
         } catch(SQLException e){
-            //            System.out.println(sql);
             e.printStackTrace();
 
         }

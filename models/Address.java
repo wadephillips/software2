@@ -86,7 +86,6 @@ public class Address extends Model {
         this.phone.set(phone);
         super.checkAndSetCreate();
         super.setUpdate();
-//        System.out.println("hellox: " + createDate + createdBy + lastUpdate +lastUpdateby);
     }
 
     /**
@@ -131,14 +130,12 @@ public class Address extends Model {
         try(Connection conn = DATASOURCE.getConnection();
             Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
             ResultSet resultSet = stmt.executeQuery(sql)){
-            System.out.println();
             for (Field field : this.getFields()){
             }
             while (resultSet.next()){
             }
 
         } catch (SQLException e) {
-            System.out.println(sql);
             e.printStackTrace();
         }
 

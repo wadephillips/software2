@@ -53,7 +53,6 @@ abstract public class BaseController implements Initializable {
 
         this.locale = Locale.getDefault();
         this.timeZone = TimeZone.getDefault();
-//        System.out.println(this.locale);
 
         this.resourceBundle = ResourceBundle.getBundle("Calendar", this.locale);
     }

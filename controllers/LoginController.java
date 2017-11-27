@@ -124,7 +124,6 @@ public class LoginController extends BaseController {
                     root = new FXMLLoader(getClass().getResource("../navigation.fxml"));
 
                     Scene scene = new Scene(root.load());
-//                    System.out.println("controller");
                     MainController controller = root.getController();
 //                    controller.loadContent("monthCalendar.fxml");
                     CalendarPane calendarPane = new CalendarPane();
@@ -180,16 +179,13 @@ public class LoginController extends BaseController {
             stmt.setString(2, f.format(now));
             stmt.setString(3, f.format(soon));
             ResultSet resultSet = stmt.executeQuery();
-            System.out.println(f.format(now) + " - " + f.format(soon) + resultSet);
             if (resultSet.first()) {
                 int i = 0;
                 String body = "";
                 DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
                 resultSet.beforeFirst();
                 while (resultSet.next()) {
-                    System.out.println("hi");
                     i++;
-                    System.out.println(resultSet.getString("customerName") +"-" + resultSet.getString("start"));
                     body += "You have an appointment with " + resultSet.getString("customerName") +
                             " at " + formatter.format(resultSet.getTimestamp("start").toLocalDateTime()) + "\n";
                 }

@@ -90,7 +90,6 @@ public class User extends Model {
             int userExists = nameCheckResult.getInt("count");
 
             if (userExists >= 1) {
-                System.out.println(" that username already exists!");
             } else {
 
                 conn.setAutoCommit(false);
@@ -117,7 +116,6 @@ public class User extends Model {
 
             }
         } catch(SQLException e){
-            //            System.out.println(sql);
             e.printStackTrace();
 
         }
@@ -160,7 +158,6 @@ public class User extends Model {
         boolean updated = false;
         String sql = "UPDATE user SET userName=?, password=?, active=?, lastUpdate=?, lastUpdatedBy=? " +
                 "WHERE userId = ?;";
-//        System.out.println(sql);
         try(Connection conn = DATASOURCE.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
         ){
@@ -177,9 +174,7 @@ public class User extends Model {
                 //todo check to make sure that this is getting the correct username
                 stmt.setString(5, this.getLastUpdateby());
                 stmt.setLong(6, this.userId);
-//                System.out.println(stmt);
                 int rs = stmt.executeUpdate();
-//                System.out.println(rs);
                 conn.commit();
                 if (rs == 1) {
                     updated = true;
@@ -192,7 +187,6 @@ public class User extends Model {
 
 
         } catch (SQLException e) {
-//            System.out.println(sql);
             e.printStackTrace();
 
         }
@@ -210,13 +204,11 @@ public class User extends Model {
         try(Connection conn = DATASOURCE.getConnection();
             Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
             ResultSet resultSet = stmt.executeQuery(sql)){
-//            System.out.println();
             if(resultSet.first()){
                 user = buildUserFromDB(resultSet);
             }
 
         } catch (SQLException e) {
-            System.out.println(sql);
             e.printStackTrace();
         }
 
@@ -264,7 +256,6 @@ public class User extends Model {
 
 
         } catch (SQLException e) {
-            System.out.println(sql);
             e.printStackTrace();
         }
         return result;

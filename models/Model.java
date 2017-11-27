@@ -150,7 +150,6 @@ abstract public class Model {
     public static ZonedDateTime utcDateTimeToLocal(ZonedDateTime dateTime) {
 
         ZonedDateTime local = dateTime.withZoneSameInstant(Main.getZone());
-        System.out.println(dateTime + " | " + local);
         return local;
     }
 

@@ -195,7 +195,6 @@ public class CalendarPane extends VBox {
     @FXML
     public void showNextMonth() {
         try {
-//            System.out.println("display the next month");
             LocalDate firstOfNextMonth = this.firstDayOfDisplayedMonth.plusMonths(1);
             this.displayMonthAndYear(firstOfNextMonth);
             this.firstDayOfDisplayedMonth = firstOfNextMonth;
