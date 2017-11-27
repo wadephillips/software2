@@ -2,93 +2,119 @@ package calendar.controllers;
 
 import calendar.helpers.KeyValuePair;
 import calendar.models.Address;
-import calendar.models.City;
-import calendar.models.Country;
 import calendar.models.Customer;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for handling the Customer view
+ */
 public class CustomersController extends MainController {
 
+    /**
+     * The addCustomerButton
+     */
+    @FXML
+    private Button addCustomerButton;
+
+    /**
+     * The editCustomerButton
+     */
     @FXML
     private Button editCustomerButton;
 
+    /**
+     * The underlying controller for the TableView used to display the Customer list
+     */
     private CustomersTableController customersTableController = new CustomersTableController();
 
-    private CustomerEditFormController customerEditFormController = new CustomerEditFormController();
+    /**
+     * The underling controller for displaying the add/edit customer form
+     */
+    private CustomerFormController customerFormController = new CustomerFormController();
 
+    /**
+     * The constructor
+     */
     public CustomersController(){
         super();
     }
 
-
-    public void loadCustomers(){
-
-        customersTableController.loadCustomers();
+    /**
+     * The onAction handler for the addCustomerButton, displays the Add Customer form.
+     * @param actionEvent
+     */
+    public void loadAddCustomerView(ActionEvent actionEvent) {
+        try {
+            this.bodyPane.getChildren().clear();
+            FXMLLoader root = new FXMLLoader(getClass().getResource("../customerEditForm.fxml"));
+            this.bodyPane.getChildren().addAll((Node) root.load());
+            CustomerFormController controller = root.getController();
+            controller.setTitleText("Add Customer");
+            controller.initAddChoiceBoxes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    /**
+     * The onAction handler for the editCustomerButton, displays the edit Customer form.
+     */
     @FXML
-    public void editCustomer () {
+    public void editCustomer() {
 
         Customer customer = this.customersTableController.getSelectedCustomer();
         Address address = customer.getAddress();
         try {
-//
             this.bodyPane.getChildren().clear();
             FXMLLoader root = new FXMLLoader(getClass().getResource("../customerEditForm.fxml"));
             this.bodyPane.getChildren().addAll((Node) root.load());
 
-//            this.customerEditFormController = root.getController();
-            this.customerEditFormController = root.getController();
+            this.customerFormController = root.getController();
 
-            Button saveButton = this.customerEditFormController.getSaveButton();
+            Button saveButton = this.customerFormController.getSaveButton();
             saveButton.setDisable(true);
             saveButton.setVisible(false);
 
-            Button updateButton = this.customerEditFormController.getUpdateButton();
+            Button updateButton = this.customerFormController.getUpdateButton();
             updateButton.setVisible(true);
             updateButton.setDisable(false);
-            this.customerEditFormController.setTitleText("Edit Customer");
-            this.customerEditFormController.initAddChoiceBoxes();
-            this.customerEditFormController.setCustomerId(customer.getCustomerId());
-            this.customerEditFormController.setAddressId(address.getAddressId());
-            this.customerEditFormController.setNameField(customer.getCustomerName());
-            this.customerEditFormController.getActiveCheckBox().setSelected(customer.isActive());
+            this.customerFormController.setTitleText("Edit Customer");
+            this.customerFormController.initAddChoiceBoxes();
+            this.customerFormController.setCustomerId(customer.getCustomerId());
+            this.customerFormController.setAddressId(address.getAddressId());
+            this.customerFormController.setNameField(customer.getCustomerName());
+            this.customerFormController.getActiveCheckBox().setSelected(customer.isActive());
 
-            this.customerEditFormController.setAddressField(address.getAddress());
-            this.customerEditFormController.setAddress2Field(address.getAddress2());
-            this.customerEditFormController.setPhoneField(address.getPhone());
-            this.customerEditFormController.setPostalCodeField(address.getPostalCode());
+            this.customerFormController.setAddressField(address.getAddress());
+            this.customerFormController.setAddress2Field(address.getAddress2());
+            this.customerFormController.setPhoneField(address.getPhone());
+            this.customerFormController.setPostalCodeField(address.getPostalCode());
 
-            //do we need to get the keyvaluepair form the Observable list and set it as the value?
             KeyValuePair city = new KeyValuePair(0,"");
-            for (KeyValuePair c: this.customerEditFormController.getCities()
+            for (KeyValuePair c: this.customerFormController.getCities()
                  ) {
                 if (c.getKey() == address.getCityId()) {
                     city = c;
-//                    System.out.println(city.toString());
                 }
             }
-            this.customerEditFormController.getCityChoiceBox().setValue(city);
+            this.customerFormController.getCityChoiceBox().setValue(city);
 
             KeyValuePair country = new KeyValuePair(0,"");
-            for (KeyValuePair c: this.customerEditFormController.getCountries()
+            for (KeyValuePair c: this.customerFormController.getCountries()
                  ) {
                 if (c.getKey() == address.getCountryId()) {
                     country = c;
                 }
             }
-            this.customerEditFormController.getCountryChoiceBox().setValue(country);
-//            this.customerEditFormController.
+            this.customerFormController.getCountryChoiceBox().setValue(country);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -121,21 +147,4 @@ public class CustomersController extends MainController {
             e.printStackTrace();
         }
     }
-
-    public void loadAddCustomerView(ActionEvent actionEvent) {
-        try {
-//
-            this.bodyPane.getChildren().clear();
-            FXMLLoader root = new FXMLLoader(getClass().getResource("../customerEditForm.fxml"));
-            this.bodyPane.getChildren().addAll((Node) root.load());
-//            this.customerEditFormController = root.getController();
-            CustomerEditFormController controller = root.getController();
-            controller.setTitleText("Add Customer");
-            controller.initAddChoiceBoxes();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 }

@@ -58,7 +58,9 @@ abstract public class ModelBuilder {
     protected ModelBuilder checkAndSetUpdate(){
 //        System.out.println(createDate + createdBy + lastUpdate +lastUpdateBy);
         this.lastUpdate = Instant.now();
-        this.lastUpdateBy = Main.getLoggedInUser().getUserName();;
+        if (lastUpdateBy == null) {
+            this.lastUpdateBy = Main.getLoggedInUser().getUserName();
+        }
         return this;
     }
 

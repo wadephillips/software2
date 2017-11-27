@@ -164,7 +164,7 @@ public class User extends Model {
                 stmt.setString(2, this.password);
                 stmt.setInt(3, this.active);
                 stmt.setTimestamp(4, Timestamp.from(this.getLastUpdate())); //timestamp
-                //todo need to change this so that it gets the updating users name
+                //todo check to make sure that this is getting the correct username
                 stmt.setString(5, this.getLastUpdateby());
                 stmt.setLong(6, this.userId);
 //                System.out.println(stmt);

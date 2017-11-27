@@ -17,11 +17,21 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
+/**
+ * The Controller for displaying the Reports view
+ */
 public class ReportsController extends MainController {
 
+    /**
+     * The container for displaying the reports
+     */
     @FXML
     private StackPane bodyPane;
 
+    /**
+     * Queries the database and displays a count of the appointments by type per month.
+     * @param actionEvent
+     */
     public void loadAppTypeReport(ActionEvent actionEvent) {
         this.bodyPane.getChildren().clear();
 
@@ -74,6 +84,12 @@ public class ReportsController extends MainController {
 
     }
 
+
+    /**
+     *Queries the database and displays the schedule of upcoming appointments for each user.
+     * @param actionEvent
+     */
+    //TODO: I don't think that this is working correctly.  It doesn't seem to be displaying any appts for the test user
     public void loadScheduleByConsultantReport(ActionEvent actionEvent) {
         this.bodyPane.getChildren().clear();
 //        Label label = new Label("Loading the report!! Consultant");
@@ -122,6 +138,10 @@ public class ReportsController extends MainController {
         System.out.println("Loading the report!! Consultant");
     }
 
+    /**
+     * Queries the database and displays a count of the total number of appointments per user.
+     * @param actionEvent
+     */
     public void loadTotalAppointmentsByConsultantReport(ActionEvent actionEvent) {
         this.bodyPane.getChildren().clear();
         ScrollPane scrollPane = new ScrollPane();
