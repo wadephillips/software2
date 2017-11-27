@@ -2,52 +2,86 @@ package calendar.components;
 
 import calendar.helpers.AppointmentType;
 import calendar.helpers.KeyValuePair;
-import calendar.models.Appointment;
-import calendar.models.Customer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+/**
+ * Provides a form to add or edit an Appointment
+ */
 public class AppointmentDialogPane extends DialogPane {
 
-    @FXML
-    private Label titleLabel;
 
+    /**
+     * Holds the title text for the dialog field, typically either "Add Appointment" or "Edit Appointment"
+     */
+    @FXML
+    private Label dialogTitle;
+
+    /**
+     * The title field on the add/edit appointment form.
+     */
     @FXML
     private TextField titleTextField;
 
+    /**
+     * The AppointmentType field on the add/edit appointment form
+     */
     @FXML
     private ComboBox<AppointmentType> descriptionComboBox;
 
+
+    /**
+     * The location TextField on the add/edit appointment form
+     */
     @FXML
     private TextField locationTextField;
 
+    /**
+     * The contact TextField on the add/edit appointment form
+     */
     @FXML
     private TextField contactTextField;
 
+    /**
+     * The url TextField on the add/edit appointment form
+     */
     @FXML
     private TextField urlTextField;
 
+    /**
+     * The customer ComboBox field on the add/edit appointment form
+     */
     @FXML
     private ComboBox<KeyValuePair> customerComboBox;
 
+    /**
+     * The appointment DatePicker field on the add/edit appointment form
+     */
     @FXML
     private DatePicker apptDatePicker;
 
+    /**
+     * The startTime ComboBox on the add/edit appointment form
+     */
     @FXML
     private ComboBox<LocalTime> startTimeComboBox;
 
+    /**
+     * The endTime ComboBox on the add/edit appointment form
+     */
     @FXML
     private ComboBox<LocalTime> endTimeComboBox;
 
 
-
-
+    /**
+     * The constructor
+     * @throws Exception
+     */
     public AppointmentDialogPane() throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../appointmentDialog.fxml"));
         loader.setRoot(this);
@@ -57,12 +91,17 @@ public class AppointmentDialogPane extends DialogPane {
 
     }
 
-    public Label getTitleLabel() {
-        return titleLabel;
+    /**
+     * Getters and Setters
+     *
+     */
+
+    public Label getDialogTitle() {
+        return dialogTitle;
     }
 
-    public void setTitleLabel(Label titleLabel) {
-        this.titleLabel = titleLabel;
+    public void setDialogTitle(Label dialogTitle) {
+        this.dialogTitle = dialogTitle;
     }
 
     public TextField getTitleTextField() {
@@ -164,12 +203,17 @@ public class AppointmentDialogPane extends DialogPane {
     public LocalTime getStartTime() {
         return startTimeComboBox.getValue();
     }
+
     public LocalTime getEndTime() {
         return endTimeComboBox.getValue();
     }
 
+    /**
+     * Add a list of objects to a ComboBox
+     * @param list The list
+     * @param box The ComboBox
+     */
     public void setComboBoxOptions(List list, ComboBox box){
-//        System.out.println(list + " : " + box);
         box.getItems().addAll(list);
     }
 

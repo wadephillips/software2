@@ -21,15 +21,35 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
+/**
+ * An abstract class to extend when creating a controller
+ */
 abstract public class BaseController implements Initializable {
 
+    /**
+     * The connection to the database
+     */
     static final DataSource DATASOURCE = DBFactory.get();
+
+    /**
+     * The Locale to use with Internationalization
+     */
     private final Locale locale;
+
+    /**
+     * The Internationalization Resource bundle for the application
+     */
     protected final ResourceBundle resourceBundle;
+
+    /**
+     * The user's local time zone
+     */
     private final TimeZone timeZone;
 
-
-    public BaseController() {
+    /**
+     * The constructor
+     */
+    BaseController() {
 
         this.locale = Locale.getDefault();
         this.timeZone = TimeZone.getDefault();
@@ -56,7 +76,14 @@ abstract public class BaseController implements Initializable {
         stage.show();
     }
 
-    protected void sendToLog(String action, User user, File destination) throws Exception {
+    /**
+     * A helper method to handle output to a log file.  Destination log file must exist before it will function
+     * @param action The action that is being logged such as USER_LOGIN
+     * @param user The user who is taking action
+     * @param destination The log File where this entry should be appended
+     * @throws Exception
+     */
+    void sendToLog(String action, User user, File destination) throws Exception {
         if (destination.exists()){
             try(BufferedWriter writer = new BufferedWriter(new FileWriter(destination, true))){
                 String message = action + ": " + user.getUserName() + " @ " + Instant.now().toString();

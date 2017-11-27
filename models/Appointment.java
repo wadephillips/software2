@@ -1,7 +1,6 @@
 package calendar.models;
 
 import calendar.Main;
-import calendar.ModelDAO;
 import javafx.beans.property.*;
 import javafx.fxml.FXML;
 

@@ -1,29 +1,17 @@
 package calendar;
 
-import calendar.components.CalendarPane;
 import calendar.controllers.LoginController;
-import calendar.controllers.MainController;
 import calendar.models.User;
-import calendar.models.UserBuilder;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import javax.sql.DataSource;
-import java.lang.reflect.Field;
-import java.nio.charset.Charset;
-import java.time.Instant;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.Locale;
-import java.util.TimeZone;
 import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 
 public class Main extends Application {
 

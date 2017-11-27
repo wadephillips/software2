@@ -1,6 +1,5 @@
 package calendar.models;
 
-import calendar.ModelDAO;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -131,7 +130,7 @@ public class Address extends Model {
      * method to retrieve all instances of the entity from the database
      */
 
-    public ArrayList<ModelDAO> findAll() {
+    public ArrayList<Model> findAll() {
         return null;
     }
 

@@ -1,16 +1,11 @@
 package calendar.models;
 
 
-import calendar.ModelDAO;
-
 import java.sql.*;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * Created by wadelp on 10/17/17.
