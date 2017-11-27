@@ -13,27 +13,62 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for handling the Customer view
+ */
 public class CustomersController extends MainController {
 
+    /**
+     * The addCustomerButton
+     */
+    @FXML
+    private Button addCustomerButton;
+
+    /**
+     * The editCustomerButton
+     */
     @FXML
     private Button editCustomerButton;
 
+    /**
+     * The underlying controller for the TableView used to display the Customer list
+     */
     private CustomersTableController customersTableController = new CustomersTableController();
 
+    /**
+     * The underling controller for displaying the add/edit customer form
+     */
     private CustomerFormController customerFormController = new CustomerFormController();
 
+    /**
+     * The constructor
+     */
     public CustomersController(){
         super();
     }
 
-
-    public void loadCustomers(){
-
-        customersTableController.loadCustomers();
+    /**
+     * The onAction handler for the addCustomerButton, displays the Add Customer form.
+     * @param actionEvent
+     */
+    public void loadAddCustomerView(ActionEvent actionEvent) {
+        try {
+            this.bodyPane.getChildren().clear();
+            FXMLLoader root = new FXMLLoader(getClass().getResource("../customerEditForm.fxml"));
+            this.bodyPane.getChildren().addAll((Node) root.load());
+            CustomerFormController controller = root.getController();
+            controller.setTitleText("Add Customer");
+            controller.initAddChoiceBoxes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    /**
+     * The onAction handler for the editCustomerButton, displays the edit Customer form.
+     */
     @FXML
-    public void editCustomer () {
+    public void editCustomer() {
 
         Customer customer = this.customersTableController.getSelectedCustomer();
         Address address = customer.getAddress();
@@ -112,19 +147,4 @@ public class CustomersController extends MainController {
             e.printStackTrace();
         }
     }
-
-    public void loadAddCustomerView(ActionEvent actionEvent) {
-        try {
-            this.bodyPane.getChildren().clear();
-            FXMLLoader root = new FXMLLoader(getClass().getResource("../customerEditForm.fxml"));
-            this.bodyPane.getChildren().addAll((Node) root.load());
-            CustomerFormController controller = root.getController();
-            controller.setTitleText("Add Customer");
-            controller.initAddChoiceBoxes();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 }
