@@ -16,9 +16,12 @@
 .fa-solid {
     -fx-font-family: "Font Awesome Solid";
 }
-.apptBlob {
-    -fx-border-color: black;
-    -fx-border-width: 1px;
-    -fx-background-color: aqua;
-
+.fa-light {
+    -fx-font-family: "Font Awesome Light";
 }
+
+.loginMessage {
+    /*-fx-background-color: #3c3c41;*/
+    -fx-text-fill: #d80000;
+}
+
