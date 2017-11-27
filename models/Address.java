@@ -9,58 +9,102 @@ import java.lang.reflect.Field;
 import java.sql.*;
 import java.time.Instant;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 
 /**
- * Created by wadelp on 10/17/17.
+ * Creates an object to represent an Address in the application.  This model also handles interactions with the address
+ * database table
  */
 public class Address extends Model {
 
     /**
-     *
+     * The id of this address
      */
     private LongProperty addressId = new SimpleLongProperty();
 
     /**
-     *
+     * The primary street address field
      */
     private StringProperty address = new SimpleStringProperty();
 
     /**
-     *
+     * The secondary street address field
      */
     private StringProperty address2 = new SimpleStringProperty();
 
     /**
-     *
+     * The id of the City where this address is located.  A foreign key on the city table
      */
     private LongProperty cityId = new SimpleLongProperty();
 
     /**
-     *
+     * The name of the city
      */
     private StringProperty  city = new SimpleStringProperty();
 
     /**
-     *
+     * The address' postal code
      */
     private StringProperty postalCode = new SimpleStringProperty();
 
+    /**
+     * The id of the country where this address is located.
+     */
     private LongProperty countryId = new SimpleLongProperty();
 
+    /**
+     * The name of the country where the address is located
+     */
     private StringProperty country = new SimpleStringProperty();
 
 
     /**
-     *
+     * The phone number associated with this address
      */
     private StringProperty phone = new SimpleStringProperty();
 
+    /**
+     * A constructor
+     */
     public Address(){
         super();
-
     }
 
+    /**
+     * A constructor for creating new addresses that don't already exist in the database
+     * @param address
+     * @param address2
+     * @param cityId
+     * @param postalCode
+     * @param phone
+     */
+    public Address(String address, String address2, long cityId, String postalCode, String phone) {
+        super();
+        this.address.set(address);
+        this.address2.set(address2);
+        this.cityId.set(cityId);
+        this.postalCode.set(postalCode);
+        this.phone.set(phone);
+        super.checkAndSetCreate();
+        super.setUpdate();
+//        System.out.println("hellox: " + createDate + createdBy + lastUpdate +lastUpdateby);
+    }
+
+    /**
+     * A constructor for addresses that already exist in the database.
+     * @param addressId
+     * @param address
+     * @param address2
+     * @param cityId
+     * @param postalCode
+     * @param phone
+     * @param createdBy
+     * @param createDate
+     * @param lastUpdate
+     * @param lastUpdateby
+     * @param city
+     * @param country
+     * @param countryId
+     */
     public Address(long addressId, String address, String address2, long cityId, String postalCode, String phone, String createdBy, ZonedDateTime createDate, Instant lastUpdate, String lastUpdateby, String city, String country, long countryId) {
         super(createdBy, createDate, lastUpdate, lastUpdateby);
         this.setAddressId(addressId);
@@ -74,48 +118,23 @@ public class Address extends Model {
         this.setCountryId(countryId);
     }
 
-    public Address(String address, String address2, long cityId, String postalCode, String phone) {
-        super();
-        this.address.set(address);
-        this.address2.set(address2);
-        this.cityId.set(cityId);
-        this.postalCode.set(postalCode);
-        this.phone.set(phone);
-        super.checkAndSetCreate();
-        super.checkAndSetUpdate();
-//        System.out.println("hellox: " + createDate + createdBy + lastUpdate +lastUpdateby);
-    }
-
-
 
     /**
-     * method to return an empty version of the entity.
+     * Lookup a specific address in the database by id
      *
+     * @param id The id of the address to found
      * @return
      */
 
-    public Model create() {
-        return null;
-    }
-
-    /**
-     * method to retrieve an instance of the entity from the database.
-     *
-     * @param id
-     * @return
-     */
-
-    public Model find(int id) {
+    public Address find(int id) {
         String sql = "SELECT * FROM address WHERE addressId = " + id + ";";
         try(Connection conn = DATASOURCE.getConnection();
             Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
             ResultSet resultSet = stmt.executeQuery(sql)){
             System.out.println();
             for (Field field : this.getFields()){
-//                System.out.println(field.getName());
             }
             while (resultSet.next()){
-//                System.out.println(resultSet.getString(2));
             }
 
         } catch (SQLException e) {
@@ -127,20 +146,16 @@ public class Address extends Model {
     }
 
     /**
-     * method to retrieve all instances of the entity from the database
-     */
-
-    public ArrayList<Model> findAll() {
-        return null;
-    }
-
-    /**
-     * method to persist changes on the entity to the database.
+     *  Updates the address in the database
      *
      * @return this
      */
 
     public Address update() throws Exception {
+
+        if (this.addressId.get() == 0) {
+            return this.save();
+        }
 
         String sql = "UPDATE address SET address = ?, address2 = ?, cityId = ?, postalCode = ?, phone = ?, lastUpdateBy = ? " +
                 "WHERE addressId = ? ;";
@@ -169,7 +184,7 @@ public class Address extends Model {
     }
 
     /**
-     * method to help save changes the entity to the database.
+     * Inserts a new address record in the database
      *
      * @return
      */
@@ -198,7 +213,6 @@ public class Address extends Model {
                 stmt.setString(5, this.getPostalCode());
                 stmt.setString(6, this.getPhone());
                 stmt.setString(7, super.getCreatedBy());
-//                System.out.println(super.getCreateDate());
                 stmt.setTimestamp(8, Timestamp.from(super.getCreateDate().toInstant()));//datetime
                 stmt.setTimestamp(9, Timestamp.from(super.getLastUpdate())); //timestamp
                 stmt.setString(10, super.getLastUpdateby());
@@ -213,7 +227,6 @@ public class Address extends Model {
 
 
         } catch(SQLException e){
-            //            System.out.println(sql);
             e.printStackTrace();
 
         }
@@ -221,17 +234,10 @@ public class Address extends Model {
         return this;
     }
 
+
     /**
-     * method to delete the entities record from the database.
-     *
-     * @param id
-     * @return
+     * Getters and Setters
      */
-
-    public Model delete(int id) {
-        return null;
-    }
-
     public long getAddressId() {
         return addressId.get();
     }

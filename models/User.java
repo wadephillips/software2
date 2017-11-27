@@ -1,8 +1,5 @@
 package calendar.models;
 
-import calendar.ModelDAO;
-
-import javax.jws.soap.SOAPBinding;
 import java.sql.*;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -10,7 +7,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 /**
- * Created by wadelp on 10/17/17.
+ * Creates an object to represent users in the application.  This model also handles interactions with the user database table
  */
 public class User extends Model {
 
@@ -34,12 +31,24 @@ public class User extends Model {
      */
     private int active;
 
-
+    /**
+     * The constructor
+     */
     public User(){
         super();
-
     }
 
+    /**
+     * The constructor for a user that has already been saved to the database.
+     * @param userId
+     * @param userName
+     * @param password
+     * @param active
+     * @param createdBy
+     * @param createDate
+     * @param lastUpdate
+     * @param lastUpdateby
+     */
     public User(long userId,
                 String userName,
                 String password,
@@ -61,7 +70,7 @@ public class User extends Model {
     /**
      * Saves a new User record to the database
      *
-     * @return
+     * @return this
      */
     public User save() {
         if (userId > 0) {
@@ -118,7 +127,9 @@ public class User extends Model {
 
 
     /**
-     * method to retrieve all instances of the entity from the database
+     * Lookup and return a list of all Users with records in the database
+     *
+     * @return  A list of customers
      */
     public static ArrayList<User> findAll() {
         String sql = "SELECT * FROM user;";
@@ -138,10 +149,9 @@ public class User extends Model {
     }
 
     /**
-     * method to persist changes on the entity to the database.
+     * Updates an User record that already exists in the database;
      *
-
-     * @return
+     * @return true if the update was successful, false if not
      */
     public boolean update() {
         if (userId == null) {
@@ -157,7 +167,7 @@ public class User extends Model {
             conn.setAutoCommit(false);
             Savepoint savepoint1 = conn.setSavepoint();
             try {
-               this.checkAndSetUpdate();
+               this.setUpdate();
 
 
                 stmt.setString(1, this.userName);
@@ -190,9 +200,9 @@ public class User extends Model {
     }
 
     /**
-     * method to retrieve an instance of the entity from the database.
+     * Look up a specific user's record by id
      *
-     * @return
+     * @return a User object
      */
     public static User findById(long id) {
         String sql = "SELECT * FROM user WHERE userid = " + id + ";";
@@ -213,6 +223,12 @@ public class User extends Model {
         return user;
     }
 
+    /**
+     * Helper method to build up a User object after a database query
+     * @param resultSet a record from the user table in the database
+     * @return a User object
+     * @throws SQLException
+     */
     public static User buildUserFromDB(ResultSet resultSet) throws SQLException {
         ZoneId zone = ZoneId.systemDefault();
         UserBuilder userBuidler = new UserBuilder();
@@ -229,16 +245,7 @@ public class User extends Model {
 
 
     /**
-     * method to delete a User objects record from the DB record from the database.
-     *
-     * @return
-     */
-    public boolean delete() {
-        return deleteById(this.userId);
-    }
-
-    /**
-     * Static method to delete a User record from the database.
+     * Delete a User record with a known id from the database.
      *
      * @return
      */
@@ -264,36 +271,7 @@ public class User extends Model {
     }
 
 
-    public String getUserName() {
-        return this.userName;
-    }
-
-    public int getActive() {
-        return active;
-    }
-
-    public void setActive(int active) {
-        this.active = active;
-    }
-
     /**
-     * Returns a string representation of the object. In general, the
-     * {@code toString} method returns a string that
-     * "textually represents" this object. The result should
-     * be a concise but informative representation that is easy for a
-     * person to read.
-     * It is recommended that all subclasses override this method.
-     * <p>
-     * The {@code toString} method for class {@code Object}
-     * returns a string consisting of the name of the class of which the
-     * object is an instance, the at-sign character `{@code @}', and
-     * the unsigned hexadecimal representation of the hash code of the
-     * object. In other words, this method returns a string equal to the
-     * value of:
-     * <blockquote>
-     * <pre>
-     * getClass().getName() + '@' + Integer.toHexString(hashCode())
-     * </pre></blockquote>
      *
      * @return a string representation of the object.
      */
@@ -303,7 +281,9 @@ public class User extends Model {
     }
 
 
-    //##################### GETTERS and SETTERS ###################
+    /**
+     * Getters and Setters
+     */
 
     public boolean isActive() {
         boolean isActive = false;
@@ -317,6 +297,18 @@ public class User extends Model {
         } else {
             this.active = 0;
         }
+    }
+
+    public String getUserName() {
+        return this.userName;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
     }
 
     public Long getUserId() {

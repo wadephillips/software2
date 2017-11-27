@@ -1,5 +1,8 @@
 package calendar.models;
 
+/**
+ * A builder class for instantiating an User
+ */
 public class UserBuilder extends ModelBuilder {
     /**
      * The user's id
@@ -21,6 +24,19 @@ public class UserBuilder extends ModelBuilder {
      */
     private int active;
 
+    /**
+     * Instantiates and returns a User object
+     * @return a User object
+     */
+    public User build(){
+        super.checkAndSetCreate();
+        return new User(this.userId, this.userName, this.password, this.active, this.createdBy, this.createDate,this.lastUpdate, this.lastUpdateBy);
+    }
+
+    /**
+     * Setters
+     */
+
     public UserBuilder setUserId(long userId) {
         this.userId = userId;
         return this;
@@ -41,9 +57,5 @@ public class UserBuilder extends ModelBuilder {
         return this;
     }
 
-    public User build(){
-        super.checkAndSetCreate();
-        super.checkAndSetUpdate();
-        return new User(this.userId, this.userName, this.password, this.active, this.createdBy, this.createDate,this.lastUpdate, this.lastUpdateBy);
-    }
+
 }
