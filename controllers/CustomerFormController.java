@@ -24,7 +24,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class CustomerEditFormController extends MainController {
+/**
+ *
+ */
+public class CustomerFormController extends MainController {
 
 
     @FXML
