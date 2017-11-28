@@ -317,8 +317,9 @@ public class Appointment extends Model {
 
 
                 stmt.setString(10, super.getCreatedBy());
-                stmt.setTimestamp(11, Timestamp.from(this.getCreateDate().toInstant()));//datetime
-                stmt.setTimestamp(12, Timestamp.from(this.getLastUpdate())); //timestamp
+                stmt.setTimestamp(11, Timestamp.valueOf(this.getCreateDate().toLocalDateTime()));//datetime
+                final ZonedDateTime zonedDateTime = this.getLastUpdate().atZone(ZoneId.of("UTC"));
+                stmt.setTimestamp(12, Timestamp.valueOf(zonedDateTime.toLocalDateTime())); //timestamp
                 stmt.setString(13, this.getLastUpdateby());
 
                 stmt.executeUpdate();

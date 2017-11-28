@@ -111,7 +111,8 @@ abstract public class Model {
      */
     protected Model checkAndSetCreate() {
         if (createDate == null) {
-            this.createDate = ZonedDateTime.now(ZoneId.of("UTC"));
+            LocalDateTime now = LocalDateTime.now();
+            this.createDate = localDateTimeToUTC(now);
         }
         if (createdBy == null) {
             this.createdBy = Main.getLoggedInUser().getUserName();
