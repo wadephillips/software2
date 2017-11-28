@@ -35,7 +35,6 @@ public class ReportsController extends MainController {
     public void loadAppTypeReport(ActionEvent actionEvent) {
         this.bodyPane.getChildren().clear();
 
-        System.out.println("Loading the report!! Type");
         String sql = "SELECT COUNT(appointmentId) as count, description as type, month(start) as month, YEAR(start) as year FROM appointment " +
 //                "WHERE date_format(start, '%Y%m') = date_format(now(), '%Y%m')" +
                 "GROUP BY YEAR(start), MONTH(start), description " +
@@ -60,7 +59,6 @@ public class ReportsController extends MainController {
                 int currentMonth = resultSet.getInt("month");
                 int currentYear = resultSet.getInt("year");
                 if (month != currentMonth || year != currentYear) {
-                    System.out.println(month+year + " | " + currentMonth+currentYear);
                     month = currentMonth;
                     year = currentYear;
                     LocalDate  displayMonth = LocalDate.of(currentYear,currentMonth,1);
@@ -71,7 +69,6 @@ public class ReportsController extends MainController {
                 }
                 Label result = new Label(resultSet.getInt("count") + " | " + resultSet.getString("type"));
                 reportContainer.getChildren().add(result);
-//                System.out.println(resultSet.getInt("count") + " | " + resultSet.getString("type") + " | " + currentMonth + "/" + currentYear);
 
             }
 
@@ -89,7 +86,6 @@ public class ReportsController extends MainController {
      *Queries the database and displays the schedule of upcoming appointments for each user.
      * @param actionEvent
      */
-    //TODO: I don't think that this is working correctly.  It doesn't seem to be displaying any appts for the test user
     public void loadScheduleByConsultantReport(ActionEvent actionEvent) {
         this.bodyPane.getChildren().clear();
 //        Label label = new Label("Loading the report!! Consultant");
@@ -135,7 +131,6 @@ public class ReportsController extends MainController {
         }
         scrollPane.setContent(reportContainer);
         this.bodyPane.getChildren().add(scrollPane);
-        System.out.println("Loading the report!! Consultant");
     }
 
     /**
@@ -152,9 +147,6 @@ public class ReportsController extends MainController {
         title.setStyle("-fx-font-weight: bolder; -fx-font-size: 1.5em;");
         reportContainer.getChildren().add(title);
 
-//        Label label = new Label("Loading the report!! Total");
-//        this.bodyPane.getChildren().add(label);
-//        System.out.println("Loading the report!! Total");
         String sql = "SELECT COUNT(appointmentId) as count, createdBy FROM appointment GROUP BY createdBy ORDER BY createdBy";
 
         try(Connection conn = DATASOURCE.getConnection();

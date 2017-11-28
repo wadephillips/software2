@@ -21,6 +21,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ResourceBundle;
@@ -124,7 +126,6 @@ public class LoginController extends BaseController {
                     root = new FXMLLoader(getClass().getResource("../navigation.fxml"));
 
                     Scene scene = new Scene(root.load());
-//                    System.out.println("controller");
                     MainController controller = root.getController();
 //                    controller.loadContent("monthCalendar.fxml");
                     CalendarPane calendarPane = new CalendarPane();
@@ -161,13 +162,12 @@ public class LoginController extends BaseController {
      */
     private void checkForUpcomingAppointments(User user) {
         String username = user.getUserName();
-//        Instant now = Instant.now();
-//        Instant soon = now.plus(15, ChronoUnit.MINUTES);
+
         DateTimeFormatter f = DateTimeFormatter.ofPattern("YYYY-MM-dd kk:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime soon = now.plusMinutes(15);
-        // FIXME: 11/15/17 this curently doesn't work because the add appt form is saving a localDateTime and now() returns GMT
-        // umm does this still not work???
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
+        ZonedDateTime soon = now.plusMinutes(15);
+
+
         String sql = "SELECT * FROM appointment a " +
                 "INNER JOIN customer c " +
                 "ON a.customerId = c.customerId " +
@@ -180,16 +180,13 @@ public class LoginController extends BaseController {
             stmt.setString(2, f.format(now));
             stmt.setString(3, f.format(soon));
             ResultSet resultSet = stmt.executeQuery();
-            System.out.println(f.format(now) + " - " + f.format(soon) + resultSet);
             if (resultSet.first()) {
                 int i = 0;
                 String body = "";
                 DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
                 resultSet.beforeFirst();
                 while (resultSet.next()) {
-                    System.out.println("hi");
                     i++;
-                    System.out.println(resultSet.getString("customerName") +"-" + resultSet.getString("start"));
                     body += "You have an appointment with " + resultSet.getString("customerName") +
                             " at " + formatter.format(resultSet.getTimestamp("start").toLocalDateTime()) + "\n";
                 }
@@ -238,6 +235,7 @@ public class LoginController extends BaseController {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         this.localize();
     }
 }

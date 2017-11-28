@@ -1,7 +1,5 @@
 package calendar.models;
 
-import calendar.ModelDAO;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,66 +10,40 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 /**
- * Created by wadelp on 10/17/17.
+ * Creates an object to represent a country in the application.  This model also handles interactions with the country database table.
  */
 public class Country extends Model {
 
+    /**
+     * The country's id
+     */
     private long countryId;
 
+    /**
+     * The two character country code
+     */
     private String country;
 
-    public Country(){
-        super();
-
-    }
-
+    /**
+     * A constructor for creating a Country object based on an entry from the country table
+     * @param countryId
+     * @param country
+     * @param createdBy
+     * @param createDate
+     * @param lastUpdate
+     * @param lastUpdateby
+     */
     public Country(long countryId, String country, String createdBy, ZonedDateTime createDate, Instant lastUpdate, String lastUpdateby) {
         super(createdBy, createDate, lastUpdate, lastUpdateby);
         this.countryId = countryId;
         this.country = country;
     }
 
-    /**
-     * method to return an empty version of the entity.
-     *
-     * @return
-     */
-
-    public Model create() {
-        return null;
-    }
 
     /**
-     * method to retrieve an instance of the entity from the database.
+     * Retrive a string of country's name
      *
-     * @param id
-     * @return
-     */
-
-    public Model find(int id) {
-        return null;
-    }
-
-    /**
-     * Returns a string representation of the object. In general, the
-     * {@code toString} method returns a string that
-     * "textually represents" this object. The result should
-     * be a concise but informative representation that is easy for a
-     * person to read.
-     * It is recommended that all subclasses override this method.
-     * <p>
-     * The {@code toString} method for class {@code Object}
-     * returns a string consisting of the name of the class of which the
-     * object is an instance, the at-sign character `{@code @}', and
-     * the unsigned hexadecimal representation of the hash code of the
-     * object. In other words, this method returns a string equal to the
-     * value of:
-     * <blockquote>
-     * <pre>
-     * getClass().getName() + '@' + Integer.toHexString(hashCode())
-     * </pre></blockquote>
-     *
-     * @return a string representation of the object.
+     * @return a string representation of the country.
      */
     @Override
     public String toString() {
@@ -79,7 +51,7 @@ public class Country extends Model {
     }
 
     /**
-     * method to retrieve all instances of the entity from the database
+     * Lookup and retrieve a list containing all countries with a record in the database.
      */
 
     public static ArrayList<Country> findAll() {
@@ -107,36 +79,8 @@ public class Country extends Model {
     }
 
     /**
-     * method to persist changes on the entity to the database.
-     *
-     * @param id
-     * @return
+     * Getters and Setters
      */
-
-    public Model update(int id) {
-        return null;
-    }
-
-    /**
-     * method to help save changes the entity to the database.
-     *
-     * @return
-     */
-
-    public Model save() {
-        return null;
-    }
-
-    /**
-     * method to delete the entitie's record from the database.
-     *
-     * @param id
-     * @return
-     */
-
-    public Model delete(int id) {
-        return null;
-    }
 
     public long getCountryId() {
         return countryId;

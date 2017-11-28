@@ -23,22 +23,67 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label text="Name" />
+            <HBox>
+               <children>
+                  <Label text="Name" />
+                  <Label text="*" textFill="#f20303">
+                     <padding>
+                        <Insets left="2.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
             <TextField fx:id="nameField" />
             <CheckBox fx:id="activeCheckBox" mnemonicParsing="false" selected="true" text="Active">
                <VBox.margin>
                   <Insets bottom="5.0" top="5.0" />
                </VBox.margin>
             </CheckBox>
-            <Label text="Phone" />
+            <HBox>
+               <children>
+                  <Label text="Phone" />
+                  <Label text="*" textFill="#f20303">
+                     <padding>
+                        <Insets left="2.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
              <TextField fx:id="phoneField" />
-            <Label text="Address" />
+            <HBox>
+               <children>
+                  <Label text="Address" />
+                  <Label text="*" textFill="#f20303">
+                     <padding>
+                        <Insets left="2.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
              <TextField fx:id="addressField" />
             <Label text="Address 2" />
              <TextField fx:id="address2Field" />
-            <Label text="City" />
+            <HBox>
+               <children>
+                  <Label text="City" />
+                  <Label text="*" textFill="#f20303">
+                     <padding>
+                        <Insets left="2.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
              <ChoiceBox fx:id="cityChoiceBox" />
-            <Label text="Postal Code" />
+            <HBox>
+               <children>
+                  <Label text="Postal Code" />
+                  <Label text="*" textFill="#f20303">
+                     <padding>
+                        <Insets left="2.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
              <TextField fx:id="postalCodeField" />
             <Label text="Country" />
              <ChoiceBox fx:id="countryChoiceBox" disable="true" />

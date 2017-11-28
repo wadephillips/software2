@@ -16,8 +16,6 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.time.*;
 import java.time.temporal.TemporalAdjusters;
-import java.time.temporal.TemporalField;
-import java.time.temporal.WeekFields;
 import java.util.*;
 
 public class CalendarPane extends VBox {
@@ -119,7 +117,6 @@ public class CalendarPane extends VBox {
         this.firstDayOfDisplayedMonth = currentDate.with(TemporalAdjusters.firstDayOfMonth());
         this.firstDayOfDisplayedWeek = currentDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
         this.lastDayOfDisplayedWeek = currentDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
-//        this.initDisplayedWeekNumber();
 
         //load the calendar view
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../calendarPane.fxml"));
@@ -195,7 +192,6 @@ public class CalendarPane extends VBox {
     @FXML
     public void showNextMonth() {
         try {
-//            System.out.println("display the next month");
             LocalDate firstOfNextMonth = this.firstDayOfDisplayedMonth.plusMonths(1);
             this.displayMonthAndYear(firstOfNextMonth);
             this.firstDayOfDisplayedMonth = firstOfNextMonth;
@@ -283,7 +279,7 @@ public class CalendarPane extends VBox {
     private void addAppointment(ActionEvent actionEvent) {
         try {
             //load up the Add Appointment Dialog
-            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, LocalDate.now());
+            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, LocalDate.now(), 0);
 
             //handle dialog button controls
             ButtonType saveButtonType = dialog.getSaveButtonType();
@@ -291,6 +287,8 @@ public class CalendarPane extends VBox {
             dialog.setResultConverter(dialogButton -> {
                 if (dialogButton == saveButtonType) { //save
                     Appointment appointment = dialog.getAppointment();
+                    String customerName = Customer.findNameById(appointment.getCustomerId());
+                    appointment.setCustomerName(customerName);
                     return appointment;
                 } else { //cancel
                     return null;
@@ -324,8 +322,10 @@ public class CalendarPane extends VBox {
             //get the selected appointment
             Appointment selectedAppt = this.appointmentTableView.getSelectionModel().getSelectedItem();
 
+            long appointmentId = selectedAppt.getAppointmentId();
+
             //load the Edit Appointment dialog
-            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, LocalDate.now());
+            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, LocalDate.now(), appointmentId );
             AppointmentDialogPane adp = dialog.getPane();
 
             //load the selected appointment into the dialog
@@ -346,7 +346,7 @@ public class CalendarPane extends VBox {
             adp.getEndTimeComboBox().setValue(selectedAppt.getEndLocal().toLocalTime());
 
 
-            long appointmentId = selectedAppt.getAppointmentId();
+            //insert event handler here?
 
             //handle dialog button inputs
             ButtonType saveButtonType = dialog.getSaveButtonType();
@@ -355,6 +355,8 @@ public class CalendarPane extends VBox {
                 if (dialogButton == saveButtonType) { //save
                     Appointment appointment = dialog.getAppointment();
                     appointment.setAppointmentId(appointmentId);
+                    String customerName = Customer.findNameById(appointment.getCustomerId());
+                    appointment.setCustomerName(customerName);
                     return appointment;
                 } else {//cancel
                     return null;
@@ -512,15 +514,5 @@ public class CalendarPane extends VBox {
             base = base.plusMinutes(15);
         }
     }
-
-    //todo can we delete this?
-//    private void initDisplayedWeekNumber() {
-//        TemporalField weekOfYear = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
-//        this.displayedWeekNumber = currentDate.get(weekOfYear);
-//    }
-
-
-
-
 
 }

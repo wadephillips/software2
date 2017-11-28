@@ -10,7 +10,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="505.0" prefWidth="642.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.controllers.LoginController">
+<?import java.net.URL?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="505.0" prefWidth="642.0" stylesheets="@resources/calendarStyles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.controllers.LoginController">
+   <stylesheets>
+      <URL value="@resources/calendarStyles.css" />
+   </stylesheets>
    <children>
       <HBox layoutX="179.0" prefHeight="50.0" prefWidth="642.0" styleClass="header-background" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -39,16 +43,16 @@
       </HBox>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
          <children>
-            <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="50.0">
+            <VBox prefHeight="200.0" prefWidth="100.0" stylesheets="@resources/calendarStyles.css" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="50.0">
                <children>
                   <Label fx:id="loginHeader" styleClass="modal-title" text="Please Login">
                      <font>
-                        <Font name="Helvetica Neue" size="13.0" />
+                        <Font name="Helvetica Neue" size="18.0" />
                      </font>
                   </Label>
                   <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="342.0">
                      <children>
-                        <Label fx:id="messageLabel" styleClass="login-message" visible="false" wrapText="true" />
+                        <Label fx:id="messageLabel" styleClass="loginMessage" visible="false" wrapText="true" />
                      </children>
                   </HBox>
                   <Label fx:id="usernameLabel" text="Username" />

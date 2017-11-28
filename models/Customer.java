@@ -1,6 +1,5 @@
 package calendar.models;
 
-import calendar.ModelDAO;
 import javafx.beans.property.*;
 
 import java.sql.*;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by wadelp on 10/17/17.
+ * Creates an object to represent Customers in the application.  This model also handles interactions with the customer database table
  */
 public class Customer extends Model {
 
@@ -35,22 +34,52 @@ public class Customer extends Model {
      */
     private IntegerProperty active = new SimpleIntegerProperty();
 
+    /**
+     * The address object associated with the customer
+     */
     private Address address;
 
+    /**
+     * A representation of the Customer's address to display to the user
+     */
     private StringProperty addressString = new SimpleStringProperty();
 
+    /**
+     * The Customer's phone number
+     */
     private StringProperty phone = new SimpleStringProperty();
 
-    public Customer(){
-        super();
 
+//    public Customer(String createdBy, ZonedDateTime createDate, Instant lastUpdate, String lastUpdateby, long customerId, String customerName, long addressId, int active, Address address) {
+//        this(customerId, customerName, addressId, active, createdBy, createDate, lastUpdate, lastUpdateby);
+//        this.address = address;
+//    }
+
+    /**
+     * A constructor for creating new customers that have not already been saved to the database
+     * @param customerName
+     * @param addressId
+     * @param active
+     */
+    public Customer(String customerName, long addressId, int active) {
+        this.setCustomerName(customerName);
+        this.setAddressId(addressId);
+        this.setActive(active);
+        this.checkAndSetCreate();
+        this.setUpdate();
     }
 
-    public Customer(String createdBy, ZonedDateTime createDate, Instant lastUpdate, String lastUpdateby, long customerId, String customerName, long addressId, int active, Address address) {
-        this(customerId, customerName, addressId, active, createdBy, createDate, lastUpdate, lastUpdateby);
-        this.address = address;
-    }
-
+    /**
+     * A constructor for customers that already exist in the database.
+     * @param customerId
+     * @param customerName
+     * @param addressId
+     * @param active
+     * @param createdBy
+     * @param createDate
+     * @param lastUpdate
+     * @param lastUpdateby
+     */
     public Customer(long customerId, String customerName, long addressId, int active, String createdBy, ZonedDateTime createDate, Instant lastUpdate, String lastUpdateby) {
         super(createdBy, createDate, lastUpdate, lastUpdateby);
         this.setCustomerId(customerId);
@@ -59,31 +88,10 @@ public class Customer extends Model {
         this.setActive(active);
     }
 
-    public Customer(String customerName, long addressId, int active) {
-        this.setCustomerName(customerName);
-        this.setAddressId(addressId);
-        this.setActive(active);
-        this.checkAndSetCreate();
-        this.checkAndSetUpdate();
-    }
-
-
-
     /**
-     * method to retrieve an instance of the entity from the database.
-     *
-     * @param id
-     * @return
+     * Lookup and return a list of all customers with records in the database
+     * @return  A list of customers
      */
-
-    public Customer find(int id) {
-        return null;
-    }
-
-    /**
-     * method to retrieve all instances of the entity from the database
-     */
-
     public static List<Customer> findAll() {
         String sql ="SELECT customerId, customerName, cu.addressId, active, cu.createDate as customerCreateDate,\n" +
                 "  cu.createdBy as customerCreatedBy, cu.lastUpdate as customerLastUpdate, cu.lastUpdateBy  as customerLastUpdateBy,\n" +
@@ -104,7 +112,6 @@ public class Customer extends Model {
             ResultSet rs = stmt.executeQuery(sql);){
 
             while (rs.next()) {
-//                System.out.println(rs);
                 list.add(buildCustomerFromDB(rs));
             }
 
@@ -114,10 +121,15 @@ public class Customer extends Model {
         return list;
     }
 
+    /**
+     * Helper method to create a Customer instance when retrieving a record from the database
+     * @param resultSet a row from a database query
+     * @return a Customer object
+     * @throws SQLException
+     */
     private static Customer buildCustomerFromDB(ResultSet resultSet) throws SQLException {
         ZoneId zone = ZoneId.systemDefault();
         AddressBuilder addressBuilder = new AddressBuilder();
-//        System.out.println("builder: " + resultSet.getString("country"));
         addressBuilder.setAddress(resultSet.getString("address"))
                 .setAddress2(resultSet.getString("address2"))
                 .setAddressId(resultSet.getLong("addressId"))
@@ -150,13 +162,16 @@ public class Customer extends Model {
     }
 
     /**
-     * method to persist changes on the entity to the database.
-     *
+     * Update an Customer record that already exists in the database;
      *
      * @return this
      */
 
     public Customer update() throws Exception{
+
+        if (this.customerId.get() == 0) {
+            return this.save();
+        }
 
         String sql = "UPDATE customer SET customerName = ?, addressId = ?, active = ?, lastUpdateBy = ? WHERE customerId = ?;";
 
@@ -182,7 +197,7 @@ public class Customer extends Model {
     }
 
     /**
-     * method to help save changes the entity to the database.
+     * Save a new customer record to the database
      *
      * @return
      */
@@ -209,8 +224,9 @@ public class Customer extends Model {
                     stmt.setLong(3, this.getAddressId());
                     stmt.setInt(4, this.getActive());
                     stmt.setString(5, super.getCreatedBy());
-                    stmt.setTimestamp(6, Timestamp.from(this.getCreateDate().toInstant()));//datetime
-                    stmt.setTimestamp(7, Timestamp.from(this.getLastUpdate())); //timestamp
+                    stmt.setTimestamp(6, Timestamp.valueOf(this.getCreateDate().toLocalDateTime()));//datetime
+                    final ZonedDateTime updateTime = this.getLastUpdate().atZone(ZoneId.of("UTC"));
+                    stmt.setTimestamp(7, Timestamp.valueOf(updateTime.toLocalDateTime())); //timestamp
                     stmt.setString(8, this.getLastUpdateby());
 
                     stmt.executeUpdate();
@@ -223,7 +239,6 @@ public class Customer extends Model {
 
 
         } catch(SQLException e){
-            //            System.out.println(sql);
             e.printStackTrace();
 
         }
@@ -232,15 +247,21 @@ public class Customer extends Model {
     }
 
     /**
-     * method to delete the entitie's record from the database.
-     *
-     * @param id
+     * Create a string representation of the Customer's address specifically for display to the application user
+     * @param address
      * @return
      */
-
-    public Model delete(int id) {
-        return null;
+    public static String buildAddressString(Address address) {
+        String addressString = "";
+        addressString += address.getAddress() + "\n";
+        if(!address.getAddress2().equals("")) { addressString += address.getAddress2() + "\n"; }
+        addressString += address.getCity() + " " + address.getPostalCode() + " " + address.getCountry() + "\n";
+        return addressString;
     }
+
+    /**
+     * Getters and Setters
+     */
 
     public long getCustomerId() {
         return customerId.get();
@@ -308,15 +329,6 @@ public class Customer extends Model {
         return addressString;
     }
 
-    public static String buildAddressString(Address address) {
-        String addressString = "";
-        addressString += address.getAddress() + "\n";
-        if(!address.getAddress2().equals("")) { addressString += address.getAddress2() + "\n"; }
-//        System.out.println(address.getCountry());
-        addressString += address.getCity() + " " + address.getPostalCode() + " " + address.getCountry() + "\n";
-        return addressString;
-    }
-
     public void setPhone(String phone) {
         this.phone.set(phone);
     }
@@ -329,4 +341,22 @@ public class Customer extends Model {
         return phone;
     }
 
+    public static String findNameById(long customerId) {
+        String name = "";
+        String sql = "SELECT customerName FROM customer WHERE customerId = ? LIMIT 1 ";
+
+        try(Connection conn = DATASOURCE.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setLong(1, customerId);
+            ResultSet resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                name = resultSet.getString("customerName");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return name;
+    }
 }

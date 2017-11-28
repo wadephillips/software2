@@ -229,7 +229,6 @@ public class CustomerFormController extends MainController {
     @FXML
     public void cancelAndReturn(ActionEvent actionEvent) throws IOException {
         Button cancel = (Button) actionEvent.getSource();
-        System.out.println("canceling!");
         this.returnToCustomersScene();
     }
 
@@ -261,7 +260,6 @@ public class CustomerFormController extends MainController {
     private void extractKeyValuePairs(List<City> cities, List<Country> countries) {
         for (City city :
                 cities) {
-//            System.out.println(city.getCityId());
             this.cities.add(new KeyValuePair(city.getCityId(), city.toString()));
         }
         for (Country country :
@@ -376,7 +374,6 @@ public class CustomerFormController extends MainController {
 
         this.cityChoiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             this.displayCountry(cities.get(newValue.intValue()).getKey());
-            System.out.println(observable);
         });
 
         this.saveButton.addEventFilter(ActionEvent.ACTION, handler);

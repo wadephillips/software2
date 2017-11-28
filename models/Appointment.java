@@ -9,54 +9,109 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
-import java.util.TimeZone;
 
 /**
- * Handles persisting Appointemtns to the database
+ * Creates an object to represent an appointment in the application.  This model also handles interactions with the
+ * appointment database table.
  */
 public class Appointment extends Model {
 
+    /**
+     * The appointment id
+     */
     private LongProperty appointmentId = new SimpleLongProperty();
 
+    /**
+     * The customer id
+     */
     private LongProperty customerId = new SimpleLongProperty();
 
+    /**
+     * A short description of the appointment
+     */
     private StringProperty title = new SimpleStringProperty();
 
+    /**
+     * The appointment type
+     */
     private StringProperty description = new SimpleStringProperty();
 
+    /**
+     * The location where this meeting is happening
+     */
     private StringProperty location = new SimpleStringProperty();
 
+    /**
+     * The name of the contact for this appointment
+     */
     private StringProperty contact = new SimpleStringProperty();
 
+    /**
+     * A place to store a url that is related to the Appointment instance
+     */
     private StringProperty url = new SimpleStringProperty();
 
+    /**
+     * The date and time when the Appointment begins
+     */
     private ObjectProperty<ZonedDateTime> start = new SimpleObjectProperty<>();
 
+    /**
+     * The date and time when the Appointment ends
+     */
     private ObjectProperty<ZonedDateTime> end = new SimpleObjectProperty<>();
 
+    /**
+     * Name of the customer
+     */
     private StringProperty customerName = new SimpleStringProperty();
 
+    /**
+     * A string used to display the time when the appointment starts
+     */
     private StringProperty startTime = new SimpleStringProperty();
 
+    /**
+     * A string used to display the time when the appointment ends
+     */
     private StringProperty endTime = new SimpleStringProperty();
 
-    private SimpleStringProperty apptDate = new SimpleStringProperty();
+    /**
+     * A string used to display the date when the Appointment is scheduled to occur
+     */
+    private StringProperty apptDate = new SimpleStringProperty();
 
+    /**
+     * Used to format the appointment date for display to the user
+     */
     private DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
-//    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("eee, MMM-d", Main.getLocale());
 
-
+    /**
+     * Used to format the appointment start and end times for display to the user.
+     */
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
 
 
     /**
-     * Instantiate an empty instance
+     * Instantiate an empty Appointment instance
      */
     public Appointment(){
         super();
 
     }
 
+    /**
+     * The constructor for creating a new Appointment that has not been prevoiusly saved to the database
+     *
+     * @param customerId
+     * @param title
+     * @param description
+     * @param location
+     * @param contact
+     * @param url
+     * @param start
+     * @param end
+     */
     public Appointment(long customerId, String title, String description, String location, String contact, String url, LocalDateTime start, LocalDateTime end) {
         this.customerId.set(customerId);
         this.title.set(title);
@@ -68,9 +123,26 @@ public class Appointment extends Model {
         this.end.set(this.localDateTimeToUTC(end));
         this.formatDateTimes();
         this.checkAndSetCreate();
-        this.checkAndSetUpdate();
+        this.setUpdate();
     }
 
+    /**
+     * The constructor for retrieving an existing Appointment Record from the Database
+     * @param appointmentId
+     * @param customerId
+     * @param customerName
+     * @param title
+     * @param description
+     * @param location
+     * @param contact
+     * @param url
+     * @param start
+     * @param end
+     * @param createdBy
+     * @param createDate
+     * @param lastUpdate
+     * @param lastUpdateby
+     */
     public Appointment(long appointmentId, long customerId, String customerName, String title, String description, String location, String contact, String url, LocalDateTime start, LocalDateTime end, String createdBy, ZonedDateTime createDate, Instant lastUpdate, String lastUpdateby) {
         super(createdBy, createDate, lastUpdate, lastUpdateby);
         this.appointmentId.set(appointmentId);
@@ -92,27 +164,12 @@ public class Appointment extends Model {
         this.endTime.set(this.end.get().format(this.timeFormatter));
     }
 
-    /**
-     * method to return an empty version of the entity.
-     *
-     * @return
-     */
-    public Model create() {
-        return null;
-    }
 
     /**
-     * method to retrieve an instance of the entity from the database.
+     * Lookup and return a list of all Appointments with records in the database for the month containing the baseDate
      *
-     * @param id
-     * @return
-     */
-    public Model find(int id) {
-        return null;
-    }
-
-    /**
-     * method to retrieve all instances of the entity from the database
+     * @param baseDate a date in the month to be displayed
+     * @return  A list of Appointments
      */
     public static ArrayList<Appointment> getAllByYearMonth(LocalDate baseDate) {
         String baseYearMonth = baseDate.getYear() + "-"+ baseDate.getMonthValue();
@@ -123,6 +180,14 @@ public class Appointment extends Model {
         return list;
     }
 
+    /**
+     * Lookup and return a list of all Appointments with records in the database for the week beginning at startOfWeek
+     * and ending on endOfWeek
+     *
+     * @param startOfWeek The date that begins the week to be displayed
+     * @param endOfWeek The dat that ends the week to be displayed
+     * @return  A list of Appointments
+     */
     public static ArrayList<Appointment> getAllByWeek(LocalDate startOfWeek, LocalDate endOfWeek) {
         String consultantName = Main.getLoggedInUser().getUserName();
         String sql = "SELECT a.*, c.customerName FROM appointment as a INNER JOIN customer as c ON a.customerId = c.customerId WHERE a.createdBy = '" + consultantName + "' AND start >= '" + startOfWeek + "' AND end <= '" + endOfWeek + "' ORDER by start;";
@@ -130,6 +195,12 @@ public class Appointment extends Model {
         return list;
     }
 
+
+    /**
+     * A helper method that handles sending a query to the database and returns a list of Appointments
+     * @param sql the sql query to be run
+     * @return a list of appointments
+     */
     private static ArrayList<Appointment> getAppointments(String sql) {
         ZoneId zone = ZoneId.of("UTC");
         ArrayList<Appointment> list = new ArrayList<>();
@@ -147,9 +218,7 @@ public class Appointment extends Model {
                         resultSet.getString("location"),
                         resultSet.getString("contact"),
                         resultSet.getString("url"),
-//                        LocalDateTime.ofInstant(resultSet.getTimestamp("start").toInstant(), zone),
                         resultSet.getTimestamp("start").toLocalDateTime(),
-//                        LocalDateTime.ofInstant(resultSet.getTimestamp("end").toInstant(), zone),
                         resultSet.getTimestamp("end").toLocalDateTime(),
                         resultSet.getString("a.createdBy"),
                         ZonedDateTime.ofInstant(resultSet.getTimestamp("a.createDate").toInstant(), zone),
@@ -166,11 +235,15 @@ public class Appointment extends Model {
 
 
     /**
-     * method to persist changes on the entity to the database.
+     * Update an Appointment record that already exists in the database;
      *
-     * @return
+     * @return this
      */
     private Appointment update() {
+
+        if (this.appointmentId.get() == 0) {
+            return this.save();
+        }
 
         String sql = "UPDATE appointment SET customerId = ?, title = ?, description = ?, " +
                 "location = ?, contact = ?, url = ?, start = ?, end = ?, lastUpdateBy = ?" +
@@ -207,17 +280,13 @@ public class Appointment extends Model {
     }
 
     /**
-     * method to help save changes the entity to the database.
+     * Save a new Appointment record to the database
      *
-     * @return
+     * @return this
      */
     public Appointment save() {
         if (this.appointmentId.get() > 0) {
             return this.update();
-        }
-
-        if(this.customerId.get() <= 0){
-            //todo throw and exception
         }
 
         String sql = "INSERT INTO appointment (appointmentId, customerId, title, description, location, contact, url, start, end," +
@@ -244,8 +313,9 @@ public class Appointment extends Model {
 
 
                 stmt.setString(10, super.getCreatedBy());
-                stmt.setTimestamp(11, Timestamp.from(this.getCreateDate().toInstant()));//datetime
-                stmt.setTimestamp(12, Timestamp.from(this.getLastUpdate())); //timestamp
+                stmt.setTimestamp(11, Timestamp.valueOf(this.getCreateDate().toLocalDateTime()));//datetime
+                final ZonedDateTime zonedDateTime = this.getLastUpdate().atZone(ZoneId.of("UTC"));
+                stmt.setTimestamp(12, Timestamp.valueOf(zonedDateTime.toLocalDateTime())); //timestamp
                 stmt.setString(13, this.getLastUpdateby());
 
                 stmt.executeUpdate();
@@ -266,9 +336,9 @@ public class Appointment extends Model {
     }
 
     /**
-     * method to delete the entitie's record from the database.
+     * Delete the current Appointment instance's record from the database
      *
-     * @return boolean
+     * @return boolean Returns true if the record is successfully deleted, and false if it is not deleted
      */
     public boolean delete() {
         boolean deleted = false;
@@ -289,31 +359,55 @@ public class Appointment extends Model {
         return deleted;
     }
 
+    /**
+     * Gets the Appointment start time and returns a ZonedDateTime based on the logged in user's timezone
+     * @return the start time in the local time zone
+     */
     public ZonedDateTime getStartLocal() {
         return utcDateTimeToLocal(start.get());
     }
 
+    /**
+     * Gets the Appointment end time and returns a ZonedDateTime based on the logged in user's timezone
+     * @return the end time in the local time zone
+     */
     public ZonedDateTime getEndLocal() {
         return utcDateTimeToLocal(end.get());
     }
 
+    /**
+     * Returns a properly formatted start time for display based on the user's Locale
+     * @return
+     */
     @FXML
     public String getStartLocalFormatted() {
         ZonedDateTime zonedDateTime = this.getStartLocal();
         return zonedDateTime.format(timeFormatter);
     }
 
+    /**
+     * Returns a properly formatted end time for display based on the user's Locale
+     * @return
+     */
     @FXML
     public String getEndLocalFormatted() {
         ZonedDateTime zonedDateTime = this.getEndLocal();
         return zonedDateTime.format(timeFormatter);
     }
 
+    /**
+     * Returns a properly formatted appointment date for display based on the user's Locale
+     * @return
+     */
     @FXML
     public String getApptDateLocalFormatted() {
         ZonedDateTime zonedDateTime = this.getStartLocal();
         return zonedDateTime.format(dateFormatter);
     }
+
+    /**
+     * Getters and Setters
+     */
 
     public ZonedDateTime getStartUTC() {
         return start.get();
@@ -351,6 +445,10 @@ public class Appointment extends Model {
         return customerName.get();
     }
 
+    public void setCustomerName(String customerName) {
+        this.customerName.set(customerName);
+    }
+
     public StringProperty customerNameProperty() {
         return customerName;
     }
@@ -383,7 +481,7 @@ public class Appointment extends Model {
         return apptDate.get();
     }
 
-    public SimpleStringProperty apptDateProperty() {
+    public StringProperty apptDateProperty() {
         return apptDate;
     }
 
