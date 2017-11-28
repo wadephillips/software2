@@ -187,8 +187,8 @@ public class LoginController extends BaseController {
                 resultSet.beforeFirst();
                 while (resultSet.next()) {
                     i++;
-                    body += "You have an appointment with " + resultSet.getString("customerName") +
-                            " at " + formatter.format(resultSet.getTimestamp("start").toLocalDateTime()) + "\n";
+                    body += "You have an appointment with " + resultSet.getString("contact") + " from " + resultSet.getString("customerName") +
+                            " at " + formatter.format(resultSet.getTimestamp("start").toLocalDateTime().atZone(Main.getZone())) + "\n";
                 }
                 if(i > 0 ){
                     Main.popup.accept("You have upcoming appointments!", body);
