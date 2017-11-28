@@ -110,7 +110,9 @@ public class LoginController extends BaseController {
                     //record user login in log
                     try {
                         File log = new File("logs/logins.txt");
+
                         super.sendToLog("USER_LOGIN", user, log);
+
 
                     } catch (Exception e) {
                         e.printStackTrace();
