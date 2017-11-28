@@ -86,7 +86,6 @@ public class ReportsController extends MainController {
      *Queries the database and displays the schedule of upcoming appointments for each user.
      * @param actionEvent
      */
-    //TODO: I don't think that this is working correctly.  It doesn't seem to be displaying any appts for the test user
     public void loadScheduleByConsultantReport(ActionEvent actionEvent) {
         this.bodyPane.getChildren().clear();
 //        Label label = new Label("Loading the report!! Consultant");

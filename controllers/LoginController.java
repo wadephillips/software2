@@ -171,9 +171,7 @@ public class LoginController extends BaseController {
 //        LocalDateTime soon = now.plusMinutes(15);
 
         System.out.println(f.format(now) + " | " + f.format(soon));
-//        ZonedDateTime
-        // FIXME: 11/15/17 this curently doesn't work because the add appt form is saving a localDateTime and now() returns GMT
-        // umm does this still not work???
+
         String sql = "SELECT * FROM appointment a " +
                 "INNER JOIN customer c " +
                 "ON a.customerId = c.customerId " +

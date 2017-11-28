@@ -17,11 +17,7 @@ import java.util.ResourceBundle;
 import java.util.function.BiConsumer;
 
 public class Main extends Application {
-
-    /**
-     * todo does the application work with out this connection?  Should we point the other refernces to this one?
-     */
-//    final static DataSource DATASOURCE = DBFactory.get();
+    
 
     /**
      * Holds the Locale to be used by the application

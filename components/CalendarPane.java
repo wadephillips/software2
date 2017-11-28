@@ -518,14 +518,4 @@ public class CalendarPane extends VBox {
         }
     }
 
-    //todo can we delete this?
-//    private void initDisplayedWeekNumber() {
-//        TemporalField weekOfYear = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
-//        this.displayedWeekNumber = currentDate.get(weekOfYear);
-//    }
-
-
-
-
-
 }

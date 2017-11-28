@@ -289,10 +289,6 @@ public class Appointment extends Model {
             return this.update();
         }
 
-        if(this.customerId.get() <= 0){
-            //todo throw and exception
-        }
-
         String sql = "INSERT INTO appointment (appointmentId, customerId, title, description, location, contact, url, start, end," +
                 "createdBy, createDate, lastUpdate, lastUpdateBy) " +
                 "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
