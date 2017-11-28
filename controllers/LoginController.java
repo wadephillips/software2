@@ -187,8 +187,9 @@ public class LoginController extends BaseController {
                 resultSet.beforeFirst();
                 while (resultSet.next()) {
                     i++;
+                    ZonedDateTime apptTime = ZonedDateTime.of(resultSet.getTimestamp("start").toLocalDateTime(), ZoneId.of("UTC")).withZoneSameInstant(Main.getZone());
                     body += "You have an appointment with " + resultSet.getString("contact") + " from " + resultSet.getString("customerName") +
-                            " at " + formatter.format(resultSet.getTimestamp("start").toLocalDateTime().atZone(Main.getZone())) + "\n";
+                            " at " + formatter.format(apptTime) + "\n";
                 }
                 if(i > 0 ){
                     Main.popup.accept("You have upcoming appointments!", body);
