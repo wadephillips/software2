@@ -449,6 +449,10 @@ public class Appointment extends Model {
         return customerName.get();
     }
 
+    public void setCustomerName(String customerName) {
+        this.customerName.set(customerName);
+    }
+
     public StringProperty customerNameProperty() {
         return customerName;
     }

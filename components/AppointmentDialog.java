@@ -54,6 +54,10 @@ public class AppointmentDialog extends Dialog {
      */
     static final DataSource DATASOURCE = DBFactory.get();
 
+    /**
+     * The id of the appointment being edited
+     */
+    private long appointmentId;
 
     /**
      * A constructor for creating new Appointments
@@ -96,12 +100,13 @@ public class AppointmentDialog extends Dialog {
      * @param times A list to be used to populate the start and end times ComboBoxes
      * @param selectedDate The date that should be displayed in the DatePicker
      */
-    public AppointmentDialog(List<KeyValuePair> customers, List<LocalTime> times, LocalDate selectedDate) {
+    public AppointmentDialog(List<KeyValuePair> customers, List<LocalTime> times, LocalDate selectedDate, long appointmentId) {
         this();
         this.customers = customers;
         this.times = times;
         this.populateComboBoxes();
         this.pane.getApptDatePicker().setValue(selectedDate);
+        this.appointmentId = appointmentId;
         LocalTime now = LocalTime.now();
         LocalTime soon = now.plusMinutes((75-now.getMinute())%15).truncatedTo(ChronoUnit.MINUTES);
         LocalTime anHour = soon.plusHours(1).truncatedTo(ChronoUnit.MINUTES);
@@ -210,16 +215,17 @@ public class AppointmentDialog extends Dialog {
         LocalDateTime start = Model.localDateTimeToUTC(LocalDateTime.of(date, pane.getStartTime())).toLocalDateTime();
         LocalDateTime end = Model.localDateTimeToUTC(LocalDateTime.of(date, pane.getEndTime())).toLocalDateTime();
 
-        String sql = "SELECT * FROM appointment WHERE createdBy = ? AND ((start BETWEEN ? AND ?) OR (end BETWEEN ? AND ?))";
+        String sql = "SELECT * FROM appointment WHERE appointmentId != ? AND createdBy = ? AND ((start BETWEEN ? AND ?) OR (end BETWEEN ? AND ?))";
 
         try(Connection conn = DATASOURCE.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, Main.getLoggedInUser().getUserName());
-            stmt.setTimestamp(2, Timestamp.valueOf(start));
-            stmt.setTimestamp(3, Timestamp.valueOf(end));
-            stmt.setTimestamp(4, Timestamp.valueOf(start));
-            stmt.setTimestamp(5, Timestamp.valueOf(end));
+            stmt.setLong(1, this.appointmentId);
+            stmt.setString(2, Main.getLoggedInUser().getUserName());
+            stmt.setTimestamp(3, Timestamp.valueOf(start));
+            stmt.setTimestamp(4, Timestamp.valueOf(end));
+            stmt.setTimestamp(5, Timestamp.valueOf(start));
+            stmt.setTimestamp(6, Timestamp.valueOf(end));
 
             ResultSet resultSet = stmt.executeQuery();
 

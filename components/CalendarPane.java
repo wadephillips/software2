@@ -282,7 +282,7 @@ public class CalendarPane extends VBox {
     private void addAppointment(ActionEvent actionEvent) {
         try {
             //load up the Add Appointment Dialog
-            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, LocalDate.now());
+            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, LocalDate.now(), 0);
 
             //handle dialog button controls
             ButtonType saveButtonType = dialog.getSaveButtonType();
@@ -290,6 +290,8 @@ public class CalendarPane extends VBox {
             dialog.setResultConverter(dialogButton -> {
                 if (dialogButton == saveButtonType) { //save
                     Appointment appointment = dialog.getAppointment();
+                    String customerName = Customer.findNameById(appointment.getCustomerId());
+                    appointment.setCustomerName(customerName);
                     return appointment;
                 } else { //cancel
                     return null;
@@ -323,8 +325,10 @@ public class CalendarPane extends VBox {
             //get the selected appointment
             Appointment selectedAppt = this.appointmentTableView.getSelectionModel().getSelectedItem();
 
+            long appointmentId = selectedAppt.getAppointmentId();
+
             //load the Edit Appointment dialog
-            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, LocalDate.now());
+            AppointmentDialog dialog = new AppointmentDialog(this.customers, this.times, LocalDate.now(), appointmentId );
             AppointmentDialogPane adp = dialog.getPane();
 
             //load the selected appointment into the dialog
@@ -345,7 +349,7 @@ public class CalendarPane extends VBox {
             adp.getEndTimeComboBox().setValue(selectedAppt.getEndLocal().toLocalTime());
 
 
-            long appointmentId = selectedAppt.getAppointmentId();
+            //insert event handler here?
 
             //handle dialog button inputs
             ButtonType saveButtonType = dialog.getSaveButtonType();
@@ -354,6 +358,8 @@ public class CalendarPane extends VBox {
                 if (dialogButton == saveButtonType) { //save
                     Appointment appointment = dialog.getAppointment();
                     appointment.setAppointmentId(appointmentId);
+                    String customerName = Customer.findNameById(appointment.getCustomerId());
+                    appointment.setCustomerName(customerName);
                     return appointment;
                 } else {//cancel
                     return null;

@@ -340,4 +340,22 @@ public class Customer extends Model {
         return phone;
     }
 
+    public static String findNameById(long customerId) {
+        String name = "";
+        String sql = "SELECT customerName FROM customer WHERE customerId = ? LIMIT 1 ";
+
+        try(Connection conn = DATASOURCE.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setLong(1, customerId);
+            ResultSet resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                name = resultSet.getString("customerName");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return name;
+    }
 }
