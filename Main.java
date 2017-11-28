@@ -85,7 +85,7 @@ public class Main extends Application {
         alert.setTitle("Acme Calendar");
         alert.setHeaderText(title);
         alert.setContentText(body);
-        alert.show();
+        alert.showAndWait();
     };
 
     /**
@@ -96,7 +96,7 @@ public class Main extends Application {
         alert.setTitle("Acme Calendar");
         alert.setHeaderText(title);
         alert.setContentText(body);
-        alert.show();
+        alert.showAndWait();
     };
 
     /**

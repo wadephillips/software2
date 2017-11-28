@@ -21,6 +21,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ResourceBundle;
@@ -163,8 +165,13 @@ public class LoginController extends BaseController {
 //        Instant now = Instant.now();
 //        Instant soon = now.plus(15, ChronoUnit.MINUTES);
         DateTimeFormatter f = DateTimeFormatter.ofPattern("YYYY-MM-dd kk:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime soon = now.plusMinutes(15);
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
+        ZonedDateTime soon = now.plusMinutes(15);
+//        LocalDateTime now = LocalDateTime.now();
+//        LocalDateTime soon = now.plusMinutes(15);
+
+        System.out.println(f.format(now) + " | " + f.format(soon));
+//        ZonedDateTime
         // FIXME: 11/15/17 this curently doesn't work because the add appt form is saving a localDateTime and now() returns GMT
         // umm does this still not work???
         String sql = "SELECT * FROM appointment a " +
@@ -234,6 +241,7 @@ public class LoginController extends BaseController {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         this.localize();
     }
 }
