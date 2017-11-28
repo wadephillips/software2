@@ -147,7 +147,7 @@
    <header>
       <StackPane>
          <children>
-            <Label fx:id="titleLabel" text="Create Appointment">
+            <Label fx:id="dialogTitle" text="Create Appointment">
                <font>
                   <Font size="24.0" />
                </font>
