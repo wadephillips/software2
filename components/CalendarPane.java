@@ -16,8 +16,6 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.time.*;
 import java.time.temporal.TemporalAdjusters;
-import java.time.temporal.TemporalField;
-import java.time.temporal.WeekFields;
 import java.util.*;
 
 public class CalendarPane extends VBox {
@@ -119,7 +117,6 @@ public class CalendarPane extends VBox {
         this.firstDayOfDisplayedMonth = currentDate.with(TemporalAdjusters.firstDayOfMonth());
         this.firstDayOfDisplayedWeek = currentDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
         this.lastDayOfDisplayedWeek = currentDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
-//        this.initDisplayedWeekNumber();
 
         //load the calendar view
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../calendarPane.fxml"));

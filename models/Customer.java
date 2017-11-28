@@ -224,8 +224,9 @@ public class Customer extends Model {
                     stmt.setLong(3, this.getAddressId());
                     stmt.setInt(4, this.getActive());
                     stmt.setString(5, super.getCreatedBy());
-                    stmt.setTimestamp(6, Timestamp.from(this.getCreateDate().toInstant()));//datetime
-                    stmt.setTimestamp(7, Timestamp.from(this.getLastUpdate())); //timestamp
+                    stmt.setTimestamp(6, Timestamp.valueOf(this.getCreateDate().toLocalDateTime()));//datetime
+                    final ZonedDateTime updateTime = this.getLastUpdate().atZone(ZoneId.of("UTC"));
+                    stmt.setTimestamp(7, Timestamp.valueOf(updateTime.toLocalDateTime())); //timestamp
                     stmt.setString(8, this.getLastUpdateby());
 
                     stmt.executeUpdate();

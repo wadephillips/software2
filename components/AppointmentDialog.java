@@ -6,7 +6,6 @@ import calendar.helpers.AppointmentType;
 import calendar.helpers.KeyValuePair;
 import calendar.models.Appointment;
 import calendar.models.Model;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
@@ -19,9 +18,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -73,6 +70,7 @@ public class AppointmentDialog extends Dialog {
 
             //This event filter prevents the submission of the form if required information is missing
             saveButton.addEventFilter(ActionEvent.ACTION, event -> {
+
                 boolean isValid = false;
                 boolean hasOverlap = false;
                 try{

@@ -162,15 +162,11 @@ public class LoginController extends BaseController {
      */
     private void checkForUpcomingAppointments(User user) {
         String username = user.getUserName();
-//        Instant now = Instant.now();
-//        Instant soon = now.plus(15, ChronoUnit.MINUTES);
+
         DateTimeFormatter f = DateTimeFormatter.ofPattern("YYYY-MM-dd kk:mm:ss");
         ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
         ZonedDateTime soon = now.plusMinutes(15);
-//        LocalDateTime now = LocalDateTime.now();
-//        LocalDateTime soon = now.plusMinutes(15);
 
-        System.out.println(f.format(now) + " | " + f.format(soon));
 
         String sql = "SELECT * FROM appointment a " +
                 "INNER JOIN customer c " +
