@@ -1,9 +1,9 @@
 # Acme Calendar
 
 ## Evaluation Access Credentials
-**Username**
+**Username** - There are 3 existing users
 
-test
+test OR john OR wade
 
 **Password**
 
@@ -52,6 +52,8 @@ The assumption is that if a user created the appointment then it is their appoin
 
 
 ## Other Notes
+
+There are several icons used through out the application.  However, these were inserted from a font installed on the local development computer.  They may not work on computers where the font is not installed.  Tooltips are provided on all buttons where icons were used to provide another way to find out what a button does.
 
 The **Acme Calendar** has four main sections; Login, Calendars, Customers, and Reports.  Each has its own button at the top of the application window.
 
